@@ -5,7 +5,7 @@ import { copyText } from "@/lib/clipboard";
 import type { Msg } from "@/lib/chats";
 import { Cite } from "./Markdown";
 import Markdown from "./Markdown";
-import { Logo } from "../ui";
+import Mascot, { type Mood } from "../Mascot";
 import VoteButtons from "./VoteButtons";
 import {
   IconCheck,
@@ -65,6 +65,8 @@ export function AssistantMessage({ msg, question, isLast, handlers }: { msg: Msg
     .map((s, i) => ({ s, n: i + 1 }))
     .filter(({ n }) => msg.status === "error" || cited.size === 0 || cited.has(n));
 
+  const mood: Mood = streaming ? "thinking" : msg.status === "error" || msg.kind === "not-found" ? "lost" : msg.status === "done" ? "done" : "idle";
+
   const copy = async () => {
     if (await copyText(msg.content)) {
       setCopied(true);
@@ -75,12 +77,11 @@ export function AssistantMessage({ msg, question, isLast, handlers }: { msg: Msg
   return (
     <div className="flex gap-4">
       <span className="mt-0.5 grid size-8 shrink-0 place-items-center rounded-full bg-card-hi text-white">
-        <Logo size={16} word={false} />
+        <Mascot size={20} mood={mood} />
       </span>
       <div className="min-w-0 flex-1">
         {waiting && (
           <p className="flex items-center gap-2.5 py-1 text-[14px] text-muted" aria-live="polite">
-            <span className="size-3.5 animate-[spin_0.9s_linear_infinite] rounded-full border-2 border-white/15 border-t-white/70" />
             {msg.phase ?? "Thinking…"}
           </p>
         )}

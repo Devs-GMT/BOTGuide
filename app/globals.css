@@ -8,7 +8,7 @@
   --line: #1f1f1f;
   --fg: #ffffff;
   --muted: #8a8a8a;
-  --accent: #f26b3a;
+  --accent: #ff7a3d;
   --gold-a: #b48a4a;
   --gold-b: #6e5a3a;
 
@@ -161,3 +161,28 @@ body {
 .tok-s { color: #f0a35e; }
 .tok-f { color: #7aa2ff; }
 .tok-c { color: #6b6b6b; }
+
+/* ---------- mascot ---------- */
+.bo { overflow: visible; }
+.bo-glow { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.bo-light { transform-box: fill-box; transform-origin: center; }
+.bo-eye { transform-box: fill-box; transform-origin: center; animation: bo-blink 5s infinite; }
+.bo-eyes { transform-box: fill-box; }
+
+.bo-hello .bo-light { animation: bo-wave 1.6s ease-in-out infinite; }
+.bo-hello .bo-glow { animation: bo-halo 1.6s ease-in-out infinite; }
+.bo-thinking .bo-light { animation: bo-pulse 0.9s ease-in-out infinite; }
+.bo-thinking .bo-glow { animation: bo-halo 0.9s ease-in-out infinite; }
+.bo-thinking .bo-eyes { animation: bo-look 2.2s ease-in-out infinite; }
+.bo-done .bo-glow { opacity: 0.28; }
+.bo-lost .bo-light { opacity: 0.4; }
+
+@keyframes bo-blink { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+@keyframes bo-wave { 0%, 100% { transform: translateX(0) scale(1); } 25% { transform: translateX(-3px) scale(1.1); } 75% { transform: translateX(3px) scale(1.1); } }
+@keyframes bo-pulse { 0%, 100% { transform: scale(0.85); opacity: 0.7; } 50% { transform: scale(1.2); opacity: 1; } }
+@keyframes bo-halo { 0%, 100% { opacity: 0; transform: scale(0.8); } 50% { opacity: 0.35; transform: scale(1.25); } }
+@keyframes bo-look { 0%, 100% { transform: translateX(0); } 30% { transform: translateX(-2px); } 70% { transform: translateX(2px); } }
+
+/* ---------- guide orange ---------- */
+@keyframes trail-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes tick { 0% { background: var(--accent); box-shadow: 0 0 10px var(--accent); } 100% { background: #2a2a2a; box-shadow: none; } }

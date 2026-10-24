@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "
 import { STARTERS, streamAnswer, type HistoryItem } from "@/lib/answer";
 import { copyText } from "@/lib/clipboard";
 import { loadChats, loadSettings, saveChats, saveSettings, titleFrom, uid, type Chat, type Msg } from "@/lib/chats";
-import { Logo } from "../ui";
+import Mascot from "../Mascot";
 import Composer from "./Composer";
 import FactsPanel from "./FactsPanel";
 import { IconMenu, IconPanel, IconShare, IconSidebar } from "./icons";
@@ -338,7 +338,7 @@ export default function ChatApp() {
         <div ref={scrollRef} onScroll={onScroll} className="min-h-0 flex-1 overflow-y-auto">
           {messages.length === 0 ? (
             <div className="mx-auto flex min-h-full w-full max-w-[768px] flex-col items-center justify-center px-4 py-10">
-              <span className="text-white"><Logo size={34} word={false} /></span>
+              <span className="text-white"><Mascot mood="hello" size={76} /></span>
               <h2 className="mt-6 text-center text-[clamp(1.6rem,3.4vw,2.25rem)] font-medium leading-tight tracking-[-0.02em]">
                 What do you want to build on BOT Chain today?
               </h2>
