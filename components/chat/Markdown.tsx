@@ -10,17 +10,37 @@ import { IconCheck, IconCopy } from "./icons";
 type Block =
   | { t: "p"; text: string }
   | { t: "ol" | "ul"; items: string[]; start?: number }
-  | { t: "code"; lang: string; code: string };
+  | { t: "code"; lang: string; code: string }
+  | { t: "table"; head: string[]; rows: string[][] };
 
 const OL = /^\s*\d+\.\s/;
 const UL = /^\s*[-*]\s/;
+const TABLE_SEPARATOR = /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/;
+
+const splitRow = (line: string) =>
+  line
+    .trim()
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((c) => c.trim());
 
 function parse(src: string): Block[] {
   const lines = src.split("\n");
   const out: Block[] = [];
   let i = 0;
+  // A table is a line with pipes followed by a separator line such as |---|---|.
+  const tableStartsAt = (n: number) => lines[n]?.includes("|") && lines[n + 1] !== undefined && TABLE_SEPARATOR.test(lines[n + 1]) && lines[n + 1].includes("-");
   while (i < lines.length) {
     const line = lines[i];
+    if (tableStartsAt(i)) {
+      const head = splitRow(line);
+      i += 2;
+      const rows: string[][] = [];
+      while (i < lines.length && lines[i].includes("|") && !/^\s*$/.test(lines[i])) rows.push(splitRow(lines[i++]));
+      out.push({ t: "table", head, rows });
+      continue;
+    }
     const fence = line.match(/^```(\w*)\s*$/);
     if (fence) {
       const code: string[] = [];
@@ -48,7 +68,8 @@ function parse(src: string): Block[] {
       !/^\s*$/.test(lines[i]) &&
       !/^```/.test(lines[i]) &&
       !OL.test(lines[i]) &&
-      !UL.test(lines[i])
+      !UL.test(lines[i]) &&
+      !tableStartsAt(i)
     ) {
       para.push(lines[i++]);
     }
@@ -152,6 +173,33 @@ export default function Markdown({
     <div className={`text-[15px] leading-[1.75] text-white/90 ${streaming ? "stream-caret" : ""}`}>
       {blocks.map((b, i) => {
         if (b.t === "code") return <CodeBlock key={i} lang={b.lang} code={b.code} />;
+        if (b.t === "table")
+          return (
+            <div key={i} className="my-4 overflow-x-auto rounded-xl ring-1 ring-white/[0.08]">
+              <table className="w-full min-w-[420px] border-collapse text-left text-[13.5px] leading-6">
+                <thead className="bg-white/[0.05] text-muted">
+                  <tr>
+                    {b.head.map((h, j) => (
+                      <th key={j} className="px-3.5 py-2.5 font-medium">
+                        {inline(h, sources, `th${i}-${j}`)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {b.rows.map((row, r) => (
+                    <tr key={r} className="border-t border-white/[0.06]">
+                      {row.map((cell, c) => (
+                        <td key={c} className="px-3.5 py-2.5 align-top">
+                          {inline(cell, sources, `td${i}-${r}-${c}`)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
         if (b.t === "p")
           return (
             <p key={i} className="my-3 first:mt-0">
