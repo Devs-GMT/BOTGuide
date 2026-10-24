@@ -133,10 +133,10 @@ export default function GetStarted() {
             art={<ArtSupport />}
             title="Get extra support"
             lead="Talk to the BOT Chain community and team."
-            items={["Official community channels", "Ecosystem Support Program", "Community tips", "Official docs"]}
+            items={["BOT Chain community channels", "Ecosystem Support Program", "Community tips", "Official docs"]}
             cta={
               <Pill href={LINKS.support} tone="outline" full external>
-                Apply to the Support Program <External />
+                Get support <External />
               </Pill>
             }
           />

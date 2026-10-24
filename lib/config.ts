@@ -65,8 +65,7 @@ export const LINKS = {
   staking: "https://staking.botchain.ai",
   telegram: "https://t.me/BOTChainNetwork",
   x: "https://x.com/BOTChain_ai",
-  // Application form for the Ecosystem Support Program, linked in the official BOT Chain Telegram channel (post 446).
-  support: "https://forms.gle/icspa87HzTJynbYe8",
+  support: "https://www.botchain.ai/en/ecosystem-support/",
 } as const;
 
 /** The network and contract the app currently talks to (see BOTGUIDE_NETWORK). */
