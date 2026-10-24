@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { LINKS, shortAddress } from "@/lib/config";
 import { useWallet } from "@/lib/wallet";
 import { Arrow, Chevron, External, Logo, Pill } from "../ui";
+import WalletMenu from "../WalletMenu";
 
 type Item = { t: string; d?: string; href: string; ext?: boolean };
 type Menu = { id: string; label: string; items: Item[]; preview: "chat" | "code" | "links" };
@@ -79,8 +80,8 @@ function Preview({ kind }: { kind: Menu["preview"] }) {
   );
 }
 
-function WalletButton({ className = "" }: { className?: string }) {
-  const { hasProvider, address, busy, connect } = useWallet();
+function WalletButton({ className = "", full = false }: { className?: string; full?: boolean }) {
+  const { hasProvider } = useWallet();
   if (!hasProvider) {
     return (
       <Pill tone="dark" size="sm" href={LINKS.metamask} className={className}>
@@ -89,14 +90,17 @@ function WalletButton({ className = "" }: { className?: string }) {
     );
   }
   return (
-    <Pill tone="dark" size="sm" onClick={connect} disabled={busy} className={className}>
-      <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
-      {address ? (
-        <span className="font-mono text-[13px]">{shortAddress(address)}</span>
-      ) : (
-        "Connect wallet"
+    <WalletMenu
+      className={full ? "w-full" : ""}
+      direction={full ? "up" : "down"}
+      align={full ? "left" : "right"}
+      trigger={({ address, busy, onClick }) => (
+        <Pill tone="dark" size="sm" onClick={onClick} disabled={busy} className={className}>
+          <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
+          {address ? <span className="font-mono text-[13px]">{shortAddress(address)}</span> : "Connect wallet"}
+        </Pill>
       )}
-    </Pill>
+    />
   );
 }
 
@@ -340,7 +344,8 @@ export default function Navbar() {
               <Pill href="/ask" full>
                 Ask BOTGuide <Arrow />
               </Pill>
-              <WalletButton className="w-full" />            </div>
+              <WalletButton className="w-full" full />
+            </div>
           </div>
         </div>
       )}

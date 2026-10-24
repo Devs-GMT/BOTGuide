@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { ACTIVE_NETWORK, DOCS_LAST_SYNCED, LINKS, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
 import type { Chat } from "@/lib/chats";
 import { groupChats } from "@/lib/chats";
-import { copyText } from "@/lib/clipboard";
 import { addNetwork, useChainId, useWallet } from "@/lib/wallet";
 import { Logo } from "../ui";
+import WalletMenu from "../WalletMenu";
 import {
   IconBack,
   IconMore,
@@ -183,20 +183,7 @@ function NetworkBadge() {
 }
 
 function WalletChip() {
-  const { hasProvider, address, busy, connect, changeWallet, disconnect } = useWallet();
-  const [open, setOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const close = (e: MouseEvent) => {
-      if (!ref.current?.contains(e.target as Node)) setOpen(false);
-    };
-    window.addEventListener("mousedown", close);
-    return () => window.removeEventListener("mousedown", close);
-  }, [open]);
-
+  const { hasProvider } = useWallet();
   if (!hasProvider) {
     return (
       <a href={LINKS.metamask} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333]">
@@ -205,58 +192,24 @@ function WalletChip() {
       </a>
     );
   }
-  const item = "block w-full rounded-lg px-3 py-2 text-left text-[13px] text-white/85 hover:bg-white/[0.07]";
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={address ? () => setOpen((o) => !o) : connect}
-        disabled={busy}
-        aria-haspopup={address ? "menu" : undefined}
-        aria-expanded={address ? open : undefined}
-        className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333]"
-      >
-        <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
-        {address ? <span className="font-mono text-[12.5px]">{shortAddress(address)}</span> : busy ? "Connecting…" : "Connect wallet"}
-      </button>
-      {open && address && (
-        <div role="menu" className="absolute bottom-full right-0 z-30 mb-2 w-52 rounded-xl bg-[#1c1c1c] p-1.5 shadow-xl ring-1 ring-white/10">
-          <button
-            type="button"
-            role="menuitem"
-            className={item}
-            onClick={async () => {
-              setCopied(await copyText(address));
-              setTimeout(() => setCopied(false), 1500);
-            }}
-          >
-            {copied ? "Address copied" : "Copy address"}
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            className={item}
-            onClick={() => {
-              setOpen(false);
-              changeWallet();
-            }}
-          >
-            Change wallet
-          </button>
-          <button
-            type="button"
-            role="menuitem"
-            className={`${item} text-[#f08a7e]`}
-            onClick={() => {
-              setOpen(false);
-              disconnect();
-            }}
-          >
-            Disconnect
-          </button>
-        </div>
+    <WalletMenu
+      direction="up"
+      align="left"
+      trigger={({ address, busy, open, onClick }) => (
+        <button
+          type="button"
+          onClick={onClick}
+          disabled={busy}
+          aria-haspopup={address ? "menu" : undefined}
+          aria-expanded={address ? open : undefined}
+          className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333]"
+        >
+          <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
+          {address ? <span className="font-mono text-[12.5px]">{shortAddress(address)}</span> : busy ? "Connecting…" : "Connect wallet"}
+        </button>
       )}
-    </div>
+    />
   );
 }
 
