@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Check, Container } from "../ui";
 import { DemoPanel, TONE, type DemoId } from "./demos";
@@ -100,19 +101,48 @@ const FEATURES: Feature[] = [
   },
 ];
 
-const COVERAGE: [string, string][] = [
-  ["MetaMask setup", "Add BOT Chain in one click or by hand"],
-  ["Network and RPC", "Mainnet, testnet, explorers"],
-  ["Testnet faucet", "Get test BOT for gas"],
-  ["Remix", "Compile and deploy in the browser"],
-  ["Hardhat", "Network config and deploy scripts"],
-  ["Foundry", "forge, cast and RPC settings"],
-  ["ethers.js", "Providers, signers and contracts"],
-  ["web3.js", "Connect and send transactions"],
-  ["Verify a contract", "Publish source on the explorer"],
-  ["Common errors", "Wrong chain, gas, nonce, reverts"],
-  ["Testnet vs mainnet", "What changes between the two"],
-  ["Ecosystem", "Explorer, BDex, Bo Wallet, Bridge, Staking"],
+type Topic = { t: string; d: string; q: string };
+const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
+  {
+    group: "Wallet",
+    tone: "255 122 42",
+    items: [{ t: "MetaMask setup", d: "Add BOT Chain in one click or by hand", q: "How do I add BOT Chain to MetaMask?" }],
+  },
+  {
+    group: "Network",
+    tone: "24 206 190",
+    items: [
+      { t: "Network and RPC", d: "Mainnet, testnet, explorers", q: "What are the chain ID, RPC URL and explorer for mainnet and testnet?" },
+      { t: "Testnet faucet", d: "Get test BOT for gas", q: "How do I get testnet BOT?" },
+      { t: "Testnet vs mainnet", d: "What changes between the two", q: "What is the difference between BOT Chain testnet and mainnet?" },
+    ],
+  },
+  {
+    group: "Deploy",
+    tone: "240 205 120",
+    items: [
+      { t: "Remix", d: "Compile and deploy in the browser", q: "How do I deploy a contract with Remix?" },
+      { t: "Hardhat", d: "Network config and deploy scripts", q: "Hardhat config for BOT Chain" },
+      { t: "Foundry", d: "forge, cast and RPC settings", q: "How do I deploy with Foundry on BOT Chain?" },
+    ],
+  },
+  {
+    group: "Libraries",
+    tone: "110 168 255",
+    items: [
+      { t: "ethers.js", d: "Providers, signers and contracts", q: "How do I connect to BOT Chain with ethers.js?" },
+      { t: "web3.js", d: "Connect and send transactions", q: "How do I connect to BOT Chain with web3.js?" },
+    ],
+  },
+  {
+    group: "Help",
+    tone: "240 140 170",
+    items: [
+      { t: "Verify a contract", d: "Publish source on the explorer", q: "How do I verify my contract?" },
+      { t: "Common errors", d: "Wrong chain, gas, nonce, reverts", q: "Why is my transaction failing?" },
+      { t: "Ecosystem", d: "Explorer, BDex, Bo Wallet, Bridge, Staking", q: "What tools are in the BOT Chain ecosystem?" },
+    ],
+  },
 ];
 
 export default function Showcase() {
@@ -180,15 +210,37 @@ export default function Showcase() {
       </Container>
 
       <Container className="hairline-t">
-        <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">And much more</h2>
+        <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">Ask about any of these</h2>
         <p className="mt-3 max-w-xl text-[16px] leading-7 text-muted">
-          The knowledge base is built from the official developer docs, the BOT Chain site and notes from real builds.
+          The knowledge base is built from the official developer docs, the BOT Chain site and notes from real builds. Pick a topic to ask it.
         </p>
-        <div className="mt-12 grid gap-x-12 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
-          {COVERAGE.map(([t, d]) => (
-            <div key={t}>
-              <p className="text-[15px] font-medium">{t}</p>
-              <p className="mt-1 text-[13.5px] leading-5 text-muted">{d}</p>
+        <div className="mt-10 divide-y divide-line border-y border-line">
+          {COVERAGE.map((g) => (
+            <div
+              key={g.group}
+              className="grid gap-3 py-5 sm:grid-cols-[150px_1fr] sm:items-center sm:gap-6"
+              style={{ ["--tone" as string]: g.tone }}
+            >
+              <p className="flex items-center gap-2.5 text-[14px] text-white/80">
+                <span className="size-2 rounded-full bg-[rgb(var(--tone))]" />
+                {g.group}
+              </p>
+              <ul className="flex flex-wrap gap-2.5">
+                {g.items.map((i) => (
+                  <li key={i.t}>
+                    <Link
+                      href={`/ask?q=${encodeURIComponent(i.q)}`}
+                      title={i.d}
+                      className="group flex items-center gap-2 rounded-full bg-pill/60 py-2.5 pl-4 pr-3.5 text-[14.5px] text-white/90 ring-1 ring-white/[0.04] transition-[background-color,box-shadow,transform] duration-150 hover:-translate-y-0.5 hover:bg-[rgb(var(--tone)/0.14)] hover:ring-[rgb(var(--tone)/0.45)]"
+                    >
+                      {i.t}
+                      <span aria-hidden className="text-muted transition-[transform,color] duration-150 group-hover:translate-x-0.5 group-hover:text-[rgb(var(--tone))]">
+                        ›
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
