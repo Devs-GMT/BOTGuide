@@ -85,10 +85,12 @@ const STEPS = [
 export default function HowItWorks() {
   return (
     <Container id="how" className="hairline-t">
-      <Eyebrow>How it works</Eyebrow>
-      <h2 className="max-w-[18ch] text-[clamp(2rem,4.4vw,3rem)] font-medium leading-[1.05] tracking-[-0.02em]">
-        From question to deployed, in three steps.
-      </h2>
+      <Reveal>
+        <Eyebrow>How it works</Eyebrow>
+        <h2 className="max-w-[18ch] text-[clamp(2rem,4.4vw,3rem)] font-medium leading-[1.05] tracking-[-0.02em]">
+          From question to deployed, in three steps.
+        </h2>
+      </Reveal>
       <div className="mt-14 grid md:grid-cols-3">
         {STEPS.map((s, i) => (
           <Reveal

@@ -6,7 +6,7 @@ import TipsStrip from "./TipsStrip";
 
 type Tool = { name: string; href: string; Art: () => React.JSX.Element; note: string; tone: string; tag?: string };
 
-const frame = "relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#111] ring-1 ring-white/[0.07] transition-colors duration-300 group-hover:bg-[#151515] group-hover:ring-white/[0.14]";
+const frame = "relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#111] ring-1 ring-white/[0.07] transition-[background-color,box-shadow,transform] duration-300 ease-out group-hover:-translate-y-1 group-hover:bg-[#151515] group-hover:ring-white/[0.14] group-hover:shadow-[0_24px_50px_-28px_rgb(var(--tone)/0.5)]";
 
 const TOOLS: Tool[] = [
   { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions", tone: "24 206 190" },

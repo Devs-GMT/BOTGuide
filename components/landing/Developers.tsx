@@ -6,6 +6,7 @@ import { LINKS, MAINNET, TESTNET } from "@/lib/config";
 import { formatBlock, useLiveBlock } from "@/lib/hooks";
 import { addNetwork, useHasProvider } from "@/lib/wallet";
 import { highlight } from "../highlight";
+import Reveal from "../Reveal";
 import { Container, Eyebrow, Pill, Window } from "../ui";
 
 type Tab = { id: string; file: string; code: string };
@@ -106,7 +107,7 @@ export default function Developers() {
   return (
     <Container id="developers" className="hairline-t">
       <div className="grid items-center gap-14 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
-        <div className="min-w-0">
+        <Reveal className="min-w-0">
           <Eyebrow>For developers</Eyebrow>
           <h2 className="text-[clamp(2.2rem,5vw,3.5rem)] font-medium leading-[1.03] tracking-[-0.025em]">
             One chain.
@@ -140,9 +141,9 @@ export default function Developers() {
               <dd className="mt-1 text-muted">live block</dd>
             </div>
           </dl>
-        </div>
+        </Reveal>
 
-        <div className="min-w-0">
+        <Reveal className="min-w-0" delay={140}>
           <div
             className="grain relative p-6 sm:p-10"
             style={{
@@ -212,7 +213,7 @@ export default function Developers() {
               </button>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </Container>
   );

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import Reveal from "../Reveal";
 import { Check, Container, SectionHead } from "../ui";
 import { DemoPanel, TONE, type DemoId } from "./demos";
 
@@ -203,7 +204,9 @@ export default function Showcase() {
           </div>
           <div className="relative hidden lg:block">
             <div className="sticky top-[calc(50vh-250px)]">
-              <DemoPanel key={active} id={active} play />
+              <div key={active} className="panel-in">
+                <DemoPanel id={active} play />
+              </div>
             </div>
           </div>
         </div>
@@ -214,12 +217,9 @@ export default function Showcase() {
           The knowledge base is built from the official developer docs, the BOT Chain site and notes from real builds. Pick a topic to ask it.
         </SectionHead>
         <div className="mt-10 divide-y divide-line border-y border-line">
-          {COVERAGE.map((g) => (
-            <div
-              key={g.group}
-              className="grid gap-3 py-5 sm:grid-cols-[150px_1fr] sm:items-center sm:gap-6"
-              style={{ ["--tone" as string]: g.tone }}
-            >
+          {COVERAGE.map((g, gi) => (
+            <Reveal key={g.group} delay={gi * 70} className="py-5">
+              <div className="grid gap-3 sm:grid-cols-[150px_1fr] sm:items-center sm:gap-6" style={{ ["--tone" as string]: g.tone }}>
               <p className="flex items-center gap-2.5 text-[14px] text-white/80">
                 <span className="size-2 rounded-full bg-[rgb(var(--tone))]" />
                 {g.group}
@@ -240,7 +240,8 @@ export default function Showcase() {
                   </li>
                 ))}
               </ul>
-            </div>
+              </div>
+            </Reveal>
           ))}
         </div>
       </Container>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import Reveal from "./Reveal";
 
 export function Logo({ size = 22, word = true }: { size?: number; word?: boolean }) {
   return (
@@ -41,7 +42,7 @@ export function Pill({
     outline: "border border-white/20 text-white hover:bg-white/10",
   } as const;
   const sizes = { sm: "px-[18px] py-2.5", md: "px-5 py-3" } as const;
-  const cls = `inline-flex items-center justify-center gap-1.5 rounded-full text-[14px] font-medium transition-colors duration-150 ease-[var(--ease-ui)] disabled:opacity-50 ${tones[tone]} ${sizes[size]} ${full ? "w-full" : ""} ${className}`;
+  const cls = `inline-flex items-center justify-center gap-1.5 rounded-full text-[14px] font-medium transition-[background-color,transform] duration-150 ease-[var(--ease-ui)] active:scale-[0.97] disabled:opacity-50 ${tones[tone]} ${sizes[size]} ${full ? "w-full" : ""} ${className}`;
   if (href) {
     if (external || href.startsWith("http")) {
       return (
@@ -122,11 +123,11 @@ export function Eyebrow({ children }: { children: ReactNode }) {
 /** The heading every ordinary section starts with: a small label, then the title, both left-aligned. */
 export function SectionHead({ eyebrow, title, children }: { eyebrow: string; title: string; children?: ReactNode }) {
   return (
-    <div>
+    <Reveal>
       <Eyebrow>{eyebrow}</Eyebrow>
       <h2 className="text-[clamp(1.8rem,3.2vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.02em]">{title}</h2>
       {children && <p className="mt-4 max-w-xl text-[16px] leading-7 text-muted">{children}</p>}
-    </div>
+    </Reveal>
   );
 }
 

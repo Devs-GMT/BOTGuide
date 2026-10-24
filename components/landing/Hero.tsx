@@ -230,9 +230,35 @@ function RotatingVerb() {
 }
 
 export default function Hero() {
+  const reduced = useReducedMotion();
+  const section = useRef<HTMLElement>(null);
+
+  // As the page scrolls away from the hero, the light drifts down and the text lifts and fades.
+  useEffect(() => {
+    const el = section.current;
+    if (!el || reduced) return;
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const p = Math.min(1, Math.max(0, window.scrollY / (el.offsetHeight * 0.8)));
+      el.style.setProperty("--hs", p.toFixed(3));
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [reduced]);
+
   return (
-    <section className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-4 pb-8 pt-24 lg:px-6">
-      <HeroStreak />
+    <section ref={section} className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-4 pb-8 pt-24 lg:px-6">
+      <div className="absolute inset-0 -z-10" style={{ transform: "translateY(calc(var(--hs, 0) * 90px))", willChange: "transform" }}>
+        <HeroStreak />
+      </div>
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
@@ -241,7 +267,7 @@ export default function Hero() {
             "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.05), transparent 70%)",
         }}
       />
-      <div className="mx-auto w-full max-w-[1280px] text-center">
+      <div className="mx-auto w-full max-w-[1280px] text-center" style={{ opacity: "calc(1 - var(--hs, 0) * 0.85)", transform: "translateY(calc(var(--hs, 0) * -36px))" }}>
         <a
           href={LINKS.docs}
           target="_blank"

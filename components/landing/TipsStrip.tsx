@@ -68,8 +68,8 @@ export default function TipsStrip() {
             </div>
           ) : (
             <ul className="space-y-3">
-              {tips.map((t) => (
-                <li key={t.id}>
+              {tips.map((t, i) => (
+                <Reveal as="li" key={t.id} delay={i * 80}>
                   <Link
                     href={`/ask?tip=${t.id}`}
                     className="group block rounded-3xl bg-card p-5 ring-1 ring-white/[0.06] transition-[background-color,box-shadow] duration-200 hover:bg-[#191919] hover:ring-white/[0.14]"
@@ -88,7 +88,7 @@ export default function TipsStrip() {
                       <span className="ml-auto text-white/60 transition-transform duration-200 group-hover:translate-x-0.5">Read ›</span>
                     </p>
                   </Link>
-                </li>
+                </Reveal>
               ))}
             </ul>
           )}

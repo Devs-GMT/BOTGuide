@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Reveal from "../Reveal";
 import { Container, SectionHead } from "../ui";
 
 const FAQ: [string, string][] = [
@@ -36,7 +37,7 @@ export default function Faq() {
           {FAQ.map(([q, a], i) => {
             const isOpen = open === i;
             return (
-              <div key={q}>
+              <Reveal key={q} delay={i * 60}>
                 <h3>
                   <button
                     type="button"
@@ -60,10 +61,10 @@ export default function Faq() {
                   className={`grid transition-[grid-template-rows] duration-300 ease-[var(--ease-panel)] ${isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
                 >
                   <div className="overflow-hidden">
-                    <p className="max-w-[40rem] pb-6 text-[15px] leading-7 text-white/75">{a}</p>
+                    <p className={`max-w-[40rem] pb-6 text-[15px] leading-7 text-white/75 transition-[opacity,transform] duration-300 ease-[var(--ease-panel)] ${isOpen ? "translate-y-0 opacity-100 delay-100" : "-translate-y-1 opacity-0"}`}>{a}</p>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>
