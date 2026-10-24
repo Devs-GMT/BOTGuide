@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { LINKS, MAINNET, TESTNET, type Network } from "@/lib/config";
+import { ACTIVE_NETWORK, LINKS, MAINNET, TESTNET, type Network } from "@/lib/config";
 import { formatBlock, useLiveBlock } from "@/lib/hooks";
 import { addNetwork, useHasProvider } from "@/lib/wallet";
 import { IconClose } from "./icons";
@@ -23,8 +23,9 @@ function Row({ k, v, href }: { k: string; v: string; href?: boolean }) {
   );
 }
 
-function NetworkCard({ net }: { net: Network }) {
+function NetworkCard() {
   const hasProvider = useHasProvider();
+  const [net, setNet] = useState<Network>(ACTIVE_NETWORK);
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
 
   const add = async () => {
@@ -42,9 +43,25 @@ function NetworkCard({ net }: { net: Network }) {
   };
 
   return (
-    <section className="rounded-2xl bg-card p-4 ring-1 ring-white/[0.06]" aria-label={`${net.label} facts`}>
-      <h3 className="text-[14px] font-medium">{net.label}</h3>
-      <dl className="mt-2 divide-y divide-white/[0.06]">
+    <section className="rounded-2xl bg-card p-4 ring-1 ring-white/[0.06]" aria-label="Network facts">
+      <div role="tablist" aria-label="Network" className="inline-flex rounded-full bg-[#101010] p-1 text-[12.5px]">
+        {[MAINNET, TESTNET].map((n) => (
+          <button
+            key={n.key}
+            type="button"
+            role="tab"
+            aria-selected={net.key === n.key}
+            onClick={() => {
+              setNet(n);
+              setStatus("idle");
+            }}
+            className={`rounded-full px-3.5 py-1.5 transition-colors duration-150 ${net.key === n.key ? "bg-white text-[#0a0a0a]" : "text-white/70 hover:text-white"}`}
+          >
+            {n.label}
+          </button>
+        ))}
+      </div>
+      <dl key={net.key} className="mt-3 divide-y divide-white/[0.06]" style={{ animation: "fade 160ms ease-out both" }}>
         <Row k="Chain ID" v={String(net.chainId)} />
         <Row k="RPC URL" v={net.rpc} />
         <Row k="Explorer" v={net.explorer} href />
@@ -53,7 +70,7 @@ function NetworkCard({ net }: { net: Network }) {
         type="button"
         onClick={add}
         disabled={status === "busy"}
-        className="mt-3 w-full rounded-full bg-white px-4 py-2.5 text-[13px] font-medium text-[#0a0a0a] transition-colors hover:bg-white/85 disabled:opacity-60"
+        className="mt-3 w-full rounded-full bg-white px-4 py-2.5 text-[13px] font-medium text-[#0a0a0a] transition-[background-color,transform] hover:bg-white/85 active:scale-[0.98] disabled:opacity-60"
       >
         {!hasProvider
           ? "Install MetaMask"
@@ -92,8 +109,7 @@ export default function FactsPanel({ highlight, onClose }: { highlight: boolean;
             {error && block === null ? "RPC not responding" : formatBlock(block)}
           </span>
         </div>
-        <NetworkCard net={MAINNET} />
-        <NetworkCard net={TESTNET} />
+        <NetworkCard />
         <p className="px-1 text-[11.5px] leading-5 text-muted">
           Values come from a fixed config, never from the AI. If anything differs from the{" "}
           <a href={LINKS.docs} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white">
