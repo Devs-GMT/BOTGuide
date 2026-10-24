@@ -4,15 +4,15 @@ import { Container, External } from "../ui";
 import { ArtExplorer, ArtFaucet, ArtSwap, ArtWallet } from "./EcosystemArt";
 import TipsStrip from "./TipsStrip";
 
-type Tool = { name: string; href: string; Art: () => React.JSX.Element; note: string };
+type Tool = { name: string; href: string; Art: () => React.JSX.Element; note: string; tone: string };
 
 const frame = "relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#111] ring-1 ring-white/[0.07] transition-colors duration-300 group-hover:bg-[#151515] group-hover:ring-white/[0.14]";
 
 const TOOLS: Tool[] = [
-  { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions" },
-  { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas" },
-  { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens" },
-  { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT" },
+  { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions", tone: "110 168 255" },
+  { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas", tone: "110 231 183" },
+  { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens", tone: "240 205 120" },
+  { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "240 140 170" },
 ];
 
 const MORE: [string, string][] = [
@@ -35,13 +35,15 @@ export default function Ecosystem() {
           {TOOLS.map((t, i) => (
             <Reveal key={t.name} delay={i * 70}>
               <a href={t.href} target="_blank" rel="noopener noreferrer" className="group block">
-                <div className={frame}>
+                <div className={frame} style={{ ["--tone" as string]: t.tone }}>
+                  {/* a soft wash of the card's own colour in the corner; it brightens on hover */}
+                  <div aria-hidden className="pointer-events-none absolute -right-10 -top-10 size-44 rounded-full bg-[rgb(var(--tone)/0.14)] blur-3xl transition-opacity duration-300 group-hover:bg-[rgb(var(--tone)/0.26)]" />
                   <t.Art />
                 </div>
                 <p className="mt-4 text-[12.5px] text-muted">Official · {t.note}</p>
                 <p className="mt-1.5 flex items-center gap-1.5 text-[16px] font-medium tracking-[-0.01em]">
                   {t.name}
-                  <span className="text-muted transition-transform duration-200 group-hover:translate-x-0.5">›</span>
+                  <span className="text-muted transition-[transform,color] duration-200 group-hover:translate-x-0.5 group-hover:text-[rgb(var(--tone))]" style={{ ["--tone" as string]: t.tone }}>›</span>
                 </p>
               </a>
             </Reveal>

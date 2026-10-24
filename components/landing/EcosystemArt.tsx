@@ -15,7 +15,7 @@ export function ArtExplorer() {
       <div className="flex items-center justify-between px-1 text-[11px] text-white/45">
         <span className="font-mono tracking-wide">LATEST BLOCKS</span>
         <span className="flex items-center gap-1.5">
-          <span className="size-1.5 animate-pulse rounded-full bg-white/80" /> live
+          <span className="size-1.5 animate-pulse rounded-full bg-[rgb(var(--tone))]" /> live
         </span>
       </div>
       {[0, 1, 2].map((i) => (
@@ -25,7 +25,7 @@ export function ArtExplorer() {
           style={{ opacity: 1 - i * 0.25, transitionDelay: `${i * 40}ms` }}
         >
           <span className="flex items-center gap-2.5">
-            <span className="grid size-6 place-items-center rounded-md bg-white/[0.07] text-[10px] text-white/60">Bk</span>
+            <span className="grid size-6 place-items-center rounded-md bg-white/[0.07] text-[10px] text-[rgb(var(--tone))]">Bk</span>
             <span className="font-mono text-[12.5px] text-white/90">{block === null ? "#—" : `#${formatBlock(block - i)}`}</span>
           </span>
           <span className="font-mono text-[11px] text-white/40">{i === 0 ? "now" : `${(i * BLOCK_TIME_SECONDS).toFixed(2)}s ago`}</span>
@@ -48,7 +48,7 @@ export function ArtFaucet() {
             cy="60"
             r={r}
             fill="none"
-            stroke="rgba(255,255,255,0.9)"
+            stroke="rgb(var(--tone))"
             strokeWidth="5"
             strokeLinecap="round"
             strokeDasharray={c}
@@ -77,7 +77,7 @@ export function ArtSwap() {
           <p className="mt-0.5 font-mono text-[18px] text-white/90">1.00</p>
         </div>
         <span className="flex items-center gap-2 rounded-full bg-white/[0.07] py-1 pl-1 pr-3 text-[12px]">
-          <span className="size-5 rounded-full bg-white/80" /> BOT
+          <span className="size-5 rounded-full bg-[rgb(var(--tone))]" /> BOT
         </span>
       </div>
       <div className="relative -my-1 grid place-items-center">
@@ -102,7 +102,7 @@ export function ArtWallet() {
       <div className={`${chip} p-4`}>
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-2.5">
-            <span className="size-8 rounded-full bg-gradient-to-br from-white/90 to-white/30" />
+            <span className="size-8 rounded-full bg-gradient-to-br from-[rgb(var(--tone))] to-[rgb(var(--tone)/0.3)]" />
             <span>
               <span className="block font-mono text-[12.5px] text-white/90">0xA1b2…9F</span>
               <span className="block text-[10.5px] text-white/40">Account 1</span>
@@ -117,7 +117,7 @@ export function ArtWallet() {
         {["Send", "Receive"].map((l, i) => (
           <span
             key={l}
-            className={`rounded-full py-2 text-center text-[12px] transition-transform duration-300 group-hover:-translate-y-0.5 ${i === 0 ? "bg-white text-[#0a0a0a]" : "bg-white/[0.07] text-white/80"}`}
+            className={`rounded-full py-2 text-center text-[12px] transition-transform duration-300 group-hover:-translate-y-0.5 ${i === 0 ? "bg-[rgb(var(--tone))] text-[#0a0a0a]" : "bg-white/[0.07] text-white/80"}`}
           >
             {l}
           </span>
