@@ -39,7 +39,7 @@ Ask a question about BOT Chain (networks, faucet, deploying, tools, common error
 
 | Network | Chain ID | Address |
 | --- | --- | --- |
-| BOT Chain Testnet | 968 | not deployed yet |
+| BOT Chain Testnet | 968 | `0x015eDcdd020D0834F69048a467A5b40bf8D16aB9` ([scan.bohr.life](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9)) |
 | BOT Chain Mainnet | 677 | not deployed yet |
 
 Until an address is set in `lib/config.ts`, rating and tips show a clear "not deployed yet" message and nothing is faked. 13 contract tests pass (`cd contracts && npx hardhat test`).
