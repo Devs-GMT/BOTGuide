@@ -193,8 +193,8 @@ body {
 
 /* ---------- hero headline ---------- */
 .word-shine {
-  background-image: linear-gradient(100deg, #fff 0 42%, #ffd2b8 50%, #fff 58% 100%);
-  background-size: 300% 100%;
+  background-image: linear-gradient(100deg, #fff 0 36%, #ff9460 50%, #fff 64% 100%);
+  background-size: 260% 100%;
   background-position: 100% 0;
   -webkit-background-clip: text;
   background-clip: text;
@@ -202,7 +202,7 @@ body {
 }
 @keyframes shine {
   0% { background-position: 100% 0; }
-  22%, 100% { background-position: 0% 0; }
+  30%, 100% { background-position: 0% 0; }
 }
 .underline-run {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);

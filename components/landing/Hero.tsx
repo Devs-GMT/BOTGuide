@@ -72,7 +72,7 @@ function AskBox() {
   };
 
   return (
-    <div className="enter mx-auto mt-[clamp(1.5rem,5vh,3.5rem)] w-full max-w-[720px]" style={{ ["--d" as string]: "760ms" }}>
+    <div className="enter mx-auto mt-[clamp(1.5rem,6vh,3.75rem)] w-full max-w-[720px]" style={{ ["--d" as string]: "760ms" }}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -137,7 +137,7 @@ function Word({ children, i, underline, shine = true }: { children: React.ReactN
     <span
       className={`relative inline-block ${shine ? "word-shine" : ""}`}
       style={{
-        animation: `rise 650ms var(--ease-soft) ${delay}ms backwards${shine ? `, shine 7s ease-in-out ${2600 + i * 130}ms infinite` : ""}`,
+        animation: `rise 650ms var(--ease-soft) ${delay}ms backwards${shine ? `, shine 5s ease-in-out ${2200 + i * 110}ms infinite` : ""}`,
       }}
     >
       {children}
@@ -207,7 +207,7 @@ function RotatingVerb() {
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-4 pb-8 pt-[clamp(5.5rem,12vh,10rem)] lg:px-6">
+    <section className="relative flex min-h-dvh flex-col justify-center overflow-hidden px-4 pb-8 pt-24 lg:px-6">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
@@ -216,7 +216,7 @@ export default function Hero() {
             "radial-gradient(60% 60% at 50% 0%, rgba(255,122,61,0.09), transparent 70%)",
         }}
       />
-      <div className="mx-auto max-w-[1280px] text-center">
+      <div className="mx-auto w-full max-w-[1280px] text-center">
         <a
           href={LINKS.docs}
           target="_blank"
@@ -229,7 +229,7 @@ export default function Hero() {
           <External className="text-muted" />
         </a>
 
-        <h1 className="mx-auto mt-[clamp(1.25rem,3.5vh,2.25rem)] text-[clamp(2rem,min(7.4vw,8.6vh),5.5rem)] font-[450] leading-[1.02] tracking-[-0.02em]">
+        <h1 className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] text-[clamp(2rem,min(7.4vw,10vh),5.5rem)] font-[450] leading-[1.02] tracking-[-0.02em]">
           <span className="block">
             {LINE_1.map((w, i) => (
               <span key={w}>
@@ -254,14 +254,14 @@ export default function Hero() {
         </h1>
 
         <p
-          className="enter mx-auto mt-[clamp(1rem,3vh,2rem)] max-w-[34rem] text-[18px] leading-7 text-white/80"
+          className="enter mx-auto mt-[clamp(1rem,3.5vh,2.25rem)] max-w-[34rem] text-[18px] leading-7 text-white/80"
           style={{ ["--d" as string]: "580ms", animationDuration: "380ms" }}
         >
           Ask anything. Answers from the official docs, with sources.
         </p>
 
         <div
-          className="enter mt-[clamp(1rem,3.5vh,2.25rem)] flex flex-wrap justify-center gap-3"
+          className="enter mt-[clamp(1rem,4vh,2.5rem)] flex flex-wrap justify-center gap-3"
           style={{ ["--d" as string]: "700ms", animationDuration: "380ms" }}
         >
           <Pill href="/ask">
