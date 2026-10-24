@@ -22,6 +22,10 @@ const ON_TOPIC =
 const INDONESIAN =
   /\b(yang|apa|bagaimana|gimana|gmn|siapa|nama|kamu|anda|kenapa|mengapa|saya|aku|gua|gue|cara|caara|tidak|nggak|gak|bisa|dong|nih|sih|untuk|dengan|dari|dan|mau|ada|kok|tolong|bantu|jaringan|dompet|transaksi|gagal|kontrak)\b/i;
 const IDENTITY = /\b(your name|who are you|what are you|siapa (kamu|kau|anda)|nama (kamu|kau|mu|anda))\b/i;
+// A bare greeting or thank-you is not an off-topic question, so it gets a friendly reply instead of a refusal.
+const GREETING = /^\s*(hi+|hello+|hallo+|halo+|hai+|hey+|hei|yo|selamat (pagi|siang|sore|malam)|good (morning|afternoon|evening)|assalamu'?alaikum)(\s+(there|bot|botguide|guide))?\b[\s!.,?]*$/i;
+const THANKS = /^\s*(thanks|thank you|thx|makasih|terima kasih|trims|oke|ok|okay|sip|mantap)\b[\s!.,?]*$/i;
+const ID_SMALLTALK = /^\s*(halo+|hallo+|hai+|selamat|terima kasih|makasih|trims|oke|sip|mantap)/i;
 const BOT_SPECIFIC = /\bbot\b|botchain|\btbot\b|bohr|scan\.bot/i;
 
 export const STARTERS: [string, string][] = [
@@ -82,9 +86,26 @@ export async function* streamAnswer(opts: {
   const { question, history, signal } = opts;
   const prev = [...history].reverse().find((m) => m.role === "user")?.content ?? "";
 
-  const id = INDONESIAN.test(question);
+  const id = INDONESIAN.test(question) || ID_SMALLTALK.test(question);
   const followUps = id ? DEFAULT_FOLLOW_UPS_ID : DEFAULT_FOLLOW_UPS;
   const notFoundText = id ? NOT_FOUND_TEXT_ID : NOT_FOUND_TEXT;
+
+  if (GREETING.test(question) || THANKS.test(question)) {
+    const thanks = THANKS.test(question);
+    yield { type: "meta", kind: "off-topic", sources: [] };
+    yield* said(
+      id
+        ? thanks
+          ? "Sama-sama! Kalau ada pertanyaan lain soal membangun di BOT Chain, tanyakan saja."
+          : "Halo! Saya BOTGuide. Tanyakan apa saja soal membangun di BOT Chain: jaringan, wallet, deploy kontrak, atau error. Jawaban saya diambil dari dokumentasi resmi, lengkap dengan sumbernya."
+        : thanks
+          ? "You're welcome! Ask me anything else about building on BOT Chain."
+          : "Hi! I'm BOTGuide. Ask me anything about building on BOT Chain: networks, wallets, deploying contracts or fixing errors. I answer from the official docs and show my sources.",
+      signal,
+    );
+    yield { type: "done", followUps };
+    return;
+  }
 
   if (IDENTITY.test(question)) {
     yield { type: "meta", kind: "off-topic", sources: [] };
