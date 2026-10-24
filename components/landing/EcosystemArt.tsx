@@ -126,3 +126,91 @@ export function ArtWallet() {
     </div>
   );
 }
+
+export function ArtBridge() {
+  return (
+    <div className={frame}>
+      <div className={`${chip} flex items-center justify-between px-3.5 py-2.5`}>
+        <span className="flex items-center gap-2 text-[12px] text-white/80">
+          <span className="size-5 rounded-full bg-[rgb(var(--tone))]" /> BOT Chain
+        </span>
+        <span className="font-mono text-[13px] text-white/90">1.00 BOT</span>
+      </div>
+      <div className="relative mx-auto h-8 w-px bg-gradient-to-b from-[rgb(var(--tone)/0.6)] to-white/10">
+        <span className="absolute left-1/2 top-0 size-2.5 -translate-x-1/2 rounded-full bg-[rgb(var(--tone))] shadow-[0_0_10px_rgb(var(--tone)/0.8)] transition-transform duration-700 ease-out group-hover:translate-y-[22px]" />
+      </div>
+      <div className={`${chip} flex items-center justify-between px-3.5 py-2.5`}>
+        <span className="flex items-center gap-2 text-[12px] text-white/80">
+          <span className="size-5 rounded-full bg-white/25" /> Other L1
+        </span>
+        <span className="font-mono text-[13px] text-white/40">1.00 BOT</span>
+      </div>
+    </div>
+  );
+}
+
+export function ArtStaking() {
+  const bars = [32, 44, 40, 58, 66, 82];
+  return (
+    <div className={frame}>
+      <div className="flex items-end justify-between px-1">
+        <div>
+          <p className="text-[10.5px] text-white/40">Staked</p>
+          <p className="mt-0.5 font-mono text-[22px] leading-none text-white/90">100.00</p>
+        </div>
+        <span className="rounded-full bg-[rgb(var(--tone)/0.14)] px-2.5 py-1 text-[10.5px] text-[rgb(var(--tone))]">BOT</span>
+      </div>
+      <div className={`${chip} flex h-[88px] items-end gap-2 px-3.5 pb-3 pt-4`}>
+        {bars.map((h, i) => (
+          <span
+            key={i}
+            className="flex-1 rounded-sm bg-[rgb(var(--tone)/0.55)] transition-[height] duration-500 ease-out group-hover:bg-[rgb(var(--tone))]"
+            style={{ height: `${h}%`, transitionDelay: `${i * 40}ms` }}
+          />
+        ))}
+      </div>
+      <p className="px-1 text-[11px] text-white/40">rewards grow over time</p>
+    </div>
+  );
+}
+
+export function ArtSupport() {
+  const rows = ["Technical help", "Ecosystem resources", "Growth support"];
+  return (
+    <div className={frame}>
+      {rows.map((r, i) => (
+        <div
+          key={r}
+          className={`${chip} flex items-center gap-3 px-3.5 py-2.5 text-[12.5px] text-white/85 transition-transform duration-500 ease-out group-hover:translate-x-1`}
+          style={{ transitionDelay: `${i * 60}ms` }}
+        >
+          <span className="grid size-5 place-items-center rounded-full bg-[rgb(var(--tone)/0.18)] text-[rgb(var(--tone))]">
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
+              <path d="m2.5 6.2 2.4 2.3 4.6-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          {r}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function ArtAll() {
+  const tiles = ["30 214 165", "74 222 128", "59 110 255", "255 122 42", "96 165 250", "240 205 120"];
+  return (
+    <div className="absolute inset-0 grid place-items-center">
+      <div className="grid grid-cols-3 gap-2.5">
+        {tiles.map((t, i) => (
+          <span
+            key={t}
+            className="grid size-[58px] place-items-center rounded-xl bg-white/[0.045] ring-1 ring-white/[0.07] transition-transform duration-300 ease-out group-hover:-translate-y-1"
+            style={{ transitionDelay: `${i * 35}ms` }}
+          >
+            <span className="size-3 rounded-full" style={{ background: `rgb(${t})`, boxShadow: `0 0 12px rgb(${t} / 0.6)` }} />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
