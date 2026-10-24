@@ -15,10 +15,12 @@ const TOOLS: Tool[] = [
   { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "255 122 42" },
 ];
 
-const MORE: { name: string; href: string; note: string; tone: string }[] = [
-  { name: "Bridge", href: LINKS.bridge, note: "Connect major L1 ecosystems to BOT Chain", tone: "96 165 250" },
-  { name: "Staking", href: LINKS.staking, note: "Stake BOT and earn rewards", tone: "240 205 120" },
-  { name: "Ecosystem Support Program", href: LINKS.support, note: "Technical help, resources and growth support for builders", tone: "240 140 170" },
+const ico = { fill: "none", stroke: "currentColor", strokeWidth: 1.6, strokeLinecap: "round", strokeLinejoin: "round" } as const;
+
+const MORE: { name: string; href: string; note: string; tone: string; icon: React.ReactNode }[] = [
+  { name: "Bridge", href: LINKS.bridge, note: "Move assets between major L1 chains", tone: "96 165 250", icon: <path d="M3 18h18M5 18v-6a7 7 0 0 1 14 0v6M9 18v-6.5M15 18v-6.5M12 18V8" {...ico} /> },
+  { name: "Staking", href: LINKS.staking, note: "Stake BOT and earn rewards", tone: "240 205 120", icon: <path d="m12 4-8 4 8 4 8-4-8-4ZM4 12l8 4 8-4M4 16l8 4 8-4" {...ico} /> },
+  { name: "Ecosystem Support Program", href: LINKS.support, note: "Help and resources for builders", tone: "240 140 170", icon: <><circle cx="12" cy="12" r="8.5" {...ico} /><circle cx="12" cy="12" r="3.5" {...ico} /><path d="m6 6 3.5 3.5M18 6l-3.5 3.5M6 18l3.5-3.5M18 18l-3.5-3.5" {...ico} /></> },
 ];
 
 export default function Ecosystem() {
@@ -58,8 +60,10 @@ export default function Ecosystem() {
                 rel="noopener noreferrer"
                 className="group flex h-full items-center gap-4 rounded-2xl bg-card p-5 ring-1 ring-white/[0.06] transition-[background-color,box-shadow] duration-200 hover:bg-[rgb(var(--tone)/0.08)] hover:ring-[rgb(var(--tone)/0.4)]"
               >
-                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[rgb(var(--tone)/0.14)]">
-                  <span className="size-2.5 rounded-full bg-[rgb(var(--tone))]" />
+                <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-[rgb(var(--tone)/0.14)] text-[rgb(var(--tone))] transition-transform duration-200 group-hover:scale-105">
+                  <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden>
+                    {m.icon}
+                  </svg>
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-[15.5px] font-medium">{m.name}</span>
