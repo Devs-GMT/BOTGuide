@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { DOCS_LAST_SYNCED_SHORT, LINKS } from "@/lib/config";
 import { useReducedMotion } from "@/lib/hooks";
 import { Arrow, External, Pill } from "../ui";
+import BlockPulse from "./BlockPulse";
 
 const LINE_1 = ["Everything", "you", "need"];
 const LINE_2 = ["to", "build", "on", "BOT", "Chain."];
@@ -210,6 +211,7 @@ export default function Hero() {
         </div>
 
         <AskBox />
+        <BlockPulse />
       </div>
     </section>
   );

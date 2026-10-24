@@ -35,7 +35,7 @@ function Frame({
       <div className="m-3 flex items-center gap-3 rounded-2xl bg-[#1e1e1e] py-2.5 pl-4 pr-2.5">
         <span className="text-muted">+</span>
         <span className={`min-w-0 flex-1 truncate text-[14px] ${composer ? "text-white" : "text-muted"}`}>
-          {composer ?? "Message BOTGuide…"}
+          {composer ?? "Ask about BOT Chain…"}
         </span>
         <span className="hidden rounded-full px-2 text-[12px] text-muted sm:block">{mode}</span>
         <span className="grid size-8 place-items-center rounded-full bg-white text-[#0a0a0a]">

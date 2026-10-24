@@ -185,4 +185,8 @@ body {
 
 /* ---------- guide orange ---------- */
 @keyframes trail-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-@keyframes tick { 0% { background: var(--accent); box-shadow: 0 0 10px var(--accent); } 100% { background: #2a2a2a; box-shadow: none; } }
+@keyframes block-tick {
+  0% { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  7% { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+  22%, 100% { background: #2a2a2a; box-shadow: none; }
+}
