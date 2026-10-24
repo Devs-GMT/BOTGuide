@@ -97,7 +97,7 @@ function AskBox() {
           <div
             key={k}
             aria-hidden
-            className={`pointer-events-none absolute -inset-px rounded-[25px] transition-opacity duration-500 ${k ? "blur-xl" : ""} ${focused ? (k ? "opacity-40" : "opacity-100") : k ? "opacity-0" : "opacity-40"}`}
+            className={`pointer-events-none absolute -inset-px rounded-[23px] transition-opacity duration-500 ${k ? "blur-xl" : ""} ${focused ? (k ? "opacity-40" : "opacity-100") : k ? "opacity-0" : "opacity-40"}`}
             style={{
               backgroundImage: "linear-gradient(100deg, #38bdf8, #6ee7b7, #60a5fa, #38bdf8)",
               backgroundSize: "300% 100%",
@@ -110,7 +110,7 @@ function AskBox() {
           e.preventDefault();
           send(value);
         }}
-        className="relative flex items-end gap-3 rounded-3xl bg-card p-3 pl-5 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]"
+        className="relative flex items-end gap-3 rounded-[22px] bg-card p-2 pl-5 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.8)]"
       >
         <label htmlFor="hero-ask" className="sr-only">
           Ask anything about building on BOT Chain
@@ -131,13 +131,13 @@ function AskBox() {
               send(value);
             }
           }}
-          className="max-h-32 min-h-[44px] flex-1 resize-none bg-transparent py-3 text-[16px] leading-[22px] text-white outline-none placeholder:text-muted"
+          className="max-h-32 min-h-[40px] flex-1 resize-none bg-transparent py-2 text-[16px] leading-[22px] text-white outline-none placeholder:text-muted"
         />
         <button
           type="submit"
           aria-label="Ask BOTGuide"
           disabled={!value.trim()}
-          className="grid size-11 shrink-0 place-items-center rounded-full bg-white text-[#0a0a0a] transition-opacity duration-150 disabled:opacity-30"
+          className="grid size-10 shrink-0 place-items-center rounded-full bg-white text-[#0a0a0a] transition-opacity duration-150 disabled:opacity-30"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden>
             <path d="M8 13V3M3.5 7.5 8 3l4.5 4.5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
