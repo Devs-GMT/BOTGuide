@@ -212,11 +212,11 @@ function RotatingVerb() {
   return (
     <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em] text-[#e2e3e8]" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
       {/* the current word stays in the flow so the slot keeps its height */}
-      <span key={idx} className="inline-block whitespace-nowrap" style={{ animation: prev === null ? undefined : "verb-in 520ms var(--ease-expo) both" }}>
+      <span key={idx} className="inline-block whitespace-nowrap" style={{ animation: prev === null ? undefined : "verb-in 420ms var(--ease-expo) 150ms both" }}>
         {ROTATE[idx]}
       </span>
       {prev !== null && (
-        <span key={`p${prev}-${idx}`} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ animation: "verb-out 420ms var(--ease-soft) both" }}>
+        <span key={`p${prev}-${idx}`} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ animation: "verb-out 170ms cubic-bezier(0.4, 0, 1, 1) both" }}>
           {ROTATE[prev]}
         </span>
       )}
