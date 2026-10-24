@@ -175,7 +175,7 @@ function RotatingVerb() {
 
   const width = widths[idx];
   return (
-    <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em]" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
+    <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em] text-[#e2e3e8]" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
       {/* the current word stays in the flow so the slot keeps its height */}
       <span key={idx} className="inline-block whitespace-nowrap" style={{ animation: prev === null ? undefined : "verb-in 520ms var(--ease-expo) both" }}>
         {ROTATE[idx]}

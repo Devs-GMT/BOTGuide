@@ -192,16 +192,16 @@ body {
 
 /* ---------- hero headline ---------- */
 .word-shine {
-  /* a bright band sweeping over a white-to-lavender tint, like light moving across metal letters */
+  /* a bright band sweeping over a white-to-silver tint, like light moving across metal letters */
   background-image:
     linear-gradient(100deg, transparent 0 30%, rgba(255, 255, 255, 0.55) 42%, #fff 50%, rgba(255, 255, 255, 0.55) 58%, transparent 70% 100%),
-    linear-gradient(165deg, #e9e9f2 15%, #a59fdc 100%);
+    linear-gradient(165deg, #f4f4f6 15%, #b7b9c2 100%);
   background-size: 260% 100%, 100% 100%;
   background-position: 100% 0, 0 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 18px rgba(190, 180, 255, 0.22));
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.14));
 }
 @keyframes shine {
   0% { background-position: 100% 0, 0 0; }
