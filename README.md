@@ -1,30 +1,105 @@
-<p align="center"><img src="public/brand/banner.svg" alt="BOTGuide" width="720"></p>
+<div align="center">
+
+<img src="public/brand/logo.svg" alt="BOTGuide mascot" width="110" />
 
 # BOTGuide
 
 **An AI guide for developers building on BOT Chain. Answers come from the official docs, with sources.**
 
-Ask a question about BOT Chain (networks, faucet, deploying, tools, common errors) and get a short answer with the doc sections it used. Rate answers 👍/👎 and share tips on BOT Chain. Tips the owner approves become part of what the AI can use. BOTGuide is a community project and is **not** official BOT Chain documentation.
+Ask a question about BOT Chain (networks, faucet, deploying, tools, common errors) and get a short answer with the doc sections it used. Rate answers 👍/👎 and share tips on BOT Chain. Tips the owner approves become part of what the AI can use. Your chats never leave your browser except to be answered, and they are never on-chain. BOTGuide is a community project and is **not** official BOT Chain documentation.
 
-[Live App](#deploy) | [Contract](#contract) | [How it works](#how-it-works) | [Screens](#screens) | [Run it locally](#run-it-locally) | [Limits](#limits-said-plainly)
+[Contract (testnet)](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9) | [How it works](#how-it-works) | [Screens](#screenshots) | [Run it locally](#run-it-locally) | [Deploy](#deploy) | [Limits](#limits-said-plainly)
+
+![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity&logoColor=white)
+![Hardhat tests](https://img.shields.io/badge/Hardhat%20tests-13%20passing-2fdba6)
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
+![Groq](https://img.shields.io/badge/AI-Groq-f55036)
+![BOT Chain](https://img.shields.io/badge/BOT%20Chain-testnet%20live-2fdba6)
+![No accounts](https://img.shields.io/badge/accounts-none-1d1c1a)
+
+<img src="docs/shots/landing-hero.jpg" alt="BOTGuide landing page" width="100%" />
+
+</div>
+
+## Screenshots
+
+<table>
+<tr>
+<th width="50%">Ask</th>
+<th width="50%">When the docs do not cover it</th>
+</tr>
+<tr>
+<td><img src="docs/shots/app-answer.jpg" alt="An answer with sources and a network facts panel" /></td>
+<td><img src="docs/shots/app-notfound.jpg" alt="BOTGuide says it could not find the answer and offers Add a tip" /></td>
+</tr>
+<tr>
+<td>Short answer first, steps and tables, numbered sources under it, and a facts panel with the network values from a fixed config.</td>
+<td>If the docs have nothing, it says so instead of guessing, and offers "Add a tip" so the next builder finds it.</td>
+</tr>
+<tr>
+<th>Community tips</th>
+<th>Start a chat</th>
+</tr>
+<tr>
+<td><img src="docs/shots/app-tips.jpg" alt="Community tips panel" /></td>
+<td><img src="docs/shots/app-home.jpg" alt="Empty chat with starter questions" /></td>
+</tr>
+<tr>
+<td>Tips are transactions on the contract. Only tips the owner approved are labeled "Approved" and reach the AI.</td>
+<td>Starter questions, local chat history, search, and a Ctrl K shortcut for a new chat.</td>
+</tr>
+</table>
+
+<table>
+<tr>
+<th>Landing: how it works</th>
+</tr>
+<tr>
+<td><img src="docs/shots/landing-how.jpg" alt="How it works section" /></td>
+</tr>
+<tr>
+<td>Three steps: ask, BOTGuide reads the docs, and you get an answer you can check.</td>
+</tr>
+<tr>
+<th>Landing: live network panel</th>
+</tr>
+<tr>
+<td><img src="docs/shots/landing-product.jpg" alt="Network panel with a live block height" /></td>
+</tr>
+<tr>
+<td>Chain IDs and RPC URLs come from a fixed config. The block height is read live from the RPC.</td>
+</tr>
+<tr>
+<th>Landing: ecosystem</th>
+</tr>
+<tr>
+<td><img src="docs/shots/landing-ecosystem.jpg" alt="Ecosystem tools" /></td>
+</tr>
+<tr>
+<td>Explorer, faucet, BDex, Bo Wallet, Bridge, Staking and the Ecosystem Support Program, each linking to the official site.</td>
+</tr>
+</table>
 
 ## How it works
 
-1. A knowledge base is built from the official developer docs (`dev-docs.botchain.ai`, 56 pages), a few site pages and community notes. It is saved as `public/kb.json` (about 280 chunks).
-2. Your question is searched in your browser with MiniSearch. The best chunks (up to 5) are picked there.
-3. The question and those chunks go to our API route `/guide`, which asks Groq (`openai/gpt-oss-120b`) and streams the answer back. The model must cite the sources it used. If the docs do not cover a BOT Chain question, it says so instead of guessing, and offers "Add a tip".
+1. A knowledge base is built from the official developer docs (`dev-docs.botchain.ai`), a few site pages and community notes: 65 pages, about 280 chunks. It is saved as `public/kb.json`.
+2. Your question is searched in your browser with MiniSearch. The best chunks (up to 5) are picked there. Common Indonesian words are mapped to the docs' English terms first, so questions in Indonesian find the same sections.
+3. The question and those chunks go to our API route `/guide`, which asks Groq (`openai/gpt-oss-120b`) and streams the answer back. The model must cite the sources it used. If the docs do not cover a BOT Chain question, it says so instead of guessing, and offers "Add a tip". Any URL in an answer that is not in the sources or the fixed config is replaced.
 4. Chat history is saved only in your browser (localStorage). There is no database and no account.
 5. 👍/👎 votes and tips are transactions on the BOTGuide contract. Only a hash of the answer goes on-chain, never the chat.
 6. A tip stays **Pending review** until the owner approves it. Only approved tips are added to the search index, labeled "Community tip". Pending tips never reach the AI.
+
+**Only the answer hash (for ratings) and the text of a tip are on-chain. Chats never are.**
 
 ## Screens
 
 | Route | What it is |
 | --- | --- |
-| `/` | Landing page: hero, how it works, developers, ecosystem links, community tips, FAQ |
+| `/` | Landing page: hero, how it works, product, developers, ecosystem, community tips, FAQ |
 | `/ask` | The chat: sources, follow-up questions, network facts panel, local history |
 | `/ask?q=...` | Share link that asks a question |
 | `/ask?tip=ID` | Opens the Community tips panel on that tip (unknown id shows "Tip not found") |
+| `/ask?tip=all` | Opens the Community tips panel without pointing at one tip |
 | `/guide` | API route that talks to Groq (not a page) |
 
 ## Contract
@@ -42,19 +117,19 @@ Ask a question about BOT Chain (networks, faucet, deploying, tools, common error
 | BOT Chain Testnet | 968 | `0x015eDcdd020D0834F69048a467A5b40bf8D16aB9` ([scan.bohr.life](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9)) |
 | BOT Chain Mainnet | 677 | not deployed yet |
 
-Until an address is set in `lib/config.ts`, rating and tips show a clear "not deployed yet" message and nothing is faked. 13 contract tests pass (`cd contracts && npx hardhat test`).
+The app currently points at the testnet contract. Until an address is set in `lib/config.ts`, rating and tips show a clear "not deployed yet" message and nothing is faked. 13 contract tests pass (`cd contracts && npx hardhat test`).
 
 ## Project layout
 
 ```
 BOTGuide/
   app/          Next.js routes: / (landing), /ask (chat), /guide (Groq proxy)
-  components/   landing/ and chat/ UI
+  components/   landing/ and chat/ UI, the Bo mascot, the shared wallet menu
   lib/          search, answer streaming, prompt and parser, contract and wallet helpers, config
-  docs/         official/ (synced docs), site/, lessons/ (community notes), design-spec.md
+  docs/         official/ (synced docs), site/, lessons/ (community notes), shots/ (README images), design-spec.md
   public/       kb.json (the knowledge base) and brand assets
   contracts/    Hardhat project: BOTGuide.sol, tests, deploy and approve-tip scripts
-  scripts/      check-kb.mjs (search checks), ask.mjs (end-to-end test)
+  scripts/      check-kb.mjs (search checks), ask.mjs (end-to-end test), tip-check.mjs
   sync-docs.js  downloads the official docs
   build-kb.js   builds public/kb.json and lib/kb-meta.json
 ```
@@ -62,6 +137,8 @@ BOTGuide/
 ## Run it locally
 
 ```bash
+git clone https://github.com/Devs-GMT/BOTGuide.git
+cd BOTGuide
 npm install
 cp .env.example .env            # put your GROQ_API_KEY in it
 npm run dev                     # http://localhost:3000
@@ -93,24 +170,52 @@ Secrets live only in `.env`, `.env.local` and `contracts/.env`. All are git-igno
 
 ## Deploy
 
-- **App (Vercel):** import the repo and add `GROQ_API_KEY` (secret). `GROQ_MODEL` is optional. For a rate limit shared across instances, also set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (free Upstash Redis); without them the limit is in memory.
-- **Contract (testnet first):** put `PRIVATE_KEY=0x...` of a test wallet in `contracts/.env`, claim tBOT from the [faucet](https://faucet.botchain.ai/basic) (10 tBOT per address per 24 hours), then run `npx hardhat run scripts/deploy.js --network botTestnet`. After that, repeat with `botMainnet`.
+- **App (Vercel):** import the repo and add `GROQ_API_KEY` (secret). `GROQ_MODEL` and `GROQ_REASONING` are optional. For a rate limit shared across instances, also set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (free Upstash Redis); without them the limit is in memory.
+- **Contract (testnet first):** put `PRIVATE_KEY=0x...` of a test wallet in `contracts/.env`, claim tBOT from the [faucet](https://faucet.botchain.ai/basic) (10 tBOT per address per 24 hours), then run `npx hardhat run scripts/deploy.js --network botTestnet`.
 - Put the printed address in `lib/config.ts` (`TESTNET_CONTRACT_ADDRESS` or `MAINNET_CONTRACT_ADDRESS`) and set `BOTGUIDE_NETWORK` to the network you use.
+
+## Mainnet (done by the owner)
+
+The mainnet contract is not deployed yet. It must be deployed with the owner's own mainnet wallet, never the testnet deployer. To do it:
+
+1. Put the owner's `PRIVATE_KEY` in `contracts/.env` and make sure the wallet has BOT for gas. Or open `contracts/contracts/BOTGuide.sol` in Remix: compiler `0.8.20`, EVM version `paris`, optimizer on (200 runs), no constructor arguments, mainnet wallet on chain ID 677.
+2. With Hardhat: `npx hardhat run scripts/deploy.js --network botMainnet`.
+3. Put the address in `MAINNET_CONTRACT_ADDRESS` in `lib/config.ts`, set `BOTGUIDE_NETWORK = "mainnet"`, and redeploy the app.
 
 ## Limits, said plainly
 
 - Answers can be wrong or out of date. Check important values (chain IDs, RPC URLs, addresses) in the official docs. The app shows a network facts panel for this.
+- The official docs have no guide for Remix, Hardhat, Foundry or contract verification. Answers about them come from short community notes, are labeled "Community note", and may be outdated. If nothing covers a BOT Chain question, BOTGuide says it could not find it.
 - Votes are not identity-checked: one wallet is one vote, but anyone can use many wallets.
-- The rate limit is 30 questions per IP per hour. It is shared across instances when the Upstash variables are set, and an in-memory counter (per instance) otherwise.
+- The rate limit is 30 questions per IP per hour. It is shared across instances when the Upstash variables are set, and an in-memory counter (per instance) otherwise. The Upstash path is not tested yet.
 - Community tips are written by users. The owner reviews them, but they may still be outdated, and the official docs always win.
 
 ## Siapa yang menggunakan BOTGuide?
 
-- **Developer baru di BOT Chain:** bertanya cara menambah jaringan, klaim faucet, deploy kontrak, atau memperbaiki error umum, dan mendapat jawaban dengan sumber docs.
-- **Peserta hackathon dan komunitas:** berbagi tip dari pengalaman nyata, lalu pemilik menyetujui tip yang layak agar masuk ke basis pengetahuan.
-- **Pemilik proyek:** melihat jawaban mana yang dinilai berguna lewat rating on-chain.
+### Pengguna utama
+
+1. **Developer baru di BOT Chain** (pengguna utama): bertanya cara menambah jaringan, klaim faucet, deploy kontrak, atau memperbaiki error umum, dan mendapat jawaban dengan sumber docs. Manfaat: tidak perlu membaca seluruh dokumentasi untuk satu pertanyaan.
+2. **Peserta hackathon dan komunitas** (kontributor): berbagi tip dari pengalaman nyata, lalu pemilik menyetujui tip yang layak agar masuk ke basis pengetahuan. Manfaat: pengetahuan komunitas ikut menjawab pertanyaan berikutnya.
+3. **Pemilik proyek atau tim BOT Chain** (pihak yang menilai): melihat jawaban mana yang dinilai berguna lewat rating on-chain, dan memeriksa tip yang masuk sebelum disetujui. Manfaat: tahu bagian dokumentasi mana yang masih membingungkan.
+
+### Target pengguna tambahan
+
+4. **Pengajar dan mentor blockchain**: mengarahkan murid ke sumber resmi dengan sitasi yang bisa dicek.
+5. **Developer EVM dari chain lain**: memeriksa apa yang berbeda di BOT Chain (chain ID, RPC, faucet) sebelum memindahkan proyek.
+
+## Roadmap
+
+| Versi | Fitur |
+| --- | --- |
+| **MVP (V1)** | Tanya jawab dari docs resmi dengan sitasi, rating dan tip on-chain, persetujuan tip oleh pemilik, jaringan testnet |
+| V1.1 | Deploy kontrak ke mainnet 677 dengan wallet pemilik, lalu beralih ke mainnet |
+| V1.2 | Catatan komunitas asli menggantikan draf, lalu sinkronisasi ulang docs |
+| V2 | Belum ditentukan. Ide: pencarian semantik, dukungan bahasa lain |
+
+Hanya MVP (V1) yang dikerjakan sekarang. Versi lain adalah rencana ke depan.
 
 ## Catatan penting
 
 - Hanya hash jawaban (untuk rating) dan teks tip yang masuk on-chain. Isi percakapan tidak pernah disimpan di server atau di blockchain.
 - Tip yang belum disetujui tidak pernah dikirim ke AI.
+- BOTGuide adalah proyek komunitas, bukan dokumentasi resmi BOT Chain. Jika jawaban berbeda dengan docs resmi, docs resmi yang benar.

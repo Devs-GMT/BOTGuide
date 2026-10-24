@@ -198,7 +198,8 @@ export default function ChatApp() {
     } else if (tip !== null) {
       window.history.replaceState(null, "", "/ask");
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      setFocusTip(/^\d{1,9}$/.test(tip) ? Number(tip) : -1);
+      // ?tip=all (the landing page's "Add a tip" link) opens the panel without pointing at one tip
+      setFocusTip(tip === "" || tip === "all" ? null : /^\d{1,9}$/.test(tip) ? Number(tip) : -1);
       setTipsOpen(true);
     }
   }, [send]);
