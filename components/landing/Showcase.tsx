@@ -2,8 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import Mascot, { type Mood } from "../Mascot";
-import { Check, Container, Eyebrow, SectionHead } from "../ui";
+import { Check, Container, SectionHead } from "../ui";
 import { DemoPanel, TONE, type DemoId } from "./demos";
 
 type Feature = {
@@ -103,12 +102,6 @@ const FEATURES: Feature[] = [
 ];
 
 type Topic = { t: string; d: string; q: string };
-const STEPS: { n: string; mood: Mood; title: string; line: string }[] = [
-  { n: "01", mood: "hello", title: "Ask", line: "Type any question about building on BOT Chain, in plain English." },
-  { n: "02", mood: "thinking", title: "BOTGuide reads the docs", line: "It searches the official developer docs and community notes for the right sections." },
-  { n: "03", mood: "done", title: "Get an answer you can check", line: "Steps, code and numbered links to the exact doc page. Rate it on BOT Chain to make it better." },
-];
-
 const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
   {
     group: "Wallet",
@@ -172,29 +165,8 @@ export default function Showcase() {
   return (
     <>
       <Container id="product" className="hairline-t">
-        <div id="how" className="scroll-mt-24">
-          <Eyebrow>How it works</Eyebrow>
-          <h2 className="max-w-[18ch] text-[clamp(2rem,4.4vw,3rem)] font-medium leading-[1.05] tracking-[-0.02em]">
-            From question to deployed, in three steps.
-          </h2>
-          <ol className="mt-12 grid md:grid-cols-3">
-            {STEPS.map((s, i) => (
-              <li
-                key={s.n}
-                className={`flex flex-col py-6 md:px-8 md:py-1 ${i > 0 ? "border-t border-line md:border-l md:border-t-0" : "md:pl-0"} ${i === 2 ? "md:pr-0" : ""}`}
-              >
-                <div className="flex items-center gap-3">
-                  <Mascot mood={s.mood} size={48} className="text-white" />
-                  <span className="font-mono text-[13px] text-accent">{s.n}</span>
-                  {i < STEPS.length - 1 && <span aria-hidden className="hidden h-px flex-1 border-t border-dashed border-accent/40 md:block" />}
-                </div>
-                <h3 className="mt-5 text-[20px] font-medium leading-7 tracking-[-0.01em]">{s.title}</h3>
-                <p className="mt-1.5 text-[15px] leading-6 text-muted">{s.line}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-        <div className="mt-10 lg:mt-16 lg:grid lg:grid-cols-[1fr_1.3fr] lg:gap-16">
+        <p className="mb-10 text-[13px] text-muted lg:mb-0">Product</p>
+        <div className="lg:grid lg:grid-cols-[1fr_1.3fr] lg:gap-16">
           <div>
             {FEATURES.map((f) => (
               <div
