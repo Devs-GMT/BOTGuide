@@ -131,67 +131,77 @@ export function ArtBridge() {
   return (
     <div className={frame}>
       <div className={`${chip} flex items-center justify-between px-3.5 py-2.5`}>
-        <span className="flex items-center gap-2 text-[12px] text-white/80">
-          <span className="size-5 rounded-full bg-[rgb(var(--tone))]" /> BOT Chain
+        <span className="flex items-center gap-2 text-[12px]">
+          <span className="grid size-6 place-items-center rounded-full bg-[#26a17b] text-[11px] font-semibold text-white">₮</span>
+          <span>
+            <span className="block leading-4 text-white/90">USDT</span>
+            <span className="block text-[10px] leading-3 text-white/40">BNB Chain</span>
+          </span>
         </span>
-        <span className="font-mono text-[13px] text-white/90">1.00 BOT</span>
+        <span className="font-mono text-[17px] text-white/90">100.00</span>
       </div>
-      <div className="relative mx-auto h-8 w-px bg-gradient-to-b from-[rgb(var(--tone)/0.6)] to-white/10">
-        <span className="absolute left-1/2 top-0 size-2.5 -translate-x-1/2 rounded-full bg-[rgb(var(--tone))] shadow-[0_0_10px_rgb(var(--tone)/0.8)] transition-transform duration-700 ease-out group-hover:translate-y-[22px]" />
-      </div>
+      <span className="z-10 -my-4 mx-auto grid size-7 place-items-center rounded-full bg-[#1c1c1c] text-[12px] text-[rgb(var(--tone))] ring-1 ring-white/15 transition-transform duration-500 group-hover:translate-y-0.5">↓</span>
       <div className={`${chip} flex items-center justify-between px-3.5 py-2.5`}>
-        <span className="flex items-center gap-2 text-[12px] text-white/80">
-          <span className="size-5 rounded-full bg-white/25" /> Other L1
+        <span className="flex items-center gap-2 text-[12px]">
+          <span className="grid size-6 place-items-center rounded-full bg-[rgb(var(--tone))] text-[11px] font-semibold text-[#0a0a0a]">B</span>
+          <span>
+            <span className="block leading-4 text-white/90">USDT</span>
+            <span className="block text-[10px] leading-3 text-white/40">BOT Chain</span>
+          </span>
         </span>
-        <span className="font-mono text-[13px] text-white/40">1.00 BOT</span>
+        <span className="font-mono text-[17px] text-white/35">—</span>
+      </div>
+      <div className="flex items-center gap-1.5 pt-1">
+        {["25%", "50%", "75%", "100%"].map((p, i) => (
+          <span
+            key={p}
+            className={`flex-1 rounded-full py-1 text-center text-[10.5px] transition-colors duration-300 ${i === 1 ? "bg-[rgb(var(--tone)/0.2)] text-[rgb(var(--tone))]" : "bg-white/[0.06] text-white/55"}`}
+          >
+            {p}
+          </span>
+        ))}
+        <span className="ml-1 shrink-0 text-[10.5px] text-white/40">≈ 7 min</span>
       </div>
     </div>
   );
 }
 
 export function ArtStaking() {
-  const bars = [32, 44, 40, 58, 66, 82];
   return (
     <div className={frame}>
-      <div className="flex items-end justify-between px-1">
+      <div className={`${chip} flex items-center justify-between px-3.5 py-3`}>
         <div>
-          <p className="text-[10.5px] text-white/40">Staked</p>
-          <p className="mt-0.5 font-mono text-[22px] leading-none text-white/90">100.00</p>
+          <p className="text-[10.5px] text-white/40">Amount</p>
+          <p className="mt-0.5 font-mono text-[18px] text-white/90">100.00</p>
         </div>
-        <span className="rounded-full bg-[rgb(var(--tone)/0.14)] px-2.5 py-1 text-[10.5px] text-[rgb(var(--tone))]">BOT</span>
+        <span className="flex items-center gap-2 rounded-full bg-white/[0.07] py-1 pl-1 pr-3 text-[12px]">
+          <span className="size-5 rounded-full bg-[rgb(var(--tone))]" /> BOT
+        </span>
       </div>
-      <div className={`${chip} flex h-[88px] items-end gap-2 px-3.5 pb-3 pt-4`}>
-        {bars.map((h, i) => (
-          <span
-            key={i}
-            className="flex-1 rounded-sm bg-[rgb(var(--tone)/0.55)] transition-[height] duration-500 ease-out group-hover:bg-[rgb(var(--tone))]"
-            style={{ height: `${h}%`, transitionDelay: `${i * 40}ms` }}
-          />
-        ))}
+      <div className="flex items-center justify-between px-1 text-[11.5px]">
+        <span className="text-white/45">Rewards</span>
+        <span className="font-mono text-[rgb(var(--tone))]">+ 0.00 BOT</span>
       </div>
-      <p className="px-1 text-[11px] text-white/40">rewards grow over time</p>
+      <span className="rounded-full bg-[rgb(var(--tone))] py-2.5 text-center text-[13px] font-medium text-[#0a0a0a] transition-transform duration-300 group-hover:-translate-y-0.5">
+        Stake
+      </span>
     </div>
   );
 }
 
 export function ArtSupport() {
-  const rows = ["Technical help", "Ecosystem resources", "Growth support"];
   return (
     <div className={frame}>
-      {rows.map((r, i) => (
-        <div
-          key={r}
-          className={`${chip} flex items-center gap-3 px-3.5 py-2.5 text-[12.5px] text-white/85 transition-transform duration-500 ease-out group-hover:translate-x-1`}
-          style={{ transitionDelay: `${i * 60}ms` }}
-        >
-          <span className="grid size-5 place-items-center rounded-full bg-[rgb(var(--tone)/0.18)] text-[rgb(var(--tone))]">
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden>
-              <path d="m2.5 6.2 2.4 2.3 4.6-5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          {r}
+      <p className="px-1 text-[11px] uppercase tracking-wide text-white/45">Application</p>
+      {["Project name", "What are you building?"].map((l) => (
+        <div key={l} className={`${chip} px-3.5 py-2.5`}>
+          <p className="text-[10.5px] text-white/40">{l}</p>
+          <div className="mt-1.5 h-2 w-3/5 rounded-full bg-white/15" />
         </div>
       ))}
+      <span className="rounded-full bg-[rgb(var(--tone))] py-2.5 text-center text-[13px] font-medium text-[#0a0a0a] transition-transform duration-300 group-hover:-translate-y-0.5">
+        Apply
+      </span>
     </div>
   );
 }
