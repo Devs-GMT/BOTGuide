@@ -280,7 +280,7 @@ export default function Hero() {
           <External className="text-muted" />
         </a>
 
-        <h1 className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] text-[clamp(2rem,min(7.4vw,10vh),5.5rem)] font-bold leading-[0.98] tracking-[-0.045em]">
+        <h1 className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] text-[clamp(2rem,min(7.4vw,10vh),5.5rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
           <span className="block">
             {LINE_1.map((w, i) => (
               <span key={w}>
