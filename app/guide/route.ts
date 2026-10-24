@@ -1,5 +1,8 @@
 import { LIMITS, buildMessages, type GuideChunk, type GuideMessage, type GuideRequest } from "@/lib/guide";
 
+// Answers stream for a few seconds; this keeps a slow Groq reply from being cut off on Vercel.
+export const maxDuration = 60;
+
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
