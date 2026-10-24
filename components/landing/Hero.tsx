@@ -249,7 +249,7 @@ export default function Hero() {
           className="enter inline-flex items-center gap-3 rounded-full bg-white/[0.03] py-1.5 pl-1.5 pr-4 text-[13px] ring-1 ring-white/10 transition-colors hover:bg-white/[0.06]"
           style={{ ["--d" as string]: "320ms", animationDuration: "320ms" }}
         >
-          <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[12px] font-medium text-white/85">New</span>
+          <span className="rounded-full bg-accent/15 px-2.5 py-0.5 text-[12px] font-medium text-accent">New</span>
           <span>{DOCS_LAST_SYNCED_SHORT ? `Docs synced ${DOCS_LAST_SYNCED_SHORT}` : "Built on the official BOT Chain docs"}</span>
           <External className="text-muted" />
         </a>

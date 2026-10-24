@@ -1,7 +1,7 @@
 import { LINKS } from "@/lib/config";
 import Mascot from "../Mascot";
 import Reveal from "../Reveal";
-import { Check, Container, External, Pill } from "../ui";
+import { Check, Container, External, Pill, SectionHead } from "../ui";
 
 function ArtBuild() {
   return (
@@ -111,9 +111,7 @@ function Card({
 export default function GetStarted() {
   return (
     <Container className="hairline-t">
-      <h2 className="text-center text-[clamp(1.8rem,3.5vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-        Choose how to get started
-      </h2>
+      <SectionHead eyebrow="Get started" title="Choose how to get started" />
       <div className="mt-12 grid gap-6 md:grid-cols-2">
         <Reveal>
           <Card

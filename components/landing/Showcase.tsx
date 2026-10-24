@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { Check, Container } from "../ui";
+import { Check, Container, SectionHead } from "../ui";
 import { DemoPanel, TONE, type DemoId } from "./demos";
 
 type Feature = {
@@ -210,10 +210,9 @@ export default function Showcase() {
       </Container>
 
       <Container className="hairline-t">
-        <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">Ask about any of these</h2>
-        <p className="mt-3 max-w-xl text-[16px] leading-7 text-muted">
+        <SectionHead eyebrow="Topics" title="Ask about any of these">
           The knowledge base is built from the official developer docs, the BOT Chain site and notes from real builds. Pick a topic to ask it.
-        </p>
+        </SectionHead>
         <div className="mt-10 divide-y divide-line border-y border-line">
           {COVERAGE.map((g) => (
             <div

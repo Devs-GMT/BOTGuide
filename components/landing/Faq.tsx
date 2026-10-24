@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Container } from "../ui";
+import { Container, SectionHead } from "../ui";
 
 const FAQ: [string, string][] = [
   [
@@ -31,7 +31,7 @@ export default function Faq() {
   return (
     <Container id="faq" className="hairline-t">
       <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-        <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">FAQ</h2>
+        <SectionHead eyebrow="FAQ" title="Common questions" />
         <div className="divide-y divide-line border-y border-line">
           {FAQ.map(([q, a], i) => {
             const isOpen = open === i;

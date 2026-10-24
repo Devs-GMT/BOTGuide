@@ -6,7 +6,7 @@ import { shortAddress } from "@/lib/config";
 import { contractReady, fetchApprovedTips, type Tip } from "@/lib/contract";
 import Mascot from "../Mascot";
 import Reveal from "../Reveal";
-import { Arrow, Container, Pill } from "../ui";
+import { Arrow, Container, Eyebrow, Pill } from "../ui";
 
 const STEPS = [
   ["Share a tip", "Add what the docs miss: a gotcha, a fix, a shortcut."],
@@ -32,7 +32,8 @@ export default function TipsStrip() {
     <Container id="tips" className="hairline-t">
       <div className="grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:items-center lg:gap-16">
         <div>
-          <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">Community tips</h2>
+          <Eyebrow>Community</Eyebrow>
+          <h2 className="text-[clamp(1.8rem,3.2vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.02em]">Tips from builders</h2>
           <p className="mt-4 max-w-[30rem] text-[18px] leading-7 text-white/90">
             Builders add what the docs leave out. The best tips make the next answer better.
           </p>

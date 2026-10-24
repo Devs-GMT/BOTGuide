@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export function Logo({ size = 22, word = true }: { size?: number; word?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2">
-      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden><path d="M32 21V12" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="32" cy="9" r="5.5" fill="#ff7a3d"/><rect x="4" y="31" width="6" height="12" rx="3" fill="currentColor"/><rect x="54" y="31" width="6" height="12" rx="3" fill="currentColor"/><rect x="10" y="21" width="44" height="32" rx="14" fill="currentColor"/><path d="M15 50 13 61 27 52Z" fill="currentColor"/><rect x="21" y="31" width="7" height="11" rx="3.5" fill="#0a0a0a"/><rect x="36" y="31" width="7" height="11" rx="3.5" fill="#0a0a0a"/><path d="M27 46.5q5 3 10 0" stroke="#0a0a0a" strokeWidth="2.4" strokeLinecap="round" fill="none"/></svg>
+      <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden><path d="M32 21V12" stroke="currentColor" strokeWidth="4" strokeLinecap="round"/><circle cx="32" cy="9" r="5.5" fill="#2fdba6"/><rect x="4" y="31" width="6" height="12" rx="3" fill="currentColor"/><rect x="54" y="31" width="6" height="12" rx="3" fill="currentColor"/><rect x="10" y="21" width="44" height="32" rx="14" fill="currentColor"/><path d="M15 50 13 61 27 52Z" fill="currentColor"/><rect x="21" y="31" width="7" height="11" rx="3.5" fill="#0a0a0a"/><rect x="36" y="31" width="7" height="11" rx="3.5" fill="#0a0a0a"/><path d="M27 46.5q5 3 10 0" stroke="#0a0a0a" strokeWidth="2.4" strokeLinecap="round" fill="none"/></svg>
       {word && <span className="text-[17px] font-medium tracking-tight">BOTGuide</span>}
     </span>
   );
@@ -117,6 +117,17 @@ export function Container({
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return <p className="mb-4 text-[13px] text-muted">{children}</p>;
+}
+
+/** The heading every ordinary section starts with: a small label, then the title, both left-aligned. */
+export function SectionHead({ eyebrow, title, children }: { eyebrow: string; title: string; children?: ReactNode }) {
+  return (
+    <div>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 className="text-[clamp(1.8rem,3.2vw,2.4rem)] font-medium leading-[1.1] tracking-[-0.02em]">{title}</h2>
+      {children && <p className="mt-4 max-w-xl text-[16px] leading-7 text-muted">{children}</p>}
+    </div>
+  );
 }
 
 /** Window chrome with traffic lights, used for terminals and code. */

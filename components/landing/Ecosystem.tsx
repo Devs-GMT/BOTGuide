@@ -1,6 +1,6 @@
 import { LINKS } from "@/lib/config";
 import Reveal from "../Reveal";
-import { Container } from "../ui";
+import { Container, SectionHead } from "../ui";
 import { ArtAll, ArtBridge, ArtExplorer, ArtFaucet, ArtStaking, ArtSupport, ArtSwap, ArtWallet } from "./EcosystemArt";
 import TipsStrip from "./TipsStrip";
 
@@ -23,9 +23,7 @@ export default function Ecosystem() {
   return (
     <>
       <Container id="ecosystem" className="hairline-t">
-        <div className="flex items-end justify-between gap-6">
-          <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">Ecosystem</h2>
-        </div>
+        <SectionHead eyebrow="Ecosystem" title="Tools around the chain" />
         <div className="mt-10 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
           {TOOLS.map((t, i) => (
             <Reveal key={t.name} delay={i * 70}>
