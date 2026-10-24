@@ -190,32 +190,32 @@ The mainnet contract is not deployed yet. It must be deployed with the owner's o
 - The rate limit is 30 questions per IP per hour. It is shared across instances when the Upstash variables are set, and an in-memory counter (per instance) otherwise. The Upstash path is not tested yet.
 - Community tips are written by users. The owner reviews them, but they may still be outdated, and the official docs always win.
 
-## Siapa yang menggunakan BOTGuide?
+## Who is BOTGuide for?
 
-### Pengguna utama
+### Main users
 
-1. **Developer baru di BOT Chain** (pengguna utama): bertanya cara menambah jaringan, klaim faucet, deploy kontrak, atau memperbaiki error umum, dan mendapat jawaban dengan sumber docs. Manfaat: tidak perlu membaca seluruh dokumentasi untuk satu pertanyaan.
-2. **Peserta hackathon dan komunitas** (kontributor): berbagi tip dari pengalaman nyata, lalu pemilik menyetujui tip yang layak agar masuk ke basis pengetahuan. Manfaat: pengetahuan komunitas ikut menjawab pertanyaan berikutnya.
-3. **Pemilik proyek atau tim BOT Chain** (pihak yang menilai): melihat jawaban mana yang dinilai berguna lewat rating on-chain, dan memeriksa tip yang masuk sebelum disetujui. Manfaat: tahu bagian dokumentasi mana yang masih membingungkan.
+1. **New BOT Chain developers** (main users): ask how to add the network, claim the faucet, deploy a contract or fix a common error, and get an answer with doc sources. Benefit: no need to read the whole documentation to answer one question.
+2. **Hackathon participants and the community** (contributors): share tips from real experience, and the owner approves the ones worth keeping so they join the knowledge base. Benefit: community knowledge helps answer the next question.
+3. **Project owners and the BOT Chain team** (reviewers): see which answers people found useful through on-chain ratings, and review tips before they are approved. Benefit: learn which parts of the documentation are still confusing.
 
-### Target pengguna tambahan
+### Additional target users
 
-4. **Pengajar dan mentor blockchain**: mengarahkan murid ke sumber resmi dengan sitasi yang bisa dicek.
-5. **Developer EVM dari chain lain**: memeriksa apa yang berbeda di BOT Chain (chain ID, RPC, faucet) sebelum memindahkan proyek.
+4. **Blockchain teachers and mentors**: point students to the official sources with citations they can check.
+5. **EVM developers coming from other chains**: check what is different on BOT Chain (chain ID, RPC, faucet) before moving a project.
 
 ## Roadmap
 
-| Versi | Fitur |
+| Version | Features |
 | --- | --- |
-| **MVP (V1)** | Tanya jawab dari docs resmi dengan sitasi, rating dan tip on-chain, persetujuan tip oleh pemilik, jaringan testnet |
-| V1.1 | Deploy kontrak ke mainnet 677 dengan wallet pemilik, lalu beralih ke mainnet |
-| V1.2 | Catatan komunitas asli menggantikan draf, lalu sinkronisasi ulang docs |
-| V2 | Belum ditentukan. Ide: pencarian semantik, dukungan bahasa lain |
+| **MVP (V1)** | Q&A from the official docs with citations, on-chain ratings and tips, owner approval of tips, testnet |
+| V1.1 | Deploy the contract to mainnet 677 with the owner's wallet, then switch the app to mainnet |
+| V1.2 | Replace the draft community notes with real ones, then re-sync the docs |
+| V2 | Not decided yet. Ideas: semantic search, more languages |
 
-Hanya MVP (V1) yang dikerjakan sekarang. Versi lain adalah rencana ke depan.
+Only the MVP (V1) is built today. The other versions are plans.
 
-## Catatan penting
+## Important notes
 
-- Hanya hash jawaban (untuk rating) dan teks tip yang masuk on-chain. Isi percakapan tidak pernah disimpan di server atau di blockchain.
-- Tip yang belum disetujui tidak pernah dikirim ke AI.
-- BOTGuide adalah proyek komunitas, bukan dokumentasi resmi BOT Chain. Jika jawaban berbeda dengan docs resmi, docs resmi yang benar.
+- Only the answer hash (for ratings) and the text of a tip go on-chain. The content of a chat is never stored on a server or on the blockchain.
+- A tip that has not been approved is never sent to the AI.
+- BOTGuide is a community project, not official BOT Chain documentation. If an answer disagrees with the official docs, the official docs are right.
