@@ -122,7 +122,7 @@ function AskDemo({ play }: { play: boolean }) {
                   <Cite n={1} /> Network &amp; RPC · Official docs
                 </span>
                 <span className="rounded-full bg-[#262626] px-3 py-1 text-[12px]">
-                  <Cite n={2} /> Hackathon guidebook
+                  <Cite n={2} /> Common errors · Community note
                 </span>
                 <span className="rounded-full border border-white/15 px-3 py-1 text-[12px] text-white/70">
                   And on testnet?

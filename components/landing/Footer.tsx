@@ -18,7 +18,6 @@ const COLS: Col[] = [
       ["Ask BOTGuide", "/ask"],
       ["How it works", "#how"],
       ["Community tips", "#tips"],
-      ["Source code", "https://github.com/Devs-GMT/BOTGuide"],
     ],
   },
   {
@@ -36,7 +35,6 @@ const COLS: Col[] = [
       ["Official docs", LINKS.docs],
       ["Deploy guides", "#deploy"],
       ["Snippets", "#developers"],
-      ["BOT Chain GitHub", LINKS.github],
     ],
   },
   {
@@ -54,7 +52,6 @@ const COLS: Col[] = [
     title: "Support",
     links: [
       ["Ecosystem Support Program", LINKS.support],
-      ["Hackathon guidebook", LINKS.guidebook],
       ["FAQ", "#faq"],
       ["Contact (X)", LINKS.x],
     ],

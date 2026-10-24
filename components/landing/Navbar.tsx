@@ -27,7 +27,6 @@ const MENUS: Menu[] = [
     preview: "code",
     items: [
       { t: "Official docs", d: "The BOT Chain developer documentation.", href: LINKS.docs, ext: true },
-      { t: "GitHub", d: "Source and tooling from the BOT Chain team.", href: LINKS.github, ext: true },
       { t: "Snippets", d: "Copy-ready setup for common tools.", href: "#developers" },
     ],
   },

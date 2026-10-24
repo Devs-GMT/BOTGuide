@@ -56,7 +56,6 @@ export const BLOCK_TIME_SECONDS = 0.75; // per botchain.ai
 export const LINKS = {
   site: "https://www.botchain.ai/en/",
   docs: "https://dev-docs.botchain.ai/docs/intro",
-  github: "https://github.com/BOTChain-bot",
   explorer: MAINNET.explorer,
   metamask: "https://metamask.io/download/",
   faucet: "https://faucet.botchain.ai/basic",
@@ -68,7 +67,6 @@ export const LINKS = {
   x: "https://x.com/BOTChain_ai",
   // Not confirmed yet: these point at the BOT Chain site until real URLs are added.
   support: "https://www.botchain.ai/en/",
-  guidebook: "https://www.botchain.ai/en/",
 } as const;
 
 /** The network and contract the app currently talks to (see BOTGUIDE_NETWORK). */

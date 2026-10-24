@@ -10,7 +10,7 @@ const FAQ: [string, string][] = [
   ],
   [
     "Where do answers come from?",
-    "From a knowledge base built from the official developer docs, the BOT Chain site, the hackathon guidebook and notes from real builds. Each answer cites the sections it used, and says so when the docs don't cover the question.",
+    "From a knowledge base built from the official developer docs, the BOT Chain site and notes from real builds. Each answer cites the sections it used, and says so when the docs don't cover the question.",
   ],
   [
     "Is my chat saved?",

@@ -42,7 +42,6 @@ const FIXED_URLS = [
   TESTNET.explorer,
   LINKS.site,
   LINKS.docs,
-  LINKS.github,
   LINKS.faucet,
   LINKS.bdex,
   LINKS.boWallet,

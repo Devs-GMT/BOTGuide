@@ -18,7 +18,6 @@ const TOOLS: Tool[] = [
 const MORE: [string, string][] = [
   ["Bridge", LINKS.bridge],
   ["Staking", LINKS.staking],
-  ["GitHub", LINKS.github],
   ["Ecosystem Support Program", LINKS.support],
 ];
 
