@@ -210,7 +210,7 @@ function RotatingVerb() {
 
   const width = widths[idx];
   return (
-    <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em] text-[#e2e3e8]" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
+    <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em] text-white" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
       {/* the current word stays in the flow so the slot keeps its height */}
       <span key={idx} className="inline-block whitespace-nowrap" style={{ animation: prev === null ? undefined : "verb-in 420ms var(--ease-expo) 150ms both" }}>
         {ROTATE[idx]}
@@ -280,7 +280,7 @@ export default function Hero() {
           <External className="text-muted" />
         </a>
 
-        <h1 className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] text-[clamp(2rem,min(7.4vw,10vh),5.5rem)] font-semibold leading-[1.06] tracking-[-0.03em]">
+        <h1 className="mx-auto mt-[clamp(1.25rem,4vh,2.5rem)] text-[clamp(2rem,min(7.4vw,10vh),5.5rem)] font-[650] leading-[1.06] tracking-[-0.028em] [text-rendering:geometricPrecision]">
           <span className="block">
             {LINE_1.map((w, i) => (
               <span key={w}>
