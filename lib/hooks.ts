@@ -98,7 +98,7 @@ export function formatBlock(b: number | null) {
 }
 
 /* ---------- section reveal on scroll ---------- */
-export function useInView<T extends Element>(rootMargin = "0px 0px -15% 0px") {
+export function useInView<T extends Element>(rootMargin = "0px 0px 12% 0px") {
   const [el, setEl] = useState<T | null>(null);
   const [seen, setSeen] = useState(false);
   useEffect(() => {

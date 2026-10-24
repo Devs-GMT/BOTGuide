@@ -20,7 +20,7 @@ export default function Reveal({
   return (
     <Tag
       ref={ref as never}
-      className={`${className} ${seen ? "enter" : "opacity-0"}`}
+      className={`${className} ${seen ? "reveal" : "opacity-0"}`}
       style={style}
     >
       {children}

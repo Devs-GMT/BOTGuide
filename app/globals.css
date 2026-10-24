@@ -97,10 +97,20 @@ input:focus-visible {
 }
 
 @keyframes panel-in {
-  from { opacity: 0; transform: translateY(18px) scale(0.985); filter: blur(6px); }
-  to { opacity: 1; transform: none; filter: blur(0); }
+  from { opacity: 0; transform: translateY(14px) scale(0.99); }
+  to { opacity: 1; transform: none; }
 }
-.panel-in { animation: panel-in 520ms var(--ease-soft) both; }
+.panel-in { animation: panel-in 380ms var(--ease-soft) both; }
+
+/* scroll reveal: opacity and a short rise only, no blur, so fast scrolling stays smooth */
+@keyframes reveal {
+  from { opacity: 0; transform: translate3d(0, 14px, 0); }
+  to { opacity: 1; transform: none; }
+}
+.reveal {
+  animation: reveal 480ms var(--ease-soft) both;
+  animation-delay: var(--d, 0ms);
+}
 
 .enter {
   animation: rise 650ms var(--ease-soft) both;
