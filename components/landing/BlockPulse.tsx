@@ -10,7 +10,7 @@ export default function BlockPulse() {
   const { block } = useLiveBlock();
   const cycle = CELLS * BLOCK_TIME_SECONDS;
   return (
-    <div className="mx-auto mt-10 flex items-center justify-center gap-4 text-[12.5px] text-muted" aria-label={`A new block about every ${BLOCK_TIME_SECONDS} seconds`}>
+    <div className="mx-auto mt-[clamp(1rem,4vh,2.5rem)] flex items-center justify-center gap-4 text-[12.5px] text-muted" aria-label={`A new block about every ${BLOCK_TIME_SECONDS} seconds`}>
       <div className="flex gap-1" aria-hidden>
         {Array.from({ length: CELLS }, (_, i) => (
           <span
