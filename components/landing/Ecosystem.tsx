@@ -9,10 +9,10 @@ type Tool = { name: string; href: string; Art: () => React.JSX.Element; note: st
 const frame = "relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#111] ring-1 ring-white/[0.07] transition-colors duration-300 group-hover:bg-[#151515] group-hover:ring-white/[0.14]";
 
 const TOOLS: Tool[] = [
-  { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions", tone: "110 168 255" },
-  { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas", tone: "110 231 183" },
-  { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens", tone: "240 205 120" },
-  { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "240 140 170" },
+  { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions", tone: "30 214 165" },
+  { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas", tone: "56 189 248" },
+  { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens", tone: "59 110 255" },
+  { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "255 122 42" },
 ];
 
 const MORE: [string, string][] = [
