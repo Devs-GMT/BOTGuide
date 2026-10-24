@@ -6,6 +6,7 @@ import { DOCS_LAST_SYNCED_SHORT, LINKS } from "@/lib/config";
 import { useReducedMotion } from "@/lib/hooks";
 import { Arrow, External, Pill } from "../ui";
 import BlockPulse from "./BlockPulse";
+import HeroBackdrop from "./HeroBackdrop";
 
 const LINE_1 = ["Everything", "you", "need"];
 const LINE_2 = ["to", "build", "on", "BOT", "Chain."];
@@ -151,7 +152,8 @@ function Word({ w, i, underline }: { w: string; i: number; underline?: boolean }
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-4 pb-10 pt-32 sm:pt-40 lg:px-6">
+    <section className="relative isolate overflow-hidden px-4 pb-10 pt-32 sm:pt-40 lg:px-6">
+      <HeroBackdrop />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
