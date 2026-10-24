@@ -251,6 +251,18 @@ export default function Navbar() {
   const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
   const [left, setLeft] = useState(150);
   const [hot, setHot] = useState(0);
+  // One highlight slides between the items instead of each item lighting up on its own.
+  const [hl, setHl] = useState({ top: 0, left: 0, width: 0, height: 0, on: false, glide: false });
+  const hlSeen = useRef(false);
+  const moveHl = (el: HTMLElement) => {
+    const glide = hlSeen.current;
+    hlSeen.current = true;
+    setHl({ top: el.offsetTop, left: el.offsetLeft, width: el.offsetWidth, height: el.offsetHeight, on: true, glide });
+  };
+  const hideHl = () => {
+    hlSeen.current = false;
+    setHl((h) => ({ ...h, on: false, glide: false }));
+  };
 
   useEffect(() => {
     const on = () => {
@@ -286,6 +298,7 @@ export default function Navbar() {
       setLeft(Math.max(0, Math.min(x, w.clientWidth - 640)));
     }
     setHot(0);
+    if (open !== id) hideHl();
     setOpen(id);
   };
   const release = () => {
@@ -388,7 +401,21 @@ export default function Navbar() {
             style={{ left, animation: "menu-in 300ms var(--ease-panel) both" }}
           >
             <div className="grid grid-cols-[1fr_0.95fr]">
-              <ul key={current.id} className="p-3">
+              <ul key={current.id} className="relative p-3" onMouseLeave={hideHl}>
+                <li
+                  aria-hidden
+                  className="pointer-events-none absolute rounded-xl bg-white/[0.055]"
+                  style={{
+                    top: hl.top,
+                    left: hl.left,
+                    width: hl.width,
+                    height: hl.height,
+                    opacity: hl.on ? 1 : 0,
+                    transition: hl.glide
+                      ? "top 150ms cubic-bezier(0.16,1,0.3,1), left 150ms cubic-bezier(0.16,1,0.3,1), width 150ms cubic-bezier(0.16,1,0.3,1), height 150ms cubic-bezier(0.16,1,0.3,1), opacity 100ms ease"
+                      : "opacity 100ms ease",
+                  }}
+                />
                 {current.items.map((it, i) => {
                   const inner = (
                     <>
@@ -400,10 +427,21 @@ export default function Navbar() {
                     </>
                   );
                   const cls =
-                    "block rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-white/[0.05]";
+                    "relative block rounded-xl px-3 py-2.5";
                   const style = { animation: `pop 250ms var(--ease-expo) both`, animationDelay: `${i * 25}ms` };
                   return (
-                    <li key={it.t} style={style} onMouseEnter={() => setHot(i)} onFocus={() => setHot(i)}>
+                    <li
+                      key={it.t}
+                      style={style}
+                      onMouseEnter={(e) => {
+                        setHot(i);
+                        moveHl(e.currentTarget);
+                      }}
+                      onFocus={(e) => {
+                        setHot(i);
+                        moveHl(e.currentTarget);
+                      }}
+                    >
                       {it.ext ? (
                         <a href={it.href} target="_blank" rel="noopener noreferrer" className={cls}>
                           {inner}
