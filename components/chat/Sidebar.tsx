@@ -3,9 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { ACTIVE_NETWORK, DOCS_LAST_SYNCED, LINKS, MAINNET, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
+import { ACTIVE_NETWORK, DOCS_LAST_SYNCED, LINKS, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
 import type { Chat } from "@/lib/chats";
 import { groupChats } from "@/lib/chats";
+import { copyText } from "@/lib/clipboard";
 import { addNetwork, useChainId, useWallet } from "@/lib/wallet";
 import { Logo } from "../ui";
 import {
@@ -151,7 +152,7 @@ function NetworkBadge() {
   const { address } = useWallet();
   const [busy, setBusy] = useState(false);
 
-  if (address && chainId !== null && chainId !== MAINNET.chainId && chainId !== TESTNET.chainId) {
+  if (address && chainId !== null && chainId !== ACTIVE_NETWORK.chainId) {
     return (
       <button
         type="button"
@@ -167,7 +168,7 @@ function NetworkBadge() {
         }}
         className="rounded-full bg-[#3b2a1e] px-2.5 py-1 text-[11.5px] text-[#f0a35e] hover:bg-[#4a3424]"
       >
-        Switch to BOT Chain
+        {busy ? "Switching…" : `Wrong network · Switch to ${ACTIVE_NETWORK.label}`}
       </button>
     );
   }
@@ -182,7 +183,20 @@ function NetworkBadge() {
 }
 
 function WalletChip() {
-  const { hasProvider, address, busy, connect } = useWallet();
+  const { hasProvider, address, busy, connect, changeWallet, disconnect } = useWallet();
+  const [open, setOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = (e: MouseEvent) => {
+      if (!ref.current?.contains(e.target as Node)) setOpen(false);
+    };
+    window.addEventListener("mousedown", close);
+    return () => window.removeEventListener("mousedown", close);
+  }, [open]);
+
   if (!hasProvider) {
     return (
       <a href={LINKS.metamask} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333]">
@@ -191,11 +205,58 @@ function WalletChip() {
       </a>
     );
   }
+  const item = "block w-full rounded-lg px-3 py-2 text-left text-[13px] text-white/85 hover:bg-white/[0.07]";
   return (
-    <button type="button" onClick={connect} disabled={busy || !!address} className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333] disabled:hover:bg-pill">
-      <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
-      {address ? <span className="font-mono text-[12.5px]">{shortAddress(address)}</span> : "Connect wallet"}
-    </button>
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={address ? () => setOpen((o) => !o) : connect}
+        disabled={busy}
+        aria-haspopup={address ? "menu" : undefined}
+        aria-expanded={address ? open : undefined}
+        className="flex items-center gap-2 rounded-xl bg-pill px-3 py-2.5 text-[13px] hover:bg-[#333]"
+      >
+        <Image src="/brand/wallet.png" alt="" width={16} height={16} className="size-4" />
+        {address ? <span className="font-mono text-[12.5px]">{shortAddress(address)}</span> : busy ? "Connecting…" : "Connect wallet"}
+      </button>
+      {open && address && (
+        <div role="menu" className="absolute bottom-full right-0 z-30 mb-2 w-52 rounded-xl bg-[#1c1c1c] p-1.5 shadow-xl ring-1 ring-white/10">
+          <button
+            type="button"
+            role="menuitem"
+            className={item}
+            onClick={async () => {
+              setCopied(await copyText(address));
+              setTimeout(() => setCopied(false), 1500);
+            }}
+          >
+            {copied ? "Address copied" : "Copy address"}
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            className={item}
+            onClick={() => {
+              setOpen(false);
+              changeWallet();
+            }}
+          >
+            Change wallet
+          </button>
+          <button
+            type="button"
+            role="menuitem"
+            className={`${item} text-[#f08a7e]`}
+            onClick={() => {
+              setOpen(false);
+              disconnect();
+            }}
+          >
+            Disconnect
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 

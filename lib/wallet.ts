@@ -71,6 +71,27 @@ export function useChainId() {
   return id;
 }
 
+// MetaMask has no real "disconnect", so we revoke the site permission and also remember the choice,
+// otherwise eth_accounts would hand the address straight back on the next page load.
+const OFF_KEY = "botguide:wallet-off";
+const OFF_EVENT = "botguide:wallet";
+const isOff = () => {
+  try {
+    return localStorage.getItem(OFF_KEY) === "1";
+  } catch {
+    return false;
+  }
+};
+const setOff = (off: boolean) => {
+  try {
+    if (off) localStorage.setItem(OFF_KEY, "1");
+    else localStorage.removeItem(OFF_KEY);
+  } catch {
+    /* storage blocked */
+  }
+  window.dispatchEvent(new Event(OFF_EVENT));
+};
+
 export function useWallet() {
   const hasProvider = useHasProvider();
   const [address, setAddress] = useState<string | null>(null);
@@ -79,14 +100,22 @@ export function useWallet() {
   useEffect(() => {
     const eth = window.ethereum;
     if (!eth) return;
-    eth
-      .request({ method: "eth_accounts" })
-      .then((a) => setAddress((a as string[])[0] ?? null))
-      .catch(() => {});
+    const read = () => {
+      if (isOff()) return setAddress(null);
+      eth
+        .request({ method: "eth_accounts" })
+        .then((a) => setAddress((a as string[])[0] ?? null))
+        .catch(() => {});
+    };
+    read();
     const onChange = (...args: unknown[]) =>
-      setAddress(((args[0] as string[]) ?? [])[0] ?? null);
+      setAddress(isOff() ? null : (((args[0] as string[]) ?? [])[0] ?? null));
     eth.on?.("accountsChanged", onChange);
-    return () => eth.removeListener?.("accountsChanged", onChange);
+    window.addEventListener(OFF_EVENT, read);
+    return () => {
+      eth.removeListener?.("accountsChanged", onChange);
+      window.removeEventListener(OFF_EVENT, read);
+    };
   }, [hasProvider]);
 
   const connect = useCallback(async () => {
@@ -94,6 +123,7 @@ export function useWallet() {
     if (!eth) return;
     setBusy(true);
     try {
+      setOff(false);
       const a = (await eth.request({ method: "eth_requestAccounts" })) as string[];
       setAddress(a[0] ?? null);
     } catch {
@@ -103,5 +133,32 @@ export function useWallet() {
     }
   }, []);
 
-  return { hasProvider, address, busy, connect };
+  /** Opens the wallet's account picker so the user can choose another account. */
+  const changeWallet = useCallback(async () => {
+    const eth = window.ethereum;
+    if (!eth) return;
+    setBusy(true);
+    try {
+      setOff(false);
+      await eth.request({ method: "wallet_requestPermissions", params: [{ eth_accounts: {} }] });
+      const a = (await eth.request({ method: "eth_accounts" })) as string[];
+      setAddress(a[0] ?? null);
+    } catch {
+      /* user rejected */
+    } finally {
+      setBusy(false);
+    }
+  }, []);
+
+  const disconnect = useCallback(async () => {
+    setOff(true);
+    setAddress(null);
+    try {
+      await window.ethereum?.request({ method: "wallet_revokePermissions", params: [{ eth_accounts: {} }] });
+    } catch {
+      /* older wallets: the saved choice above is enough for this site */
+    }
+  }, []);
+
+  return { hasProvider, address, busy, connect, changeWallet, disconnect };
 }
