@@ -136,7 +136,7 @@ export default function GetStarted() {
             items={["Official community channels", "Ecosystem Support Program", "Community tips", "Official docs"]}
             cta={
               <Pill href={LINKS.support} tone="outline" full external>
-                Get support <External />
+                Apply to the Support Program <External />
               </Pill>
             }
           />
