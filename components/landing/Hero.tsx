@@ -6,6 +6,7 @@ import { DOCS_LAST_SYNCED_SHORT, LINKS } from "@/lib/config";
 import { useReducedMotion } from "@/lib/hooks";
 import { Arrow, External, Pill } from "../ui";
 import BlockPulse from "./BlockPulse";
+import HeroBeam from "./HeroBeam";
 import HeroHorizon from "./HeroHorizon";
 
 const LINE_1 = ["Everything", "you", "need"];
@@ -210,6 +211,7 @@ export default function Hero() {
   return (
     <section className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-4 pb-8 pt-24 lg:px-6">
       <HeroHorizon />
+      <HeroBeam />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
