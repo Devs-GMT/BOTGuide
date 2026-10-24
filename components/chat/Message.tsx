@@ -6,6 +6,7 @@ import type { Msg } from "@/lib/chats";
 import { Cite } from "./Markdown";
 import Markdown from "./Markdown";
 import Mascot, { type Mood } from "../Mascot";
+import SourceTrail from "./SourceTrail";
 import VoteButtons from "./VoteButtons";
 import {
   IconCheck,
@@ -86,11 +87,7 @@ export function AssistantMessage({ msg, question, isLast, handlers }: { msg: Msg
           </p>
         )}
 
-        {!waiting && msg.kind === "answer" && shownSources.length > 0 && msg.status !== "error" && (
-          <p className="mb-3 text-[12.5px] text-muted">
-            Based on {shownSources.length} {shownSources.length === 1 ? "section" : "sections"} from the docs
-          </p>
-        )}
+        {!waiting && msg.kind === "answer" && shownSources.length > 0 && msg.status !== "error" && <SourceTrail items={shownSources} />}
 
         {msg.content && <Markdown text={msg.content} sources={sources} streaming={streaming} />}
 
