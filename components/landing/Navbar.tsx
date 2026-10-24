@@ -8,76 +8,211 @@ import { useWallet } from "@/lib/wallet";
 import { Arrow, Chevron, External, Logo, Pill } from "../ui";
 import WalletMenu from "../WalletMenu";
 
-type Item = { t: string; d?: string; href: string; ext?: boolean };
-type Menu = { id: string; label: string; items: Item[]; preview: "chat" | "code" | "links" };
+type PreviewId = "ask" | "sources" | "deploy" | "network" | "vote" | "docs" | "snippets" | "explorer" | "faucet" | "tools";
+type Item = { t: string; d?: string; href: string; ext?: boolean; pv: PreviewId };
+type Menu = { id: string; label: string; items: Item[] };
 
 const MENUS: Menu[] = [
   {
     id: "product",
     label: "Product",
-    preview: "chat",
     items: [
-      { t: "Ask", d: "Questions about building on BOT Chain, answered from the docs.", href: "/ask" },
-      { t: "Network", d: "Chain IDs, RPC and one-click MetaMask setup.", href: "#network" },
-      { t: "Deploy", d: "Remix, Hardhat and Foundry walkthroughs.", href: "#deploy" },
+      { t: "Ask", d: "Questions about building on BOT Chain, answered from the docs.", href: "#ask", pv: "ask" },
+      { t: "Sources", d: "Every answer links to the doc section it came from.", href: "#sources", pv: "sources" },
+      { t: "Deploy", d: "Remix, Hardhat and Foundry walkthroughs.", href: "#deploy", pv: "deploy" },
+      { t: "Network", d: "Chain IDs, RPC and one-click MetaMask setup.", href: "#network", pv: "network" },
+      { t: "Rate and contribute", d: "Vote on answers and share tips.", href: "#vote", pv: "vote" },
     ],
   },
   {
     id: "developers",
     label: "Developers",
-    preview: "code",
     items: [
-      { t: "Official docs", d: "The BOT Chain developer documentation.", href: LINKS.docs, ext: true },
-      { t: "Snippets", d: "Copy-ready setup for common tools.", href: "#developers" },
+      { t: "Official docs", d: "The BOT Chain developer documentation.", href: LINKS.docs, ext: true, pv: "docs" },
+      { t: "Snippets", d: "Copy-ready setup for common tools.", href: "#developers", pv: "snippets" },
     ],
   },
   {
     id: "ecosystem",
     label: "Ecosystem",
-    preview: "links",
     items: [
-      { t: "Explorer", d: "Browse blocks, contracts and transactions.", href: LINKS.explorer, ext: true },
-      { t: "Testnet faucet", d: "Get test BOT for gas.", href: LINKS.faucet, ext: true },
-      { t: "All tools", d: "BDex, Bo Wallet, Bridge, Staking and more.", href: "#ecosystem" },
+      { t: "Explorer", d: "Browse blocks, contracts and transactions.", href: LINKS.explorer, ext: true, pv: "explorer" },
+      { t: "Testnet faucet", d: "Get test BOT for gas.", href: LINKS.faucet, ext: true, pv: "faucet" },
+      { t: "All tools", d: "BDex, Bo Wallet, Bridge, Staking and more.", href: "#ecosystem", pv: "tools" },
     ],
   },
 ];
 
-function Preview({ kind }: { kind: Menu["preview"] }) {
-  if (kind === "chat") {
-    return (
-      <div className="flex h-full flex-col justify-end gap-2 p-4 text-[12px]">
-        <div className="ml-auto max-w-[80%] rounded-2xl bg-[#2a2a2a] px-3 py-2">Add BOT Chain to MetaMask</div>
-        <div className="max-w-[88%] rounded-2xl bg-[#1c1c1c] px-3 py-2 text-white/80">
-          Add a custom network with chain ID 677 and the RPC from the docs{" "}
-          <span className="rounded bg-white/10 px-1 font-mono text-[10px]">[1]</span>
+const TOOLS: [string, string, string][] = [
+  ["Explorer", LINKS.explorer, "24 206 190"],
+  ["Faucet", LINKS.faucet, "74 222 128"],
+  ["BDex", LINKS.bdex, "59 110 255"],
+  ["Bo Wallet", LINKS.boWallet, "255 122 42"],
+  ["Bridge", LINKS.bridge, "96 165 250"],
+  ["Staking", LINKS.staking, "240 205 120"],
+];
+
+const TONE: Record<PreviewId, string> = {
+  ask: "110 168 255",
+  sources: "110 231 183",
+  deploy: "240 205 120",
+  network: "94 200 220",
+  vote: "240 140 170",
+  docs: "47 219 166",
+  snippets: "110 168 255",
+  explorer: "24 206 190",
+  faucet: "74 222 128",
+  tools: "255 255 255",
+};
+
+const row = "rounded-xl bg-white/[0.045] ring-1 ring-white/[0.06]";
+
+/** The small picture on the right of the menu. It follows the item under the pointer. */
+function Preview({ id }: { id: PreviewId }) {
+  const wrap = "flex h-full flex-col justify-center gap-2 p-4 text-[12px]";
+  const dot = <span className="size-1.5 shrink-0 rounded-full bg-[rgb(var(--tone))]" />;
+  switch (id) {
+    case "ask":
+      return (
+        <div className={wrap}>
+          <div className="ml-auto max-w-[85%] rounded-2xl rounded-br-md bg-[#2a2a2a] px-3 py-2">Add BOT Chain to MetaMask</div>
+          <div className="max-w-[92%] rounded-2xl rounded-bl-md bg-[#1c1c1c] px-3 py-2 leading-5 text-white/80">
+            Add a custom network with chain ID 677 and the RPC from the docs{" "}
+            <span className="rounded bg-[rgb(var(--tone)/0.18)] px-1 font-mono text-[10px] text-[rgb(var(--tone))]">1</span>
+          </div>
         </div>
-      </div>
-    );
+      );
+    case "sources":
+      return (
+        <div className={wrap}>
+          <div className={`${row} overflow-hidden`}>
+            <div className="flex items-center gap-2 border-b border-white/[0.06] px-3 py-2 text-[10.5px] text-muted">
+              <span className="font-mono">dev-docs.botchain.ai</span>
+              <span className="ml-auto rounded bg-white/10 px-1.5 py-0.5 text-white/70">Official docs</span>
+            </div>
+            <div className="space-y-1 px-3 py-2.5 font-mono text-[11px]">
+              <p className="-mx-1 rounded bg-[rgb(var(--tone)/0.25)] px-1">Chain ID&nbsp;&nbsp;677</p>
+              <p className="text-white/55">RPC URL&nbsp;&nbsp;rpc.botchain.ai</p>
+            </div>
+          </div>
+        </div>
+      );
+    case "deploy":
+      return (
+        <div className={wrap}>
+          <div className={`${row} space-y-1 px-3 py-3 font-mono text-[11px] leading-5`}>
+            <p>
+              <span className="text-muted">▸</span> compile <span className="text-[#5ecb7f]">✓</span>
+            </p>
+            <p>
+              <span className="text-muted">▸</span> network bot-testnet <span className="text-muted">(968)</span>
+            </p>
+            <p>
+              <span className="text-muted">▸</span> deploy <span className="text-[#5ecb7f]">✓</span>
+            </p>
+            <p className="text-[rgb(var(--tone))]">✦ Deployed</p>
+          </div>
+        </div>
+      );
+    case "network":
+      return (
+        <div className={wrap}>
+          <div className={`${row} divide-y divide-white/[0.06] px-3`}>
+            {[
+              ["Chain ID", "677"],
+              ["RPC", "rpc.botchain.ai"],
+              ["Symbol", "BOT"],
+            ].map(([k, v]) => (
+              <div key={k} className="flex justify-between py-2 text-[11px]">
+                <span className="text-muted">{k}</span>
+                <span className="font-mono">{v}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    case "vote":
+      return (
+        <div className={wrap}>
+          <div className={`${row} p-3`}>
+            <p className="leading-5 text-white/80">Add a custom network with chain ID 677</p>
+            <div className="mt-2.5 flex gap-2 text-[11px]">
+              <span className="rounded-full bg-[rgb(var(--tone))] px-2.5 py-1 text-[#0a0a0a]">Helpful</span>
+              <span className="rounded-full bg-[#262626] px-2.5 py-1">+ Add a tip</span>
+            </div>
+          </div>
+        </div>
+      );
+    case "docs":
+      return (
+        <div className={wrap}>
+          <div className={`${row} p-3`}>
+            <p className="font-mono text-[10.5px] text-muted">dev-docs.botchain.ai</p>
+            <ul className="mt-2 space-y-1.5 text-[11.5px] text-white/85">
+              {["Developers Quick Guide", "JSON-RPC Endpoint", "Validator Creation Guide"].map((x) => (
+                <li key={x} className="flex items-center gap-2">
+                  {dot}
+                  {x}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      );
+    case "snippets":
+      return (
+        <pre className="flex h-full flex-col justify-center overflow-hidden p-4 font-mono text-[11px] leading-5 text-white/80">
+          <span className="tok-c">{"// hardhat.config.js"}</span>
+          {"\n"}
+          <span className="tok-k">networks</span>: {"{"}
+          {"\n  "}
+          <span className="tok-f">botMainnet</span>: {"{"}
+          {"\n    "}url: <span className="tok-s">&quot;https://rpc.botchain.ai&quot;</span>,
+          {"\n    "}chainId: <span className="tok-s">677</span>
+          {"\n  }\n}"}
+        </pre>
+      );
+    case "explorer":
+      return (
+        <div className={wrap}>
+          <p className="px-1 font-mono text-[10px] tracking-wide text-muted">LATEST BLOCKS</p>
+          {["now", "0.75s ago", "1.50s ago"].map((t, i) => (
+            <div key={t} className={`${row} flex items-center justify-between px-3 py-2`} style={{ opacity: 1 - i * 0.25 }}>
+              <span className="flex items-center gap-2">
+                <span className="grid size-5 place-items-center rounded bg-[rgb(var(--tone)/0.15)] text-[9px] text-[rgb(var(--tone))]">Bk</span>
+                <span className="h-1.5 w-16 rounded-full bg-white/20" />
+              </span>
+              <span className="font-mono text-[10px] text-white/40">{t}</span>
+            </div>
+          ))}
+        </div>
+      );
+    case "faucet":
+      return (
+        <div className={`${wrap} items-center text-center`}>
+          <p className="font-mono text-[34px] font-light leading-none tracking-[-0.04em] text-[rgb(var(--tone))]">10</p>
+          <p className="text-white/80">tBOT</p>
+          <p className="text-[10.5px] text-muted">per address, every 24 hours</p>
+        </div>
+      );
+    default:
+      return (
+        <div className="flex h-full flex-wrap content-center gap-2 p-4">
+          {TOOLS.map(([name, href, tone]) => (
+            <a
+              key={name}
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-full bg-[#262626] px-3 py-1.5 text-[12px] transition-colors duration-150 hover:bg-[#303030]"
+            >
+              <span className="size-1.5 rounded-full" style={{ background: `rgb(${tone})` }} />
+              {name}
+            </a>
+          ))}
+        </div>
+      );
   }
-  if (kind === "code") {
-    return (
-      <pre className="h-full overflow-hidden p-4 font-mono text-[11px] leading-5 text-white/80">
-        <span className="tok-c">{"// hardhat.config.js"}</span>
-        {"\n"}
-        <span className="tok-k">networks</span>: {"{"}
-        {"\n  "}
-        <span className="tok-f">botMainnet</span>: {"{"}
-        {"\n    "}url: <span className="tok-s">&quot;https://rpc.botchain.ai&quot;</span>,
-        {"\n    "}chainId: <span className="tok-s">677</span>
-        {"\n  }\n}"}
-      </pre>
-    );
-  }
-  return (
-    <div className="flex h-full flex-wrap content-end gap-2 p-4">
-      {["Explorer", "Faucet", "BDex", "Bo Wallet", "Bridge", "Staking"].map((x) => (
-        <span key={x} className="rounded-full bg-[#262626] px-3 py-1.5 text-[12px]">
-          {x}
-        </span>
-      ))}
-    </div>
-  );
 }
 
 function WalletButton({ className = "", full = false }: { className?: string; full?: boolean }) {
@@ -112,6 +247,10 @@ export default function Navbar() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const menuBtnRef = useRef<HTMLButtonElement>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const triggers = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [left, setLeft] = useState(150);
+  const [hot, setHot] = useState(0);
 
   useEffect(() => {
     const on = () => {
@@ -139,6 +278,14 @@ export default function Navbar() {
 
   const hold = (id: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
+    // the panel sits under the button that opened it
+    const b = triggers.current[id];
+    const w = wrapRef.current;
+    if (b && w) {
+      const x = b.getBoundingClientRect().left - w.getBoundingClientRect().left - 12;
+      setLeft(Math.max(0, Math.min(x, w.clientWidth - 640)));
+    }
+    setHot(0);
     setOpen(id);
   };
   const release = () => {
@@ -157,7 +304,7 @@ export default function Navbar() {
       <div
         className={`pointer-events-none absolute inset-0 -z-10 bg-bg/85 backdrop-blur-[12px] transition-opacity duration-200 ${scrolled || open ? "opacity-100" : "opacity-0"}`}
       />
-      <div className="relative mx-auto max-w-[1280px] px-4 lg:px-6">
+      <div ref={wrapRef} className="relative mx-auto max-w-[1280px] px-4 lg:px-6">
         <nav
           aria-label="Main"
           className={`flex h-16 items-center justify-between gap-4 border-b transition-colors duration-200 ${scrolled || open ? "border-line" : "border-transparent"}`}
@@ -170,6 +317,9 @@ export default function Navbar() {
               {MENUS.map((m) => (
                 <li key={m.id}>
                   <button
+                    ref={(el) => {
+                      triggers.current[m.id] = el;
+                    }}
                     type="button"
                     aria-expanded={open === m.id}
                     aria-haspopup="true"
@@ -234,8 +384,8 @@ export default function Navbar() {
           <div
             key="panel"
             onMouseEnter={() => hold(current.id)}
-            className="absolute left-[150px] top-[calc(100%-4px)] hidden w-[640px] overflow-hidden rounded-2xl bg-[#101010] ring-1 ring-white/[0.07] lg:block"
-            style={{ animation: "menu-in 300ms var(--ease-panel) both" }}
+            className="absolute top-[calc(100%-4px)] hidden w-[640px] overflow-hidden rounded-2xl bg-[#101010] ring-1 ring-white/[0.07] transition-[left] duration-300 ease-[var(--ease-panel)] lg:block"
+            style={{ left, animation: "menu-in 300ms var(--ease-panel) both" }}
           >
             <div className="grid grid-cols-[1fr_0.95fr]">
               <ul key={current.id} className="p-3">
@@ -253,7 +403,7 @@ export default function Navbar() {
                     "block rounded-xl px-3 py-2.5 transition-colors duration-150 hover:bg-white/[0.05]";
                   const style = { animation: `pop 250ms var(--ease-expo) both`, animationDelay: `${i * 25}ms` };
                   return (
-                    <li key={it.t} style={style}>
+                    <li key={it.t} style={style} onMouseEnter={() => setHot(i)} onFocus={() => setHot(i)}>
                       {it.ext ? (
                         <a href={it.href} target="_blank" rel="noopener noreferrer" className={cls}>
                           {inner}
@@ -271,9 +421,11 @@ export default function Navbar() {
                   );
                 })}
               </ul>
-              <div className="m-3 ml-0 min-h-[190px] overflow-hidden rounded-xl bg-card">
-                <div key={current.id} className="h-full" style={{ animation: "fade 160ms ease-out both" }}>
-                  <Preview kind={current.preview} />
+              <div className="m-3 ml-0 min-h-[210px] overflow-hidden rounded-xl bg-card">
+                <div key={current.id} className="h-full">
+                  <div key={hot} className="h-full" style={{ ["--tone" as string]: TONE[(current.items[hot] ?? current.items[0]).pv], animation: "fade 160ms ease-out both" }}>
+                    <Preview id={(current.items[hot] ?? current.items[0]).pv} />
+                  </div>
                 </div>
               </div>
             </div>
