@@ -73,6 +73,7 @@ Refresh the knowledge base before a release:
 npm run sync-docs               # download the official docs
 npm run build-kb                # rebuild public/kb.json
 npm run check-kb                # sanity-check search
+node scripts/tip-check.mjs      # check that an approved tip is found
 ```
 
 Test the contract flow without spending BOT:
@@ -92,7 +93,7 @@ Secrets live only in `.env`, `.env.local` and `contracts/.env`. All are git-igno
 
 ## Deploy
 
-- **App (Vercel):** import the repo and add `GROQ_API_KEY` (secret). `GROQ_MODEL` is optional.
+- **App (Vercel):** import the repo and add `GROQ_API_KEY` (secret). `GROQ_MODEL` is optional. For a rate limit shared across instances, also set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` (free Upstash Redis); without them the limit is in memory.
 - **Contract (testnet first):** put `PRIVATE_KEY=0x...` of a test wallet in `contracts/.env`, claim tBOT from the [faucet](https://faucet.botchain.ai/basic) (10 tBOT per address per 24 hours), then run `npx hardhat run scripts/deploy.js --network botTestnet`. After that, repeat with `botMainnet`.
 - Put the printed address in `lib/config.ts` (`TESTNET_CONTRACT_ADDRESS` or `MAINNET_CONTRACT_ADDRESS`) and set `BOTGUIDE_NETWORK` to the network you use.
 
@@ -100,7 +101,7 @@ Secrets live only in `.env`, `.env.local` and `contracts/.env`. All are git-igno
 
 - Answers can be wrong or out of date. Check important values (chain IDs, RPC URLs, addresses) in the official docs. The app shows a network facts panel for this.
 - Votes are not identity-checked: one wallet is one vote, but anyone can use many wallets.
-- The rate limit (30 questions per IP per hour) is an in-memory counter. Fine for a demo; move it to Redis or Upstash on serverless.
+- The rate limit is 30 questions per IP per hour. It is shared across instances when the Upstash variables are set, and an in-memory counter (per instance) otherwise.
 - Community tips are written by users. The owner reviews them, but they may still be outdated, and the official docs always win.
 
 ## Siapa yang menggunakan BOTGuide?

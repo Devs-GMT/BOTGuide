@@ -3,8 +3,8 @@ import { LIMITS, buildMessages, type GuideChunk, type GuideMessage, type GuideRe
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 
-// 30 questions per IP per hour. This lives in memory, so on serverless it is per instance.
-// Move it to a shared store (for example Upstash) before real traffic.
+// 30 questions per IP per hour. With UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN set the counter
+// is shared across instances; without them it lives in memory (per instance, fine for local and demos).
 const WINDOW_MS = 60 * 60 * 1000;
 const MAX_PER_WINDOW = 30;
 const hits = new Map<string, { n: number; reset: number }>();
@@ -19,6 +19,31 @@ function limited(ip: string) {
   }
   rec.n += 1;
   return rec.n > MAX_PER_WINDOW;
+}
+
+async function sharedCount(ip: string): Promise<number | null> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+  try {
+    const key = `botguide:rl:${ip}`;
+    const res = await fetch(`${url}/pipeline`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+      body: JSON.stringify([["INCR", key], ["EXPIRE", key, String(WINDOW_MS / 1000), "NX"]]),
+      signal: AbortSignal.timeout(1500),
+    });
+    if (!res.ok) return null;
+    const out = (await res.json()) as { result?: number }[];
+    return typeof out[0]?.result === "number" ? out[0].result : null;
+  } catch {
+    return null; // store unreachable: fall back to the in-memory counter
+  }
+}
+
+async function isLimited(ip: string) {
+  const n = await sharedCount(ip);
+  return n === null ? limited(ip) : n > MAX_PER_WINDOW;
 }
 
 function bad(error: string, status: number) {
@@ -63,7 +88,7 @@ export async function POST(req: Request) {
   if (!key) return bad("not_configured", 503);
 
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() || "unknown";
-  if (limited(ip)) return bad("rate_limited", 429);
+  if (await isLimited(ip)) return bad("rate_limited", 429);
 
   let parsed: GuideRequest | null = null;
   try {
