@@ -264,7 +264,7 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
         style={{
           background:
-            "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.034) 22%, rgba(255,255,255,0.018) 44%, rgba(255,255,255,0.007) 66%, transparent 86%)",
+            "radial-gradient(60% 60% at 50% 0%, rgba(255,255,255,0.05), transparent 70%)",
         }}
       />
       <div className="mx-auto w-full max-w-[1280px] text-center" style={{ opacity: "calc(1 - var(--hs, 0) * 0.85)", transform: "translateY(calc(var(--hs, 0) * -36px))" }}>

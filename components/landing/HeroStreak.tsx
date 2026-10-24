@@ -34,7 +34,7 @@ export default function HeroStreak() {
         </div>
       ))}
       {/* vignette: the edges fall off so the eye stays on the headline */}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(75% 70% at 50% 45%, transparent 48%, rgba(0,0,0,0.06) 60%, rgba(0,0,0,0.16) 72%, rgba(0,0,0,0.32) 86%, rgba(0,0,0,0.6) 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(75% 70% at 50% 45%, transparent 55%, rgba(0,0,0,0.6) 100%)" }} />
     </div>
   );
 }
