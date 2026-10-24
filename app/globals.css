@@ -190,3 +190,33 @@ body {
   7% { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
   22%, 100% { background: #2a2a2a; box-shadow: none; }
 }
+
+/* ---------- hero headline ---------- */
+.word-shine {
+  background-image: linear-gradient(100deg, #fff 0 42%, #ffd2b8 50%, #fff 58% 100%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+@keyframes shine {
+  0% { background-position: 100% 0; }
+  22%, 100% { background-position: 0% 0; }
+}
+.underline-run {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  animation: underline-run 4.2s ease-in-out 2.2s infinite;
+}
+@keyframes underline-run {
+  0% { transform: translateX(-130%); }
+  45%, 100% { transform: translateX(520%); }
+}
+@keyframes verb-in {
+  from { opacity: 0; transform: translateY(70%); filter: blur(6px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@keyframes verb-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(-70%); filter: blur(6px); }
+}

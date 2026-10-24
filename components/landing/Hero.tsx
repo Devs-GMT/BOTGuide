@@ -128,23 +128,79 @@ function AskBox() {
   );
 }
 
-function Word({ w, i, underline }: { w: string; i: number; underline?: boolean }) {
+const ROTATE = ["build", "deploy", "debug", "ship", "verify"];
+
+/** One word of the headline: rises in, then catches a slow sweep of light. */
+function Word({ children, i, underline, shine = true }: { children: React.ReactNode; i: number; underline?: boolean; shine?: boolean }) {
+  const delay = 100 + i * 55;
   return (
     <span
-      className="enter relative inline-block"
-      style={{ ["--d" as string]: `${100 + i * 55}ms`, animationDuration: "650ms" }}
+      className={`relative inline-block ${shine ? "word-shine" : ""}`}
+      style={{
+        animation: `rise 650ms var(--ease-soft) ${delay}ms backwards${shine ? `, shine 7s ease-in-out ${2600 + i * 130}ms infinite` : ""}`,
+      }}
     >
-      {w}
+      {children}
       {underline && (
         <span
           aria-hidden
-          className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left rounded-full"
+          className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left overflow-hidden rounded-full"
           style={{
             background: "linear-gradient(90deg, var(--accent), rgba(255,122,61,0.35))",
             animation: "underline-grow 800ms var(--ease-expo) 800ms both",
           }}
-        />
+        >
+          <span className="underline-run absolute inset-y-0 left-0 w-[24%]" />
+        </span>
       )}
+    </span>
+  );
+}
+
+/** The verb in the headline: swaps between what developers do on BOT Chain, resizing smoothly so the line never jumps. */
+function RotatingVerb() {
+  const reduced = useReducedMotion();
+  const [idx, setIdx] = useState(0);
+  const [prev, setPrev] = useState<number | null>(null);
+  const [widths, setWidths] = useState<number[]>([]);
+  const probes = useRef<(HTMLSpanElement | null)[]>([]);
+  const current = useRef(0);
+
+  useEffect(() => {
+    const measure = () => setWidths(probes.current.map((el) => el?.getBoundingClientRect().width ?? 0));
+    measure();
+    void document.fonts?.ready.then(measure);
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
+
+  useEffect(() => {
+    if (reduced) return;
+    const t = setInterval(() => {
+      setPrev(current.current);
+      current.current = (current.current + 1) % ROTATE.length;
+      setIdx(current.current);
+    }, 2600);
+    return () => clearInterval(t);
+  }, [reduced]);
+
+  const width = widths[idx];
+  return (
+    <span className="relative inline-block overflow-hidden pb-[0.14em] align-bottom -mb-[0.14em]" style={{ width: width ? `${width}px` : undefined, transition: "width 450ms var(--ease-expo)" }}>
+      {/* the current word stays in the flow so the slot keeps its height */}
+      <span key={idx} className="inline-block whitespace-nowrap" style={{ animation: prev === null ? undefined : "verb-in 520ms var(--ease-expo) both" }}>
+        {ROTATE[idx]}
+      </span>
+      {prev !== null && (
+        <span key={`p${prev}-${idx}`} aria-hidden className="absolute left-0 top-0 whitespace-nowrap" style={{ animation: "verb-out 420ms var(--ease-soft) both" }}>
+          {ROTATE[prev]}
+        </span>
+      )}
+      <span aria-hidden className="pointer-events-none invisible absolute left-0 top-0 whitespace-nowrap">
+        {ROTATE.map((w, k) => (
+          <span key={w} ref={(el) => { probes.current[k] = el; }} className="absolute left-0 top-0 whitespace-nowrap">{w}</span>
+        ))}
+      </span>
     </span>
   );
 }
@@ -177,14 +233,20 @@ export default function Hero() {
           <span className="block">
             {LINE_1.map((w, i) => (
               <span key={w}>
-                <Word w={w} i={i} />{" "}
+                <Word i={i}>{w}</Word>{" "}
               </span>
             ))}
           </span>
           <span className="block">
             {LINE_2.map((w, i) => (
               <span key={w}>
-                <Word w={w} i={LINE_1.length + i} underline={w === "Chain."} />
+                {w === "build" ? (
+                  <Word i={LINE_1.length + i} shine={false}>
+                    <RotatingVerb />
+                  </Word>
+                ) : (
+                  <Word i={LINE_1.length + i} underline={w === "Chain."}>{w}</Word>
+                )}
                 {i < LINE_2.length - 1 ? " " : ""}
               </span>
             ))}
