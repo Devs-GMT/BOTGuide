@@ -134,7 +134,7 @@ export function AssistantMessage({ msg, question, isLast, handlers }: { msg: Msg
                   <span>
                     {s.title} <span className="text-muted">· {s.section}</span>
                   </span>
-                  <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10.5px] text-white/65">
+                  <span className={`rounded px-1.5 py-0.5 text-[10.5px] ${s.kind === "official" ? "bg-accent/15 text-accent" : "bg-white/10 text-white/65"}`}>
                     {s.kind === "official" ? "Official docs" : s.kind === "tip" ? "Community tip" : "Community note"}
                   </span>
                 </>

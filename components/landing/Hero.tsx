@@ -139,7 +139,7 @@ function Word({ w, i, underline }: { w: string; i: number; underline?: boolean }
           aria-hidden
           className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left rounded-full"
           style={{
-            background: "linear-gradient(90deg, var(--gold-a), var(--gold-b))",
+            background: "linear-gradient(90deg, var(--accent), rgba(255,122,61,0.35))",
             animation: "underline-grow 800ms var(--ease-expo) 800ms both",
           }}
         />
@@ -156,7 +156,7 @@ export default function Hero() {
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
         style={{
           background:
-            "radial-gradient(60% 60% at 50% 0%, rgba(180,138,74,0.10), transparent 70%)",
+            "radial-gradient(60% 60% at 50% 0%, rgba(255,122,61,0.09), transparent 70%)",
         }}
       />
       <div className="mx-auto max-w-[1280px] text-center">

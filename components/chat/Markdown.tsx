@@ -59,7 +59,7 @@ function parse(src: string): Block[] {
 
 export function Cite({ n, source }: { n: number; source?: Source }) {
   const cls =
-    "mx-0.5 inline-grid h-[18px] min-w-[18px] place-items-center rounded bg-white/10 px-1 align-baseline font-mono text-[10.5px] text-white/80 transition-colors hover:bg-white hover:text-[#0a0a0a]";
+    "mx-0.5 inline-grid h-[18px] min-w-[18px] place-items-center rounded bg-accent/15 px-1 align-baseline font-mono text-[10.5px] text-accent transition-colors hover:bg-accent hover:text-[#0a0a0a]";
   return source ? (
     <a href={source.url} target="_blank" rel="noopener noreferrer" title={`${source.title} · ${source.section}`} className={cls}>
       {n}
