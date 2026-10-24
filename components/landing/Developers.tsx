@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { copyText } from "@/lib/clipboard";
 import { LINKS, MAINNET, TESTNET } from "@/lib/config";
 import { formatBlock, useLiveBlock } from "@/lib/hooks";
@@ -68,6 +68,20 @@ export default function Developers() {
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const hasProvider = useHasProvider();
   const { block } = useLiveBlock();
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [pill, setPill] = useState<{ x: number; w: number } | null>(null);
+
+  // the highlight behind the active tab slides to it
+  useLayoutEffect(() => {
+    const place = () => {
+      const el = tabRefs.current[TABS.findIndex((t) => t.id === tab.id)];
+      if (el) setPill({ x: el.offsetLeft, w: el.offsetWidth });
+    };
+    place();
+    void document.fonts?.ready.then(place);
+    window.addEventListener("resize", place);
+    return () => window.removeEventListener("resize", place);
+  }, [tab]);
 
   const copy = async () => {
     const ok = await copyText(tab.code);
@@ -141,7 +155,7 @@ export default function Developers() {
             <Corner pos="bottom-0 left-0" />
             <Corner pos="bottom-0 right-0" />
             <Window
-              title={tab.file}
+              title={<span key={tab.id} className="inline-block animate-[fade_320ms_ease-out_both]">{tab.file}</span>}
               className="relative z-[2] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)]"
               right={
                 <button
@@ -157,20 +171,42 @@ export default function Developers() {
                 </button>
               }
             >
-              <pre className="min-h-[260px] overflow-x-auto px-5 pb-6 pt-2 font-mono text-[12.5px] leading-6 text-white/90">
-                <code>{highlight(tab.code)}</code>
-              </pre>
+              {/* every snippet sits in the same cell, so the card keeps the height of the tallest one and the snippets cross-fade */}
+              <div className="grid">
+                {TABS.map((t) => {
+                  const on = t.id === tab.id;
+                  return (
+                    <pre
+                      key={t.id}
+                      aria-hidden={!on}
+                      className={`min-h-[260px] overflow-x-auto px-5 pb-6 pt-2 font-mono text-[12.5px] leading-6 text-white/90 transition-[opacity,transform,filter] duration-[450ms] ease-[var(--ease-expo)] [grid-area:1/1] ${on ? "translate-y-0 opacity-100 blur-0" : "pointer-events-none translate-y-2 opacity-0 blur-[3px]"}`}
+                    >
+                      <code>{highlight(t.code)}</code>
+                    </pre>
+                  );
+                })}
+              </div>
             </Window>
           </div>
-          <div role="tablist" aria-label="Tool" className="mt-5 flex flex-wrap gap-1">
-            {TABS.map((t) => (
+          <div role="tablist" aria-label="Tool" className="relative mt-5 flex flex-wrap gap-1">
+            {pill && (
+              <span
+                aria-hidden
+                className="absolute inset-y-0 left-0 rounded-full bg-pill transition-[transform,width] duration-[450ms] ease-[var(--ease-expo)]"
+                style={{ width: pill.w, transform: `translateX(${pill.x}px)` }}
+              />
+            )}
+            {TABS.map((t, i) => (
               <button
                 key={t.id}
+                ref={(el) => {
+                  tabRefs.current[i] = el;
+                }}
                 role="tab"
                 aria-selected={tab.id === t.id}
                 type="button"
                 onClick={() => setTab(t)}
-                className={`rounded-full px-3.5 py-1.5 text-[14px] transition-colors duration-150 ${tab.id === t.id ? "bg-pill text-white" : "text-[#7d8187] hover:text-white"}`}
+                className={`relative rounded-full px-3.5 py-1.5 text-[14px] transition-colors duration-200 ${tab.id === t.id ? "text-white" : "text-[#7d8187] hover:text-white"}`}
               >
                 {t.id}
               </button>

@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   LINKS,
-  MAINNET,
-  MAINNET_CONTRACT_ADDRESS,
+  ACTIVE_CONTRACT_ADDRESS,
+  ACTIVE_NETWORK,
   explorerContractUrl,
   shortAddress,
 } from "@/lib/config";
@@ -86,7 +86,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 }
 
 export default function Footer() {
-  const address = MAINNET_CONTRACT_ADDRESS;
+  const address = ACTIVE_CONTRACT_ADDRESS;
   return (
     <footer className="hairline-t">
       <div className="mx-auto w-full max-w-[1280px] px-4 py-14 lg:px-6">
@@ -110,20 +110,12 @@ export default function Footer() {
             </div>
             <div className="space-y-3">
               <p className="font-mono text-[12.5px] text-muted">
-                chain ID {MAINNET.chainId} · {address ? shortAddress(address) : "contract not deployed yet"}
+                chain ID {ACTIVE_NETWORK.chainId} · {address ? shortAddress(address) : "contract not deployed yet"}
               </p>
               <Pill href={explorerContractUrl()} external size="sm">
                 View on explorer <External />
               </Pill>
             </div>
-            <a
-              href={LINKS.site}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto inline-flex w-fit items-center gap-2 rounded-full border border-white/20 px-3.5 py-2 text-[12.5px] text-white/80 transition-colors hover:bg-white/10 hover:text-white"
-            >
-              <span aria-hidden>◎</span> Built on BOT Chain
-            </a>
           </div>
 
           {/* desktop columns */}

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { DOCS_LAST_SYNCED, LINKS, MAINNET, MAINNET_CONTRACT_ADDRESS, TESTNET, shortAddress } from "@/lib/config";
+import { DOCS_LAST_SYNCED, LINKS, MAINNET, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
 import type { Chat } from "@/lib/chats";
 import { groupChats } from "@/lib/chats";
 import { addNetwork, useChainId, useWallet } from "@/lib/wallet";
@@ -313,7 +313,7 @@ export default function Sidebar(p: Props) {
                   BOT Chain
                 </a>
                 <a
-                  href={MAINNET_CONTRACT_ADDRESS ? `${MAINNET.explorer}/address/${MAINNET_CONTRACT_ADDRESS}` : MAINNET.explorer}
+                  href={explorerContractUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block rounded-lg px-3 py-2 hover:bg-white/[0.07]"

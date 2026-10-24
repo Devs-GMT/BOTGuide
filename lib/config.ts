@@ -71,10 +71,14 @@ export const LINKS = {
   guidebook: "https://www.botchain.ai/en/",
 } as const;
 
+/** The network and contract the app currently talks to (see BOTGUIDE_NETWORK). */
+export const ACTIVE_NETWORK = BOTGUIDE_NETWORK === "testnet" ? TESTNET : MAINNET;
+export const ACTIVE_CONTRACT_ADDRESS = BOTGUIDE_NETWORK === "testnet" ? TESTNET_CONTRACT_ADDRESS : MAINNET_CONTRACT_ADDRESS;
+
 export function explorerContractUrl() {
-  return MAINNET_CONTRACT_ADDRESS
-    ? `${MAINNET.explorer}/address/${MAINNET_CONTRACT_ADDRESS}`
-    : MAINNET.explorer;
+  return ACTIVE_CONTRACT_ADDRESS
+    ? `${ACTIVE_NETWORK.explorer}/address/${ACTIVE_CONTRACT_ADDRESS}`
+    : ACTIVE_NETWORK.explorer;
 }
 
 export function shortAddress(a: string) {
