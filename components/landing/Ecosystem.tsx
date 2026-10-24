@@ -1,33 +1,18 @@
 import { LINKS } from "@/lib/config";
 import Reveal from "../Reveal";
 import { Container, External } from "../ui";
+import { ArtExplorer, ArtFaucet, ArtSwap, ArtWallet } from "./EcosystemArt";
 import TipsStrip from "./TipsStrip";
 
-type Tool = { name: string; href: string; art: string };
+type Tool = { name: string; href: string; Art: () => React.JSX.Element; note: string };
 
-const grain = "grain relative aspect-[4/3] w-full overflow-hidden rounded-2xl";
+const frame = "relative aspect-[4/3] w-full overflow-hidden rounded-2xl bg-[#111] ring-1 ring-white/[0.07] transition-colors duration-300 group-hover:bg-[#151515] group-hover:ring-white/[0.14]";
 
 const TOOLS: Tool[] = [
-  {
-    name: "Explorer",
-    href: LINKS.explorer,
-    art: "radial-gradient(70% 90% at 20% 110%, #b48a4a 0%, transparent 60%), radial-gradient(60% 80% at 90% 0%, #3a2f1f 0%, transparent 70%), #12100d",
-  },
-  {
-    name: "Testnet Faucet",
-    href: LINKS.faucet,
-    art: "radial-gradient(80% 80% at 80% 100%, #8a8a8a 0%, transparent 55%), radial-gradient(60% 70% at 10% 0%, #2a2a2a 0%, transparent 70%), #101010",
-  },
-  {
-    name: "BDex",
-    href: LINKS.bdex,
-    art: "radial-gradient(70% 70% at 0% 50%, #f26b3a 0%, transparent 55%), radial-gradient(60% 80% at 100% 100%, #3b2418 0%, transparent 70%), #110d0b",
-  },
-  {
-    name: "Bo Wallet",
-    href: LINKS.boWallet,
-    art: "radial-gradient(90% 60% at 50% 120%, #6e5a3a 0%, transparent 65%), radial-gradient(50% 60% at 80% 10%, #4a4a4a 0%, transparent 70%), #0f0f0f",
-  },
+  { name: "Explorer", href: LINKS.explorer, Art: ArtExplorer, note: "Blocks and transactions" },
+  { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas" },
+  { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens" },
+  { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT" },
 ];
 
 const MORE: [string, string][] = [
@@ -51,13 +36,10 @@ export default function Ecosystem() {
           {TOOLS.map((t, i) => (
             <Reveal key={t.name} delay={i * 70}>
               <a href={t.href} target="_blank" rel="noopener noreferrer" className="group block">
-                <div className={grain}>
-                  <div
-                    className="absolute inset-0 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                    style={{ background: t.art }}
-                  />
+                <div className={frame}>
+                  <t.Art />
                 </div>
-                <p className="mt-4 text-[12.5px] text-muted">Tool · Official</p>
+                <p className="mt-4 text-[12.5px] text-muted">Official · {t.note}</p>
                 <p className="mt-1.5 flex items-center gap-1.5 text-[16px] font-medium tracking-[-0.01em]">
                   {t.name}
                   <span className="text-muted transition-transform duration-200 group-hover:translate-x-0.5">›</span>
