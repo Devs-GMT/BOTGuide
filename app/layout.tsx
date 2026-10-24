@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BOTGuide: ask anything about building on BOT Chain",
+  title: "BOTGuide",
   description:
     "A community AI guide for BOT Chain developers. Answers come from the official developer docs, with sources, on-chain ratings and community tips.",
 };
