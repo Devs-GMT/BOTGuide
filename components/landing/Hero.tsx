@@ -6,7 +6,7 @@ import { DOCS_LAST_SYNCED_SHORT, LINKS } from "@/lib/config";
 import { useReducedMotion } from "@/lib/hooks";
 import { Arrow, External, Pill } from "../ui";
 import BlockPulse from "./BlockPulse";
-import HeroHorizon from "./HeroHorizon";
+import HeroStreak from "./HeroStreak";
 
 const LINE_1 = ["Everything", "you", "need"];
 const LINE_2 = ["to", "build", "on", "BOT", "Chain."];
@@ -131,8 +131,8 @@ function AskBox() {
 
 const ROTATE = ["build", "deploy", "debug", "ship", "verify"];
 
-/** One word of the headline: rises in, then catches a slow sweep of light. */
-function Word({ children, i, underline, shine = true }: { children: React.ReactNode; i: number; underline?: boolean; shine?: boolean }) {
+/** One word of the headline: rises in, then catches a sweep of light. */
+function Word({ children, i, shine = true }: { children: React.ReactNode; i: number; shine?: boolean }) {
   const delay = 100 + i * 55;
   return (
     <span
@@ -142,18 +142,6 @@ function Word({ children, i, underline, shine = true }: { children: React.ReactN
       }}
     >
       {children}
-      {underline && (
-        <span
-          aria-hidden
-          className="absolute -bottom-1 left-0 right-0 h-[3px] origin-left overflow-hidden rounded-full"
-          style={{
-            background: "linear-gradient(90deg, var(--accent), rgba(255,122,61,0.35))",
-            animation: "underline-grow 800ms var(--ease-expo) 800ms both",
-          }}
-        >
-          <span className="underline-run absolute inset-y-0 left-0 w-[24%]" />
-        </span>
-      )}
     </span>
   );
 }
@@ -209,7 +197,7 @@ function RotatingVerb() {
 export default function Hero() {
   return (
     <section className="relative isolate flex min-h-dvh flex-col justify-center overflow-hidden px-4 pb-8 pt-24 lg:px-6">
-      <HeroHorizon />
+      <HeroStreak />
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[620px]"
@@ -247,7 +235,7 @@ export default function Hero() {
                     <RotatingVerb />
                   </Word>
                 ) : (
-                  <Word i={LINE_1.length + i} underline={w === "Chain."}>{w}</Word>
+                  <Word i={LINE_1.length + i}>{w}</Word>
                 )}
                 {i < LINE_2.length - 1 ? " " : ""}
               </span>

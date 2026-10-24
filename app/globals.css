@@ -192,19 +192,20 @@ body {
 
 /* ---------- hero headline ---------- */
 .word-shine {
-  /* a white shine passing over a white-to-silver tint, like a lit metal letter */
+  /* a bright band sweeping over a white-to-lavender tint, like light moving across metal letters */
   background-image:
-    linear-gradient(100deg, transparent 0 34%, #fff 50%, transparent 66% 100%),
-    linear-gradient(160deg, #fff 30%, #c4c9d4 100%);
+    linear-gradient(100deg, transparent 0 30%, rgba(255, 255, 255, 0.55) 42%, #fff 50%, rgba(255, 255, 255, 0.55) 58%, transparent 70% 100%),
+    linear-gradient(165deg, #e9e9f2 15%, #a59fdc 100%);
   background-size: 260% 100%, 100% 100%;
   background-position: 100% 0, 0 0;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 18px rgba(190, 180, 255, 0.22));
 }
 @keyframes shine {
   0% { background-position: 100% 0, 0 0; }
-  30%, 100% { background-position: 0% 0, 0 0; }
+  34%, 100% { background-position: 0% 0, 0 0; }
 }
 .underline-run {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
@@ -226,4 +227,15 @@ body {
 @keyframes horizon-breathe {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
+}
+
+@keyframes orb-drift {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(4vw, -3vh) scale(1.08); }
+  66% { transform: translate(-3vw, 2vh) scale(0.94); }
+}
+
+@keyframes streak-run {
+  0% { background-position: 100% 0, 0 0; }
+  70%, 100% { background-position: 0% 0, 0 0; }
 }
