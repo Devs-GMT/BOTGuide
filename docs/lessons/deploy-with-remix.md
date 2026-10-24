@@ -7,7 +7,7 @@ last_synced: 2026-10-24
 ---
 # Deploy with Remix
 
-BOT Chain is EVM-compatible and the official docs list Remix as a tool that works out of the box. These steps are a community note based on the standard Remix flow. Always try testnet first.
+BOT Chain is EVM-compatible and the official docs list Remix as a tool that works out of the box. These steps are a community note based on the standard Remix flow and have not been tested end to end on BOT Chain. Always try testnet first.
 
 ### Steps {#steps}
 
@@ -17,6 +17,8 @@ BOT Chain is EVM-compatible and the official docs list Remix as a tool that work
 4. Check that MetaMask shows BOT Chain Testnet. Remix shows the connected chain ID under the environment.
 5. Press **Deploy** and confirm the transaction in MetaMask.
 6. Open the transaction on the explorer (https://scan.bohr.life for testnet) to confirm it succeeded.
+
+The default compiler settings in Remix should work: BOT Chain nodes accepted the Shanghai and Cancun opcodes (`PUSH0`, `MCOPY`, `TSTORE`) in a test call, so you do not need to lower the EVM version.
 
 ### Mainnet {#mainnet}
 

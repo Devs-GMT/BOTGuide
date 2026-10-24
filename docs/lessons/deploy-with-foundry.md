@@ -7,15 +7,17 @@ last_synced: 2026-10-24
 ---
 # Deploy with Foundry
 
-Foundry only needs the RPC URL of the network. This is a community note; the network values come from the official docs.
+Foundry only needs the RPC URL of the network. This is a community note; the network values come from the official docs. `forge create` was tested on BOT Chain Testnet with Foundry 1.5.1.
 
 ### Deploy a contract {#forge-create}
 
 ```bash
 forge create src/Counter.sol:Counter \
   --rpc-url https://rpc.bohr.life \
-  --private-key $PRIVATE_KEY
+  --private-key $PRIVATE_KEY \n  --broadcast
 ```
+
+Recent Foundry versions only simulate the deployment unless you pass `--broadcast`.
 
 That deploys to BOT Chain Testnet (chain ID 968). For mainnet (chain ID 677) use `--rpc-url https://rpc.botchain.ai`.
 

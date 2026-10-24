@@ -7,7 +7,7 @@ last_synced: 2026-10-24
 ---
 # Deploy with Hardhat
 
-Hardhat works with BOT Chain through its JSON-RPC endpoints. This is a community note; the network values come from the official docs.
+Hardhat works with BOT Chain through its JSON-RPC endpoints. This is a community note; the network values come from the official docs. The config and the deploy command below were tested on BOT Chain Testnet with Hardhat 2 and Solidity 0.8.20.
 
 ### Config {#config}
 
@@ -39,5 +39,7 @@ Keep `PRIVATE_KEY` in a `.env` file and never commit it.
 npx hardhat compile
 npx hardhat run scripts/deploy.js --network botTestnet
 ```
+
+A deploy script is the usual `ethers` pattern: get the contract factory, call `deploy()`, then `await contract.waitForDeployment()`.
 
 Deploy to testnet first, then repeat with `--network botMainnet`.
