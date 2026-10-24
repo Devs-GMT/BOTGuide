@@ -225,8 +225,3 @@ body {
   0%, 100% { opacity: 0.8; }
   50% { opacity: 1; }
 }
-
-@keyframes beam-sway {
-  0%, 100% { opacity: 0.75; transform: translateX(-50%) scaleX(0.96); }
-  50% { opacity: 1; transform: translateX(-50%) scaleX(1.04); }
-}
