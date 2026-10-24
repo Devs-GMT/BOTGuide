@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { DOCS_LAST_SYNCED, LINKS, MAINNET, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
+import { ACTIVE_NETWORK, DOCS_LAST_SYNCED, LINKS, MAINNET, TESTNET, explorerContractUrl, shortAddress } from "@/lib/config";
 import type { Chat } from "@/lib/chats";
 import { groupChats } from "@/lib/chats";
 import { addNetwork, useChainId, useWallet } from "@/lib/wallet";
@@ -159,7 +159,7 @@ function NetworkBadge() {
         onClick={async () => {
           setBusy(true);
           try {
-            await addNetwork(MAINNET);
+            await addNetwork(ACTIVE_NETWORK);
           } catch {
             /* rejected */
           }
@@ -171,7 +171,8 @@ function NetworkBadge() {
       </button>
     );
   }
-  const net = chainId === TESTNET.chainId ? "Testnet" : "Mainnet";
+  // Without a wallet, show the network the app itself talks to.
+  const net = !address || chainId === null ? ACTIVE_NETWORK.label : chainId === TESTNET.chainId ? "Testnet" : "Mainnet";
   return (
     <span className="inline-flex items-center gap-1.5 rounded-full bg-white/[0.06] px-2.5 py-1 text-[11.5px] text-white/80">
       <span className={`size-1.5 rounded-full ${address ? "bg-[#5ecb7f]" : "bg-white/40"}`} />
