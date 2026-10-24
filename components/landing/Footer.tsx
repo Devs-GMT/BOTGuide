@@ -18,7 +18,7 @@ const COLS: Col[] = [
       ["Ask BOTGuide", "/ask"],
       ["How it works", "#how"],
       ["Community tips", "#tips"],
-      ["Changelog", "https://github.com/BOTChain-bot"],
+      ["Source code", "https://github.com/Devs-GMT/BOTGuide"],
     ],
   },
   {
@@ -36,7 +36,7 @@ const COLS: Col[] = [
       ["Official docs", LINKS.docs],
       ["Deploy guides", "#deploy"],
       ["Snippets", "#developers"],
-      ["GitHub", LINKS.github],
+      ["BOT Chain GitHub", LINKS.github],
     ],
   },
   {
