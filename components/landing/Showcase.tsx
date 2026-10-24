@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Check, Container } from "../ui";
-import { DemoPanel, type DemoId } from "./demos";
+import { DemoPanel, TONE, type DemoId } from "./demos";
 
 type Feature = {
   id: DemoId;
@@ -146,17 +146,21 @@ export default function Showcase() {
                 ref={(el) => {
                   refs.current[f.id] = el;
                 }}
-                className={`py-10 transition-opacity duration-500 lg:py-12 ${active === f.id ? "lg:opacity-100" : "lg:opacity-20"}`}
+                style={{ ["--tone" as string]: TONE[f.id], borderColor: active === f.id ? `rgb(${TONE[f.id]})` : undefined }}
+                className={`my-6 border-l-2 border-white/10 py-4 pl-6 transition-[opacity,border-color] duration-500 lg:my-0 lg:py-9 ${active === f.id ? "lg:opacity-100" : "lg:opacity-30"}`}
               >
+                <p className="mb-3 font-mono text-[12px] tracking-wide text-[rgb(var(--tone))]">
+                  {String(FEATURES.indexOf(f) + 1).padStart(2, "0")} / {String(FEATURES.length).padStart(2, "0")}
+                </p>
                 <div className="flex items-center gap-3">
-                  <span className="text-white/90">{f.icon}</span>
+                  <span className="text-[rgb(var(--tone))]">{f.icon}</span>
                   <h2 className="text-[30px] font-medium leading-9 tracking-[-0.01em]">{f.title}</h2>
                 </div>
                 <p className="mt-4 max-w-[30rem] text-[18px] leading-7 text-white/90">{f.lead}</p>
                 <ul className="mt-6 space-y-3">
                   {f.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-3 text-[15px] leading-6 text-white/85">
-                      <Check className="mt-1 shrink-0 text-muted" />
+                      <Check className="mt-1 shrink-0 text-[rgb(var(--tone)/0.8)]" />
                       {b}
                     </li>
                   ))}
