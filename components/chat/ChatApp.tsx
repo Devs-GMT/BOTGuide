@@ -342,6 +342,9 @@ export default function ChatApp() {
               <h2 className="mt-6 text-center text-[clamp(1.6rem,3.4vw,2.25rem)] font-medium leading-tight tracking-[-0.02em]">
                 What do you want to build on BOT Chain today?
               </h2>
+              <p className="mt-3 max-w-[30rem] text-center text-[14.5px] leading-6 text-muted">
+                I answer from the official docs, and I show you where each answer comes from.
+              </p>
               <div className="mt-8 grid w-full grid-cols-2 gap-2.5 sm:mt-10 sm:gap-3">
                 {STARTERS.map(([title, sub], i) => (
                   <button

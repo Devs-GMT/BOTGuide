@@ -105,7 +105,7 @@ export function AssistantMessage({ msg, question, isLast, handlers }: { msg: Msg
 
         {msg.general && !streaming && (
           <p className="mt-3 inline-block rounded-full bg-white/[0.06] px-3 py-1 text-[12px] text-muted">
-            Includes general EVM knowledge, not from the BOT Chain docs
+            Off the docs map: this part is general EVM knowledge
           </p>
         )}
 

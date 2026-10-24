@@ -51,7 +51,7 @@ export default function Composer({
           ref={ref}
           rows={1}
           value={value}
-          placeholder="Message BOTGuide…"
+          placeholder="Ask about BOT Chain…"
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {

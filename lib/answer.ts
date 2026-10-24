@@ -32,7 +32,7 @@ export const STARTERS: [string, string][] = [
 
 const DEFAULT_FOLLOW_UPS = ["Add BOT Chain to MetaMask", "Get testnet BOT", "Why is my transaction failing?"];
 
-const NOT_FOUND_TEXT = `I couldn't find this in the BOT Chain docs. I won't guess BOT Chain details such as addresses, chain IDs or RPC URLs. You can check the [official docs](${LINKS.docs}) or add a tip so it can be covered.`;
+const NOT_FOUND_TEXT = `That's off my map: I couldn't find this in the BOT Chain docs, and I won't guess details such as addresses, chain IDs or RPC URLs. You can check the [official docs](${LINKS.docs}) or add a tip so the next builder finds it.`;
 
 // Values the answer may repeat even if the retrieved sources do not contain them.
 const FIXED_URLS = [
@@ -64,8 +64,8 @@ async function* said(text: string, signal: AbortSignal): AsyncGenerator<AnswerEv
 
 function describeFailure(status: number | null) {
   if (status === 429) return "You have asked a lot of questions in the last hour, so I paused the AI for now.";
-  if (status === 503) return "The AI is not set up on this server yet.";
-  return "I couldn't reach the AI right now.";
+  if (status === 503) return "The AI isn't switched on for this server yet.";
+  return "I lost the signal to the AI for a moment.";
 }
 
 export async function* streamAnswer(opts: {
@@ -86,7 +86,7 @@ export async function* streamAnswer(opts: {
     return;
   }
 
-  yield { type: "status", text: "Searching the docs…" };
+  yield { type: "status", text: "Looking through the docs…" };
 
   let chunks: GuideChunk[] = [];
   try {
@@ -114,7 +114,7 @@ export async function* streamAnswer(opts: {
   }
 
   const sources = chunks.map(toSource);
-  yield { type: "status", text: "Writing the answer…" };
+  yield { type: "status", text: "Found it. Writing the answer…" };
 
   let res: Response;
   try {

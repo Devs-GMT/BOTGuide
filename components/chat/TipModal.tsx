@@ -50,7 +50,7 @@ export default function TipModal({ onClose }: { onClose: () => void }) {
           <div>
             <h2 id="tip-title" className="text-[20px] font-medium tracking-[-0.01em]">Add a tip</h2>
             <p className="mt-1 text-[13px] leading-5 text-muted">
-              Share something that helped you build on BOT Chain. Tips are reviewed by the owner before they reach the AI.
+              Found a shortcut that helped you build on BOT Chain? Leave it here for the next builder. The owner reviews every tip before I use it.
             </p>
           </div>
           <button type="button" aria-label="Close" onClick={onClose} className="grid size-8 shrink-0 place-items-center rounded-full bg-pill text-white/80 hover:text-white">
