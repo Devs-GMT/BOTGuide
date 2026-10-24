@@ -15,10 +15,10 @@ const TOOLS: Tool[] = [
   { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "255 122 42" },
 ];
 
-const MORE: [string, string][] = [
-  ["Bridge", LINKS.bridge],
-  ["Staking", LINKS.staking],
-  ["Ecosystem Support Program", LINKS.support],
+const MORE: { name: string; href: string; note: string; tone: string }[] = [
+  { name: "Bridge", href: LINKS.bridge, note: "Connect major L1 ecosystems to BOT Chain", tone: "96 165 250" },
+  { name: "Staking", href: LINKS.staking, note: "Stake BOT and earn rewards", tone: "240 205 120" },
+  { name: "Ecosystem Support Program", href: LINKS.support, note: "Technical help, resources and growth support for builders", tone: "240 140 170" },
 ];
 
 export default function Ecosystem() {
@@ -49,17 +49,23 @@ export default function Ecosystem() {
             </Reveal>
           ))}
         </div>
-        <ul className="mt-10 grid gap-x-6 border-t border-line pt-6 sm:grid-cols-2 lg:grid-cols-4">
-          {MORE.map(([n, h]) => (
-            <li key={n}>
+        <ul className="mt-6 grid gap-4 md:grid-cols-3">
+          {MORE.map((m) => (
+            <li key={m.name} style={{ ["--tone" as string]: m.tone }}>
               <a
-                href={h}
+                href={m.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between gap-2 py-2.5 text-[14px] text-white/80 transition-colors hover:text-white"
+                className="group flex h-full items-center gap-4 rounded-2xl bg-card p-5 ring-1 ring-white/[0.06] transition-[background-color,box-shadow] duration-200 hover:bg-[rgb(var(--tone)/0.08)] hover:ring-[rgb(var(--tone)/0.4)]"
               >
-                {n}
-                <External className="text-muted" />
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[rgb(var(--tone)/0.14)]">
+                  <span className="size-2.5 rounded-full bg-[rgb(var(--tone))]" />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block text-[15.5px] font-medium">{m.name}</span>
+                  <span className="mt-0.5 block text-[13.5px] leading-5 text-muted">{m.note}</span>
+                </span>
+                <External className="shrink-0 text-muted transition-colors duration-200 group-hover:text-[rgb(var(--tone))]" />
               </a>
             </li>
           ))}
