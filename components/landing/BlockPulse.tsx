@@ -20,7 +20,10 @@ export default function BlockPulse() {
           />
         ))}
       </div>
-      <span className="font-mono">{block === null ? "BOT Chain" : `Block #${formatBlock(block)}`}</span>
+      <span className="flex items-center gap-2 font-mono">
+        <span aria-hidden className="size-1.5 rounded-full bg-[#6ee7b7]" style={{ animation: "live-dot 1.6s ease-in-out infinite", boxShadow: "0 0 8px rgba(110,231,183,0.7)" }} />
+        {block === null ? "BOT Chain" : `Block #${formatBlock(block)}`}
+      </span>
     </div>
   );
 }
