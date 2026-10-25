@@ -48,20 +48,20 @@ const TOOLS: [string, string, string][] = [
   ["Faucet", LINKS.faucet, "74 222 128"],
   ["BDex", LINKS.bdex, "59 110 255"],
   ["Bo Wallet", LINKS.boWallet, "255 122 42"],
-  ["Bridge", LINKS.bridge, "255 255 255"],
-  ["Staking", LINKS.staking, "255 255 255"],
+  ["Bridge", LINKS.bridge, "96 165 250"],
+  ["Staking", LINKS.staking, "240 205 120"],
 ];
 
 const TONE: Record<PreviewId, string> = {
-  ask: "255 255 255",
-  sources: "255 255 255",
-  deploy: "255 255 255",
-  network: "255 255 255",
-  vote: "255 255 255",
-  docs: "255 255 255",
-  snippets: "255 255 255",
-  explorer: "255 255 255",
-  faucet: "255 255 255",
+  ask: "110 168 255",
+  sources: "110 231 183",
+  deploy: "240 205 120",
+  network: "94 200 220",
+  vote: "240 140 170",
+  docs: "47 219 166",
+  snippets: "110 168 255",
+  explorer: "24 206 190",
+  faucet: "74 222 128",
   tools: "255 255 255",
 };
 

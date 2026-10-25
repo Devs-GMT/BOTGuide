@@ -23,17 +23,17 @@ const icon = { fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLin
 const CHIPS: { label: string; color: string; icon: React.ReactNode }[] = [
   {
     label: "Add BOT Chain to MetaMask",
-    color: "rgba(255,255,255,0.6)",
+    color: "#5ec8ff",
     icon: <path d="M8 3v4M16 3v4M6 7h12v4a6 6 0 0 1-12 0V7ZM12 17v4" {...icon} />,
   },
   {
     label: "Deploy with Remix",
-    color: "rgba(255,255,255,0.6)",
+    color: "#7ab2ff",
     icon: <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5l-3 14" {...icon} />,
   },
   {
     label: "Get testnet BOT",
-    color: "rgba(255,255,255,0.6)",
+    color: "#6ee7b7",
     icon: <path d="M12 3s6 6.3 6 10.5a6 6 0 0 1-12 0C6 9.3 12 3 12 3Z" {...icon} />,
   },
 ];
@@ -99,7 +99,7 @@ function AskBox() {
             aria-hidden
             className={`pointer-events-none absolute -inset-px rounded-[23px] transition-opacity duration-500 ${k ? "blur-xl" : ""} ${focused ? (k ? "opacity-40" : "opacity-100") : k ? "opacity-0" : "opacity-40"}`}
             style={{
-              backgroundImage: "linear-gradient(100deg, rgba(255,255,255,0.06), rgba(255,255,255,0.5), rgba(255,255,255,0.06), rgba(255,255,255,0.06))",
+              backgroundImage: "linear-gradient(100deg, #38bdf8, #6ee7b7, #60a5fa, #38bdf8)",
               backgroundSize: "300% 100%",
               animation: "ring-flow 6s linear infinite",
             }}

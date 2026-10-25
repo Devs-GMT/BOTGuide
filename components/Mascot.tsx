@@ -11,8 +11,8 @@ export default function Mascot({ mood = "idle", size = 32, className = "", style
   return (
     <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden className={`bo bo-${mood} ${className}`} style={style}>
       <path d="M32 21V12" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-      <circle className="bo-glow" cx="32" cy="9" r="9" fill="#F26B3A" />
-      <circle className="bo-light" cx="32" cy="9" r="5.5" fill="#F26B3A" />
+      <circle className="bo-glow" cx="32" cy="9" r="9" fill="#2fdba6" />
+      <circle className="bo-light" cx="32" cy="9" r="5.5" fill="#2fdba6" />
       <rect x="4" y="31" width="6" height="12" rx="3" fill="currentColor" />
       <rect x="54" y="31" width="6" height="12" rx="3" fill="currentColor" />
       <rect x="10" y="21" width="44" height="32" rx="14" fill="currentColor" />
@@ -29,7 +29,7 @@ export default function Mascot({ mood = "idle", size = 32, className = "", style
         <path d="M27 46.5q5 3 10 0" stroke="#0a0a0a" strokeWidth="2.4" strokeLinecap="round" fill="none" />
       )}
       {mood === "lost" && (
-        <text x="45" y="20" fontSize="14" fontWeight="600" fill="#F26B3A" fontFamily="system-ui, sans-serif">
+        <text x="45" y="20" fontSize="14" fontWeight="600" fill="#2fdba6" fontFamily="system-ui, sans-serif">
           ?
         </text>
       )}

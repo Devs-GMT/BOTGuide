@@ -22,11 +22,11 @@ const clamp = (n: number, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, n));
 
 /** One muted colour per feature: it tints the panel glow, the badge and the key element inside. */
 export const TONE: Record<DemoId, string> = {
-  ask: "255 255 255",
-  sources: "255 255 255",
-  deploy: "255 255 255",
-  network: "255 255 255",
-  vote: "255 255 255",
+  ask: "110 168 255",
+  sources: "110 231 183",
+  deploy: "240 205 120",
+  network: "94 200 220",
+  vote: "240 140 170",
 };
 
 const LABEL: Record<DemoId, [string, string]> = {

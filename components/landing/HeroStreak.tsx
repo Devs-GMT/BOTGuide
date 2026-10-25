@@ -16,7 +16,7 @@ function line(s: Stroke): CSSProperties {
     width: s.width,
     transform: `rotate(${s.angle}deg)`,
     transformOrigin: "50% 50%",
-    backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 44%, rgba(255,255,255,${s.peak}) 50%, rgba(255,255,255,0) 56%, transparent 100%), linear-gradient(90deg, transparent 8%, rgba(255,255,255,${s.faint}) 50%, transparent 92%)`,
+    backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(125,211,252,0) 44%, rgba(165,226,255,${s.peak}) 50%, rgba(125,211,252,0) 56%, transparent 100%), linear-gradient(90deg, transparent 8%, rgba(125,211,252,${s.faint}) 50%, transparent 92%)`,
     backgroundSize: "300% 100%, 100% 100%",
     backgroundRepeat: "no-repeat",
     animation: `streak-run ${s.dur}s cubic-bezier(0.4, 0, 0.2, 1) ${s.delay}s infinite`,

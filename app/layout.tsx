@@ -1,11 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { GeistMono } from "geist/font/mono";
-import { GeistSans } from "geist/font/sans";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-// Geist ships inside the app (the "geist" package), so the site never has to download fonts from Google.
-const geistSans = GeistSans;
-const geistMono = GeistMono;
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "BOTGuide",

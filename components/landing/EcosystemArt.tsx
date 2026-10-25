@@ -207,13 +207,13 @@ export function ArtSupport() {
 }
 
 export function ArtAll() {
-  const tiles = ["30 214 165", "74 222 128", "59 110 255", "255 122 42", "255 255 255", "255 255 255"];
+  const tiles = ["30 214 165", "74 222 128", "59 110 255", "255 122 42", "96 165 250", "240 205 120"];
   return (
     <div className="absolute inset-0 grid place-items-center">
       <div className="grid grid-cols-3 gap-2.5">
         {tiles.map((t, i) => (
           <span
-            key={`${i}-${t}`}
+            key={t}
             className="grid size-[58px] place-items-center rounded-xl bg-white/[0.045] ring-1 ring-white/[0.07] transition-transform duration-300 ease-out group-hover:-translate-y-1"
             style={{ transitionDelay: `${i * 35}ms` }}
           >
