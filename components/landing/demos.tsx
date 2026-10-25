@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import { MAINNET, TESTNET, type Network } from "@/lib/config";
 import { useClock, useLiveBlock, formatBlock } from "@/lib/hooks";
 import { addNetwork, useHasProvider } from "@/lib/wallet";
-import { Check, External, Window } from "../ui";
+import { External, Window } from "../ui";
 
 export type DemoId = "ask" | "sources" | "deploy" | "network" | "vote";
 
@@ -336,11 +336,25 @@ function NetworkDemo({ play }: { play: boolean }) {
 
 /* ---------- Vote ---------- */
 
+/** The same thumb outline the chat uses; the down thumb is the up thumb turned over. */
+function Thumb({ down }: { down?: boolean }) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden className={down ? "rotate-180" : ""}>
+      <path
+        d="M7 11v9H4v-9h3Zm0 0 4-8c1.7 0 2.5 1.1 2.2 2.6L12.6 9H19a1.5 1.5 0 0 1 1.5 1.8l-1.4 7A2 2 0 0 1 17.1 19H7"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function VoteDemo({ play }: { play: boolean }) {
   const t = useClock(play, DEMO_END.vote);
   const pressed = t >= 1200;
   const waiting = t >= 1800 && t < 3300;
-  const done = t >= 3300;
   return (
     <Frame id="vote">
       <div className="flex flex-col gap-4 pb-2">
@@ -353,9 +367,11 @@ function VoteDemo({ play }: { play: boolean }) {
             <span
               className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 transition-colors duration-200 ${pressed ? "bg-[rgb(var(--tone))] text-[#0a0a0a]" : "bg-[#262626] text-white/80"}`}
             >
-              👍 Helpful
+              <Thumb /> Helpful
             </span>
-            <span className="rounded-full bg-[#262626] px-3 py-1.5 text-white/80">👎</span>
+            <span className="inline-flex items-center rounded-full bg-[#262626] px-3 py-1.5 text-white/80">
+              <Thumb down />
+            </span>
             <span className="rounded-full bg-[#262626] px-3 py-1.5 text-white/80">Copy</span>
             <span className="rounded-full border border-white/15 px-3 py-1.5 text-white/70">+ Add a tip</span>
           </div>
@@ -365,11 +381,6 @@ function VoteDemo({ play }: { play: boolean }) {
             <p className="pop-in flex items-center gap-2 text-muted">
               <span className="size-3 animate-[spin_0.9s_linear_infinite] rounded-full border-2 border-white/20 border-t-white/70" />
               Confirm the transaction in your wallet…
-            </p>
-          )}
-          {done && (
-            <p className="pop-in flex items-center gap-2 text-[#7be39a]">
-              <Check /> Recorded on BOT Chain. One vote per wallet per answer.
             </p>
           )}
         </div>
