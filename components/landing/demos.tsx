@@ -4,7 +4,7 @@ import { useState, type ReactNode } from "react";
 import { MAINNET, TESTNET, type Network } from "@/lib/config";
 import { useClock, useLiveBlock, formatBlock } from "@/lib/hooks";
 import { addNetwork, useHasProvider } from "@/lib/wallet";
-import { External, Window } from "../ui";
+import { Check, External, Window } from "../ui";
 
 export type DemoId = "ask" | "sources" | "deploy" | "network" | "vote";
 
@@ -355,6 +355,7 @@ function VoteDemo({ play }: { play: boolean }) {
   const t = useClock(play, DEMO_END.vote);
   const pressed = t >= 1200;
   const waiting = t >= 1800 && t < 3300;
+  const done = t >= 3300;
   return (
     <Frame id="vote">
       <div className="flex flex-col gap-4 pb-2">
@@ -381,6 +382,11 @@ function VoteDemo({ play }: { play: boolean }) {
             <p className="pop-in flex items-center gap-2 text-muted">
               <span className="size-3 animate-[spin_0.9s_linear_infinite] rounded-full border-2 border-white/20 border-t-white/70" />
               Confirm the transaction in your wallet…
+            </p>
+          )}
+          {done && (
+            <p className="pop-in flex items-center gap-2 text-white/70">
+              <Check className="text-white/50" /> Thanks, your vote is on-chain.
             </p>
           )}
         </div>
