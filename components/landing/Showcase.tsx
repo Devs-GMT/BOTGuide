@@ -106,12 +106,12 @@ type Topic = { t: string; d: string; q: string };
 const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
   {
     group: "Wallet",
-    tone: "255 122 42",
+    tone: "255 255 255",
     items: [{ t: "MetaMask setup", d: "Add BOT Chain in one click or by hand", q: "How do I add BOT Chain to MetaMask?" }],
   },
   {
     group: "Network",
-    tone: "24 206 190",
+    tone: "255 255 255",
     items: [
       { t: "Network and RPC", d: "Mainnet, testnet, explorers", q: "What are the chain ID, RPC URL and explorer for mainnet and testnet?" },
       { t: "Testnet faucet", d: "Get test BOT for gas", q: "How do I get testnet BOT?" },
@@ -120,7 +120,7 @@ const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
   },
   {
     group: "Deploy",
-    tone: "240 205 120",
+    tone: "255 255 255",
     items: [
       { t: "Remix", d: "Compile and deploy in the browser", q: "How do I deploy a contract with Remix?" },
       { t: "Hardhat", d: "Network config and deploy scripts", q: "Hardhat config for BOT Chain" },
@@ -129,7 +129,7 @@ const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
   },
   {
     group: "Libraries",
-    tone: "110 168 255",
+    tone: "255 255 255",
     items: [
       { t: "ethers.js", d: "Providers, signers and contracts", q: "How do I connect to BOT Chain with ethers.js?" },
       { t: "web3.js", d: "Connect and send transactions", q: "How do I connect to BOT Chain with web3.js?" },
@@ -137,7 +137,7 @@ const COVERAGE: { group: string; tone: string; items: Topic[] }[] = [
   },
   {
     group: "Help",
-    tone: "240 140 170",
+    tone: "255 255 255",
     items: [
       { t: "Verify a contract", d: "Publish source on the explorer", q: "How do I verify my contract?" },
       { t: "Common errors", d: "Wrong chain, gas, nonce, reverts", q: "Why is my transaction failing?" },

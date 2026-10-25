@@ -13,9 +13,9 @@ const TOOLS: Tool[] = [
   { name: "Testnet Faucet", href: LINKS.faucet, Art: ArtFaucet, note: "Free tBOT for gas", tone: "74 222 128" },
   { name: "BDex", href: LINKS.bdex, Art: ArtSwap, note: "Swap tokens", tone: "59 110 255" },
   { name: "Bo Wallet", href: LINKS.boWallet, Art: ArtWallet, note: "Hold and send BOT", tone: "255 122 42" },
-  { name: "Bridge", href: LINKS.bridge, Art: ArtBridge, note: "Move assets between chains", tone: "96 165 250" },
-  { name: "Staking", href: LINKS.staking, Art: ArtStaking, note: "Stake BOT, earn rewards", tone: "240 205 120" },
-  { name: "Ecosystem Support Program", href: LINKS.support, Art: ArtSupport, note: "Help and resources for builders", tone: "240 140 170" },
+  { name: "Bridge", href: LINKS.bridge, Art: ArtBridge, note: "Move assets between chains", tone: "255 255 255" },
+  { name: "Staking", href: LINKS.staking, Art: ArtStaking, note: "Stake BOT, earn rewards", tone: "255 255 255" },
+  { name: "Ecosystem Support Program", href: LINKS.support, Art: ArtSupport, note: "Help and resources for builders", tone: "255 255 255" },
   { name: "All tools", href: LINKS.site, Art: ArtAll, note: "Everything on botchain.ai", tone: "255 255 255", tag: "More" },
 ];
 

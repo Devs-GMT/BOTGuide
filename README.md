@@ -11,10 +11,10 @@ Ask a question about BOT Chain (networks, faucet, deploying, tools, common error
 [Contract (testnet)](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9) | [How it works](#how-it-works) | [Screens](#screenshots) | [Run it locally](#run-it-locally) | [Deploy](#deploy) | [Limits](#limits-said-plainly)
 
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity&logoColor=white)
-![Hardhat tests](https://img.shields.io/badge/Hardhat%20tests-13%20passing-2fdba6)
+![Hardhat tests](https://img.shields.io/badge/Hardhat%20tests-13%20passing-2f7a4b)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![Groq](https://img.shields.io/badge/AI-Groq-f55036)
-![BOT Chain](https://img.shields.io/badge/BOT%20Chain-testnet%20live-2fdba6)
+![BOT Chain](https://img.shields.io/badge/BOT%20Chain-testnet%20live-ee6c27)
 ![No accounts](https://img.shields.io/badge/accounts-none-1d1c1a)
 
 <img src="docs/shots/landing-hero.jpg" alt="BOTGuide landing page" width="100%" />

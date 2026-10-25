@@ -29,7 +29,7 @@ export default function SourceTrail({ items }: { items: { s: Source; n: number }
           </li>
         ))}
         <li>
-          <span className="block size-[18px] rounded-full bg-white shadow-[0_0_10px_rgba(47,219,166,0.55)]" title="Answer" />
+          <span className="block size-[18px] rounded-full bg-white shadow-[0_0_10px_rgba(242,107,58,0.55)]" title="Answer" />
         </li>
       </ol>
       <span className="ml-3">
