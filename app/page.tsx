@@ -1,3 +1,4 @@
+import Bento from "@/components/landing/Bento";
 import Developers from "@/components/landing/Developers";
 import Ecosystem from "@/components/landing/Ecosystem";
 import Faq from "@/components/landing/Faq";
@@ -15,6 +16,7 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Bento />
         <Showcase />
         <HowItWorks />
         <Developers />

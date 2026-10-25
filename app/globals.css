@@ -192,6 +192,25 @@ input:focus-visible {
 .hairline-t { border-top: 1px solid var(--line); }
 .hairline-b { border-bottom: 1px solid var(--line); }
 
+/* ---------- bento cards under the hero ---------- */
+@keyframes bento-scroll { from { transform: translateY(0); } to { transform: translateY(-50%); } }
+@keyframes bento-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes bento-right { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+@keyframes bento-spin { to { transform: rotate(360deg); } }
+@keyframes bento-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes bento-swap-a { 0%, 42% { opacity: 1; transform: none; } 50%, 92% { opacity: 0; transform: translateY(-8px); } 100% { opacity: 1; transform: none; } }
+@keyframes bento-swap-b { 0%, 42% { opacity: 0; transform: translateY(8px); } 50%, 92% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(8px); } }
+@keyframes bento-bar { 0%, 6% { transform: scaleX(0); } 38%, 93% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+@keyframes bento-t1 { 0%, 3% { opacity: 0; } 6%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bento-t2 { 0%, 12% { opacity: 0; } 15%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bento-t3 { 0%, 22% { opacity: 0; } 25%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bento-t4 { 0%, 42% { opacity: 0; } 45%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bento-t5 { 0%, 52% { opacity: 0; } 55%, 92% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes bento-twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+.bento-fade-y { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 70%, transparent 92%); mask-image: linear-gradient(to bottom, transparent 0, #000 22%, #000 70%, transparent 92%); }
+.bento-fade-b { -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 62%, transparent 92%); mask-image: linear-gradient(to bottom, #000 0, #000 62%, transparent 92%); }
+.bento-fade-x { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 12%, #000 88%, transparent 100%); }
+
 /* grain overlay, used on gradient art and the code frame */
 .grain { position: relative; isolation: isolate; }
 .grain::after {
@@ -293,3 +312,10 @@ input:focus-visible {
 /* ---------- hero accents ---------- */
 @keyframes ring-flow { to { background-position: 300% 0; } }
 @keyframes live-dot { 0%, 100% { opacity: 0.55; transform: scale(0.85); } 50% { opacity: 1; transform: scale(1.15); } }
+@keyframes bento-seg { 0%, 42% { transform: translateX(0); } 50%, 92% { transform: translateX(100%); } 100% { transform: translateX(0); } }
+.bento-card[data-live="false"] * { animation-play-state: paused !important; }
+@keyframes bento-beat { 0% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(0.85); opacity: 0.55; } }
+@keyframes bento-ripple { 0% { transform: scale(0.08); opacity: 0.8; } 60% { opacity: 0.25; } 100% { transform: scale(1.1); opacity: 0; } }
+@keyframes bento-drop { from { transform: translateY(calc(var(--slot) * -1)); } to { transform: none; } }
+@keyframes bento-pop { from { opacity: 0; transform: scale(0.94); } to { opacity: 1; transform: none; } }
+@keyframes art-next { from { transform: scaleX(0); } to { transform: scaleX(1); } }
