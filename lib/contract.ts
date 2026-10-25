@@ -116,13 +116,27 @@ export async function fetchTip(id: number): Promise<Tip | null> {
   return page[0] ? toTip(id, page[0]) : null;
 }
 
+/** Public RPC endpoints drop a connection now and then. The landing page reads are cheap, so try them up to three times. */
+async function withRetry<T>(run: () => Promise<T>, tries = 3): Promise<T> {
+  let last: unknown;
+  for (let i = 0; i < tries; i++) {
+    try {
+      return await run();
+    } catch (e) {
+      last = e;
+      if (i < tries - 1) await new Promise((r) => setTimeout(r, 700 * (i + 1)));
+    }
+  }
+  throw last;
+}
+
 export async function fetchApprovedTips(): Promise<Tip[]> {
-  const [ids, tips]: [bigint[], RawTip[]] = await reader().getApprovedTips();
+  const [ids, tips]: [bigint[], RawTip[]] = await withRetry(() => reader().getApprovedTips());
   return tips.map((t, i) => toTip(Number(ids[i]), t));
 }
 
 export async function fetchStats() {
-  const [submitted, approved, up, down] = await reader().stats();
+  const [submitted, approved, up, down] = await withRetry(() => reader().stats());
   return { tipsSubmitted: Number(submitted), tipsApproved: Number(approved), helpful: Number(up), notHelpful: Number(down) };
 }
 
