@@ -73,7 +73,7 @@ export default function WalletMenu({
           <button
             type="button"
             role="menuitem"
-            className={`${item} text-[#f08a7e]`}
+            className="block w-full rounded-lg px-3 py-2 text-left text-[13px] text-[#ff6b6b] hover:bg-[#ff6b6b]/10"
             onClick={() => {
               setOpen(false);
               disconnect();
