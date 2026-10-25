@@ -2,69 +2,74 @@
 
 import { useLayoutEffect, useRef, useState } from "react";
 import { copyText } from "@/lib/clipboard";
-import { LINKS, MAINNET, TESTNET } from "@/lib/config";
+import { LINKS, MAINNET, TESTNET, type Network } from "@/lib/config";
 import { formatBlock, useLiveBlock } from "@/lib/hooks";
 import { addNetwork, useHasProvider } from "@/lib/wallet";
 import { highlight } from "../highlight";
 import Reveal from "../Reveal";
 import { Container, Eyebrow, Pill, Window } from "../ui";
 
-type Tab = { id: string; file: string; code: string };
+type Tab = { id: string; file: string; code: string; hl: number };
 
-const TABS: Tab[] = [
-  {
-    id: "Remix",
-    file: "remix · deploy",
-    code: `// 1. Compile your contract in Remix
+const NETS = [MAINNET, TESTNET];
+
+/** The four snippets for one network. `hl` is the line a developer looks for first. Values come from the fixed config. */
+function snippets(net: Network): Tab[] {
+  const key = net.key === "mainnet" ? "botMainnet" : "botTestnet";
+  return [
+    {
+      id: "Remix",
+      file: "remix · deploy",
+      hl: 2,
+      code: `// 1. Compile your contract in Remix
 // 2. Deploy & Run > Environment: Injected Provider - MetaMask
-// 3. Switch MetaMask to BOT Chain (chain ID 677)
+// 3. Switch MetaMask to BOT Chain ${net.label} (chain ID ${net.chainId})
 // 4. Press Deploy and confirm in your wallet`,
-  },
-  {
-    id: "Hardhat",
-    file: "hardhat.config.js",
-    code: `module.exports = {
+    },
+    {
+      id: "Hardhat",
+      file: "hardhat.config.js",
+      hl: 5,
+      code: `module.exports = {
   solidity: "0.8.20",
   networks: {
-    botMainnet: {
-      url: "https://rpc.botchain.ai",
-      chainId: 677,
-      accounts: [process.env.PRIVATE_KEY],
-    },
-    botTestnet: {
-      url: "https://rpc.bohr.life",
-      chainId: 968,
+    ${key}: {
+      url: "${net.rpc}",
+      chainId: ${net.chainId},
       accounts: [process.env.PRIVATE_KEY],
     },
   },
 };`,
-  },
-  {
-    id: "Foundry",
-    file: "terminal",
-    code: `# deploy to BOT Chain testnet first
+    },
+    {
+      id: "Foundry",
+      file: "terminal",
+      hl: 2,
+      code: `# deploy to BOT Chain ${net.label.toLowerCase()}
 forge create src/Counter.sol:Counter \\
-  --rpc-url https://rpc.bohr.life \\
-  --private-key $PRIVATE_KEY`,
-  },
-  {
-    id: "ethers.js",
-    file: "index.mjs",
-    code: `import { JsonRpcProvider, Wallet } from "ethers";
+  --rpc-url ${net.rpc} \\
+  --private-key $PRIVATE_KEY \\
+  --broadcast`,
+    },
+    {
+      id: "ethers.js",
+      file: "index.mjs",
+      hl: 2,
+      code: `import { JsonRpcProvider, Wallet } from "ethers";
 
-const provider = new JsonRpcProvider("https://rpc.botchain.ai", 677);
+const provider = new JsonRpcProvider("${net.rpc}", ${net.chainId});
 const wallet = new Wallet(process.env.PRIVATE_KEY, provider);
 
 console.log(await provider.getBlockNumber());`,
-  },
-];
-
-function Corner({ pos }: { pos: string }) {
-  return <span aria-hidden className={`absolute z-[2] size-2.5 bg-bg ${pos}`} />;
+    },
+  ];
 }
 
 export default function Developers() {
-  const [tab, setTab] = useState(TABS[1]);
+  const [tabId, setTabId] = useState("Hardhat");
+  const [net, setNet] = useState<Network>(MAINNET);
+  const list = snippets(net);
+  const tab = list.find((t) => t.id === tabId) ?? list[1];
   const [copied, setCopied] = useState<"ok" | "fail" | null>(null);
   const [status, setStatus] = useState<"idle" | "busy" | "ok" | "err">("idle");
   const hasProvider = useHasProvider();
@@ -75,14 +80,15 @@ export default function Developers() {
   // the highlight behind the active tab slides to it
   useLayoutEffect(() => {
     const place = () => {
-      const el = tabRefs.current[TABS.findIndex((t) => t.id === tab.id)];
+      const el = tabRefs.current[list.findIndex((t) => t.id === tabId)];
       if (el) setPill({ x: el.offsetLeft, w: el.offsetWidth });
     };
     place();
     void document.fonts?.ready.then(place);
     window.addEventListener("resize", place);
     return () => window.removeEventListener("resize", place);
-  }, [tab]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tabId]);
 
   const copy = async () => {
     const ok = await copyText(tab.code);
@@ -97,7 +103,7 @@ export default function Developers() {
     }
     setStatus("busy");
     try {
-      await addNetwork(MAINNET);
+      await addNetwork(net);
       setStatus("ok");
     } catch {
       setStatus("err");
@@ -119,7 +125,7 @@ export default function Developers() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Pill onClick={add} disabled={status === "busy"}>
-              {status === "ok" ? "Added to MetaMask" : status === "busy" ? "Check MetaMask…" : status === "err" ? "Try again" : hasProvider ? "Add to MetaMask" : "Install MetaMask"}
+              {status === "ok" ? "Added to MetaMask" : status === "busy" ? "Check MetaMask…" : status === "err" ? "Try again" : hasProvider ? `Add ${net.label} to MetaMask` : "Install MetaMask"}
             </Pill>
             <Pill href={LINKS.docs} tone="dark">
               Read docs
@@ -145,20 +151,33 @@ export default function Developers() {
 
         <Reveal className="min-w-0" delay={140}>
           <div
-            className="grain relative p-6 sm:p-10"
+            className="grain relative overflow-hidden rounded-[28px] p-6 sm:p-10"
             style={{
               background:
                 "radial-gradient(90% 80% at 100% 0%, #6e5a3a 0%, transparent 60%), radial-gradient(80% 90% at 0% 100%, #2c2418 0%, transparent 65%), #141210",
             }}
           >
-            <Corner pos="left-0 top-0" />
-            <Corner pos="right-0 top-0" />
-            <Corner pos="bottom-0 left-0" />
-            <Corner pos="bottom-0 right-0" />
             <Window
               title={<span key={tab.id} className="inline-block animate-[fade_320ms_ease-out_both]">{tab.file}</span>}
               className="relative z-[2] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.9)]"
               right={
+                <div className="flex items-center gap-2">
+                  <div role="group" aria-label="Network" className="inline-flex rounded-full bg-white/[0.06] p-0.5 text-[11.5px]">
+                    {NETS.map((n) => (
+                      <button
+                        key={n.key}
+                        type="button"
+                        aria-pressed={net.key === n.key}
+                        onClick={() => {
+                          setNet(n);
+                          setStatus("idle");
+                        }}
+                        className={`rounded-full px-2.5 py-1 transition-colors duration-150 ${net.key === n.key ? "bg-white text-[#0a0a0a]" : "text-white/60 hover:text-white"}`}
+                      >
+                        {n.label}
+                      </button>
+                    ))}
+                  </div>
                 <button
                   type="button"
                   onClick={copy}
@@ -170,23 +189,25 @@ export default function Developers() {
                   </svg>
                   <span aria-live="polite">{copied === "ok" ? "Copied" : copied === "fail" ? "Copy failed" : "Copy"}</span>
                 </button>
+                </div>
               }
             >
-              {/* every snippet sits in the same cell, so the card keeps the height of the tallest one and the snippets cross-fade */}
-              <div className="grid">
-                {TABS.map((t) => {
-                  const on = t.id === tab.id;
-                  return (
-                    <pre
-                      key={t.id}
-                      aria-hidden={!on}
-                      className={`min-h-[260px] overflow-x-auto px-5 pb-6 pt-2 font-mono text-[12.5px] leading-6 text-white/90 transition-[opacity,transform,filter] duration-[450ms] ease-[var(--ease-expo)] [grid-area:1/1] ${on ? "translate-y-0 opacity-100 blur-0" : "pointer-events-none translate-y-2 opacity-0 blur-[3px]"}`}
+              <pre
+                key={`${tab.id}-${net.key}`}
+                className="min-h-[280px] overflow-x-auto pb-6 pt-2 font-mono text-[12.5px] font-normal leading-6 text-white/85"
+              >
+                <code className="block">
+                  {tab.code.split("\n").map((line, i) => (
+                    <span
+                      key={i}
+                      className={`block min-h-6 px-5 ${i === tab.hl ? "bg-white/[0.07] shadow-[inset_2px_0_0_rgba(255,255,255,0.45)]" : ""}`}
+                      style={{ animation: `line-in 320ms var(--ease-expo) ${i * 40}ms both` }}
                     >
-                      <code>{highlight(t.code)}</code>
-                    </pre>
-                  );
-                })}
-              </div>
+                      {highlight(line)}
+                    </span>
+                  ))}
+                </code>
+              </pre>
             </Window>
           </div>
           <div role="tablist" aria-label="Tool" className="relative mt-5 flex flex-wrap gap-1">
@@ -197,7 +218,7 @@ export default function Developers() {
                 style={{ width: pill.w, transform: `translateX(${pill.x}px)` }}
               />
             )}
-            {TABS.map((t, i) => (
+            {list.map((t, i) => (
               <button
                 key={t.id}
                 ref={(el) => {
@@ -206,7 +227,7 @@ export default function Developers() {
                 role="tab"
                 aria-selected={tab.id === t.id}
                 type="button"
-                onClick={() => setTab(t)}
+                onClick={() => setTabId(t.id)}
                 className={`relative rounded-full px-3.5 py-1.5 text-[14px] transition-colors duration-200 ${tab.id === t.id ? "text-white" : "text-[#7d8187] hover:text-white"}`}
               >
                 {t.id}
