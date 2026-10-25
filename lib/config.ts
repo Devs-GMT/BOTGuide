@@ -37,11 +37,11 @@ export const TESTNET: Network = {
 };
 
 // Set after each deploy. Empty means "not deployed yet".
-export const MAINNET_CONTRACT_ADDRESS = "";
+export const MAINNET_CONTRACT_ADDRESS = "0xe6c8AF7ad92093b1a329F622789647227c66dd63";
 export const TESTNET_CONTRACT_ADDRESS = "0x015eDcdd020D0834F69048a467A5b40bf8D16aB9";
 
 // Which network ratings and tips live on. Use "testnet" while testing, "mainnet" for the submission.
-export const BOTGUIDE_NETWORK: "mainnet" | "testnet" = "testnet";
+export const BOTGUIDE_NETWORK = "mainnet" as "mainnet" | "testnet";
 
 // Written by `node build-kb.js`. Re-sync right before submitting.
 const SYNCED = (kbMeta as { lastSynced?: string }).lastSynced || null;

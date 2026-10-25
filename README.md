@@ -8,16 +8,18 @@
 
 Ask a question about BOT Chain (networks, faucet, deploying, tools, common errors) and get a short answer with the doc sections it used. Rate answers 👍/👎 and share tips on BOT Chain. Tips the owner approves become part of what the AI can use. Your chats never leave your browser except to be answered, and they are never on-chain. BOTGuide is a community project and is **not** official BOT Chain documentation.
 
-[Contract (testnet)](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9) | [How it works](#how-it-works) | [Screens](#screenshots) | [Run it locally](#run-it-locally) | [Deploy](#deploy) | [Limits](#limits-said-plainly)
+[Contract (mainnet)](https://scan.botchain.ai/address/0xe6c8AF7ad92093b1a329F622789647227c66dd63) | [How it works](#how-it-works) | [Screens](#screenshots) | [Run it locally](#run-it-locally) | [Deploy](#deploy) | [Limits](#limits-said-plainly)
 
 ![Solidity](https://img.shields.io/badge/Solidity-0.8.20-363636?logo=solidity&logoColor=white)
 ![Hardhat tests](https://img.shields.io/badge/Hardhat%20tests-13%20passing-2fdba6)
 ![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=nextdotjs&logoColor=white)
 ![Groq](https://img.shields.io/badge/AI-Groq-f55036)
-![BOT Chain](https://img.shields.io/badge/BOT%20Chain-testnet%20live-2fdba6)
+![BOT Chain](https://img.shields.io/badge/BOT%20Chain-mainnet%20live-2fdba6)
 ![No accounts](https://img.shields.io/badge/accounts-none-1d1c1a)
 
 <img src="docs/shots/landing-hero.jpg" alt="BOTGuide landing page" width="100%" />
+
+<img src="docs/shots/landing-bento.jpg" alt="Live cards: Ask, Deploy, Network, Ecosystem and the latest BOT Chain blocks" width="100%" />
 
 </div>
 
@@ -115,9 +117,9 @@ Ask a question about BOT Chain (networks, faucet, deploying, tools, common error
 | Network | Chain ID | Address |
 | --- | --- | --- |
 | BOT Chain Testnet | 968 | `0x015eDcdd020D0834F69048a467A5b40bf8D16aB9` ([scan.bohr.life](https://scan.bohr.life/address/0x015eDcdd020D0834F69048a467A5b40bf8D16aB9)) |
-| BOT Chain Mainnet | 677 | not deployed yet |
+| BOT Chain Mainnet | 677 | `0xe6c8AF7ad92093b1a329F622789647227c66dd63` ([scan.botchain.ai](https://scan.botchain.ai/address/0xe6c8AF7ad92093b1a329F622789647227c66dd63)) |
 
-The app currently points at the testnet contract. Until an address is set in `lib/config.ts`, rating and tips show a clear "not deployed yet" message and nothing is faked. 13 contract tests pass (`cd contracts && npx hardhat test`).
+The app points at the mainnet contract. It was deployed with the owner's own wallet, and its 18 functions and all events match `BOTGuide.sol` (checked against the deployed bytecode). The testnet contract stays up for testing. If no address is set in `lib/config.ts`, rating and tips show a clear "not deployed yet" message and nothing is faked. 13 contract tests pass (`cd contracts && npx hardhat test`).
 
 ## Project layout
 
@@ -174,13 +176,14 @@ Secrets live only in `.env`, `.env.local` and `contracts/.env`. All are git-igno
 - **Contract (testnet first):** put `PRIVATE_KEY=0x...` of a test wallet in `contracts/.env`, claim tBOT from the [faucet](https://faucet.botchain.ai/basic) (10 tBOT per address per 24 hours), then run `npx hardhat run scripts/deploy.js --network botTestnet`.
 - Put the printed address in `lib/config.ts` (`TESTNET_CONTRACT_ADDRESS` or `MAINNET_CONTRACT_ADDRESS`) and set `BOTGUIDE_NETWORK` to the network you use.
 
-## Mainnet (done by the owner)
+## Mainnet
 
-The mainnet contract is not deployed yet. It must be deployed with the owner's own mainnet wallet, never the testnet deployer. To do it:
+The contract is live on BOT Chain mainnet (chain ID 677) at [`0xe6c8AF7ad92093b1a329F622789647227c66dd63`](https://scan.botchain.ai/address/0xe6c8AF7ad92093b1a329F622789647227c66dd63). The owner (the wallet that deployed it) is the only one who can approve tips. To redeploy or deploy your own copy:
 
-1. Put the owner's `PRIVATE_KEY` in `contracts/.env` and make sure the wallet has BOT for gas. Or open `contracts/contracts/BOTGuide.sol` in Remix: compiler `0.8.20`, EVM version `paris`, optimizer on (200 runs), no constructor arguments, mainnet wallet on chain ID 677.
+1. Put the owner's `PRIVATE_KEY` in `contracts/.env` and make sure the wallet has BOT for gas. Or open `contracts/contracts/BOTGuide.sol` in Remix: compiler `0.8.20`, optimizer on (200 runs), no constructor arguments, mainnet wallet on chain ID 677.
 2. With Hardhat: `npx hardhat run scripts/deploy.js --network botMainnet`.
 3. Put the address in `MAINNET_CONTRACT_ADDRESS` in `lib/config.ts`, set `BOTGUIDE_NETWORK = "mainnet"`, and redeploy the app.
+4. Optional: `CONTRACT=0x... npx hardhat run scripts/seed-tips.js --network botMainnet` adds and approves a few starter tips (owner only; edit the list first).
 
 ## Limits, said plainly
 
@@ -207,7 +210,7 @@ The mainnet contract is not deployed yet. It must be deployed with the owner's o
 
 | Version | Features |
 | --- | --- |
-| **MVP (V1)** | Q&A from the official docs with citations, on-chain ratings and tips, owner approval of tips, testnet |
+| **MVP (V1)** | Q&A from the official docs with citations, on-chain ratings and tips, owner approval of tips, live on mainnet |
 | V1.1 | Deploy the contract to mainnet 677 with the owner's wallet, then switch the app to mainnet |
 | V1.2 | Replace the draft community notes with real ones, then re-sync the docs |
 | V2 | Not decided yet. Ideas: semantic search, more languages |

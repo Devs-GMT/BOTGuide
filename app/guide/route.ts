@@ -101,24 +101,34 @@ export async function POST(req: Request) {
   }
   if (!parsed) return bad("invalid_request", 400);
 
-  let upstream: Response;
-  try {
-    upstream = await fetch(GROQ_URL, {
+  const payload = JSON.stringify({
+    model: MODEL,
+    messages: buildMessages(parsed),
+    stream: true,
+    temperature: 0.2,
+    max_tokens: 1400,
+    reasoning_effort: process.env.GROQ_REASONING || "low",
+  });
+  const call = () =>
+    fetch(GROQ_URL, {
       method: "POST",
       headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: buildMessages(parsed),
-        stream: true,
-        temperature: 0.2,
-        max_tokens: 1400,
-        reasoning_effort: process.env.GROQ_REASONING || "low",
-      }),
+      body: payload,
       signal: req.signal,
     });
-  } catch {
-    return bad("upstream_unreachable", 502);
+
+  // The free tier now and then drops a request or answers 429 or 5xx; one quick second try hides most of those.
+  let upstream: Response | null = null;
+  for (let attempt = 0; attempt < 2 && !req.signal.aborted; attempt++) {
+    try {
+      upstream = await call();
+      if (upstream.ok || (upstream.status < 500 && upstream.status !== 429)) break;
+    } catch {
+      upstream = null;
+    }
+    if (attempt === 0) await new Promise((r) => setTimeout(r, 700));
   }
+  if (!upstream) return bad("upstream_unreachable", 502);
   if (!upstream.ok || !upstream.body) return bad("upstream_error", 502);
 
   // Groq streams server-sent events. The browser gets plain text only.

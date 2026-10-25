@@ -53,8 +53,8 @@ export default function Stats() {
       value: <CountUp to={kbMeta.pages} />,
       caption: DOCS_LAST_SYNCED ? `Doc pages in the knowledge base, synced ${DOCS_LAST_SYNCED}` : "Doc pages in the knowledge base",
     },
-    { value: chain ? <CountUp to={chain.rated} /> : "—", caption: "Answers rated on BOT Chain" },
-    { value: chain ? <CountUp to={chain.tips} /> : "—", caption: "Community tips approved" },
+    { value: chain ? <CountUp to={chain.rated} /> : "—", caption: chain?.rated === 0 ? "Answers rated on BOT Chain. Be the first to rate one." : "Answers rated on BOT Chain" },
+    { value: chain ? <CountUp to={chain.tips} /> : "—", caption: chain?.tips === 0 ? "Community tips approved. The first one is yours." : "Community tips approved" },
     { value: <CountUp to={BLOCK_TIME_SECONDS} decimals={2} suffix="s" />, caption: "Block time, per botchain.ai" },
   ];
   return (

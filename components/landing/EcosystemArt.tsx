@@ -134,7 +134,7 @@ export function ArtExplorer() {
             <span className="font-mono text-[12.5px] text-white/90">{b ? `#${formatBlock(b.number)}` : "#—"}</span>
           </span>
           <span className={`font-mono text-[11px] ${i === 0 ? "text-[rgb(var(--tone))]" : "text-white/40"}`}>
-            {b ? `${b.txs} ${b.txs === 1 ? "tx" : "txs"} · ${b.gasUsed < 500 ? "0" : Math.round(b.gasUsed / 1000) + "k"} gas` : "—"}
+            {b ? `${b.txs} tx · ${b.gasUsed < 500 ? "0" : Math.round(b.gasUsed / 1000) + "k"} gas` : "—"}
           </span>
         </div>
       ))}
